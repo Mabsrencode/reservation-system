@@ -1,5 +1,6 @@
 import React from "react";
 import { Typography } from "@material-tailwind/react";
+import { Link } from "react-router-dom";
 const date = new Date().getFullYear();
 function Footer() {
   return (
@@ -9,8 +10,8 @@ function Footer() {
         <ul className="flex flex-wrap items-center gap-y-2 gap-x-8">
           <li>
             <Typography
-              as="a"
-              href="#"
+              as={Link}
+              to="/about"
               color="blue-gray"
               className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
             >
@@ -19,28 +20,28 @@ function Footer() {
           </li>
           <li>
             <Typography
-              as="a"
-              href="#"
+              as={Link}
+              to="/pricing"
               color="blue-gray"
               className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
             >
-              License
+              Pricing
             </Typography>
           </li>
           <li>
             <Typography
-              as="a"
-              href="#"
+              as={Link}
+              to="/booking"
               color="blue-gray"
               className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
             >
-              Contribute
+              Booking
             </Typography>
           </li>
           <li>
             <Typography
-              as="a"
-              href="#"
+              as={Link}
+              to="/contact"
               color="blue-gray"
               className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
             >
@@ -51,7 +52,7 @@ function Footer() {
       </div>
       <hr className="my-8 border-blue-gray-50" />
       <Typography color="blue-gray" className="text-center font-normal">
-        &copy; {date} Material Tailwind
+        &copy; {date} CARWASH
       </Typography>
     </footer>
   );
