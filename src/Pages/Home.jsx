@@ -61,10 +61,10 @@ function Home() {
           </div>
         </div>
       </section>
-      {/* map */}
-      <Map />
       {/* services */}
       <ServicesContainer />
+      {/* map */}
+      <Map />
       {/* testimonials/feedback */}
       <Testimonials />
       {/* accordion */}
