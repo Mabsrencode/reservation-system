@@ -11,6 +11,16 @@ function Footer() {
           <li>
             <Typography
               as={Link}
+              to="/"
+              color="blue-gray"
+              className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
+            >
+              Home
+            </Typography>
+          </li>
+          <li>
+            <Typography
+              as={Link}
               to="/about"
               color="blue-gray"
               className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
