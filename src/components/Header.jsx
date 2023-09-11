@@ -23,7 +23,7 @@ function Header() {
         as="li"
         variant="small"
         color="blue-gray"
-        className="p-1 font-normal"
+        className="p-1 font-normal hover:text-blue-500 focus:text-blue-500"
       >
         <Link to="/" className="flex items-center">
           Home
@@ -33,7 +33,7 @@ function Header() {
         as="li"
         variant="small"
         color="blue-gray"
-        className="p-1 font-normal"
+        className="p-1 font-normal hover:text-blue-500 focus:text-blue-500"
       >
         <Link to="/pricing" className="flex items-center">
           Pricing
@@ -43,7 +43,7 @@ function Header() {
         as="li"
         variant="small"
         color="blue-gray"
-        className="p-1 font-normal"
+        className="p-1 font-normal hover:text-blue-500 focus:text-blue-500"
       >
         <Link to="/about" className="flex items-center">
           About Us
@@ -53,7 +53,7 @@ function Header() {
         as="li"
         variant="small"
         color="blue-gray"
-        className="p-1 font-normal"
+        className="p-1 font-normal hover:text-blue-500 focus:text-blue-500"
       >
         <Link to="/contact" className="flex items-center">
           Contact Us
@@ -63,7 +63,7 @@ function Header() {
         as="li"
         variant="small"
         color="blue-gray"
-        className="p-1 font-normal"
+        className="p-1 font-normal hover:text-blue-500 focus:text-blue-500"
       >
         <Link to="/sign-in" className="flex items-center">
           Sign In
@@ -83,7 +83,11 @@ function Header() {
           CARWASH
         </Typography>
         <div className="hidden lg:block">{navList}</div>
-        <Button variant="gradient" size="sm" className="hidden lg:inline-block">
+        <Button
+          variant="gradient"
+          size="sm"
+          className="hidden lg:inline-block "
+        >
           <span>Book Now</span>
         </Button>
         <IconButton
