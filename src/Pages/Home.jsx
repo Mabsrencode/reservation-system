@@ -61,12 +61,12 @@ function Home() {
           </div>
         </div>
       </section>
-      {/* testimonials/feedback */}
-      <Testimonials />
       {/* map */}
       <Map />
       {/* services */}
       <ServicesContainer />
+      {/* testimonials/feedback */}
+      <Testimonials />
       {/* accordion */}
       <Accordions />
     </main>
