@@ -31,38 +31,64 @@ function Accordions() {
   const handleOpen = (value) => setOpen(open === value ? 0 : value);
   return (
     <section>
-      <div className="max-w-fit my-12 mx-auto sm:mx-2 md:mx-2 lg:mx-2">
+      <div className="max-w-fit my-12 mx-2 sm:mx-2 md:mx-2 lg:mx-auto">
         <Accordion open={open === 1} icon={<Icon id={1} open={open} />}>
           <AccordionHeader onClick={() => handleOpen(1)}>
-            What is Material Tailwind?
+            Is the reservation system user friendly?
           </AccordionHeader>
           <AccordionBody>
-            We&apos;re not always in the position that we want to be at.
+            {/* We&apos;re not always in the position that we want to be at.
             We&apos;re constantly growing. We&apos;re constantly making
             mistakes. We&apos;re constantly trying to express ourselves and
-            actualize our dreams.
+            actualize our dreams. */}
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi
+            quo, non beatae molestias odit tempora iste sapiente sint modi vitae
+            quaerat similique quia facere sit, debitis repudiandae labore
+            aperiam quam.
           </AccordionBody>
         </Accordion>
         <Accordion open={open === 2} icon={<Icon id={2} open={open} />}>
           <AccordionHeader onClick={() => handleOpen(2)}>
-            How to use Material Tailwind?
+            Was the program used, effective?
           </AccordionHeader>
           <AccordionBody>
-            We&apos;re not always in the position that we want to be at.
-            We&apos;re constantly growing. We&apos;re constantly making
-            mistakes. We&apos;re constantly trying to express ourselves and
-            actualize our dreams.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio
+            voluptas minus, amet laboriosam commodi vel magni nihil, corporis
+            quisquam quis, dicta ratione consequuntur cum possimus maxime
+            deleniti necessitatibus labore eius.
           </AccordionBody>
         </Accordion>
         <Accordion open={open === 3} icon={<Icon id={3} open={open} />}>
           <AccordionHeader onClick={() => handleOpen(3)}>
-            What can I do with Material Tailwind?
+            Is the reservation system easily accessible to the customers?
           </AccordionHeader>
           <AccordionBody>
-            We&apos;re not always in the position that we want to be at.
-            We&apos;re constantly growing. We&apos;re constantly making
-            mistakes. We&apos;re constantly trying to express ourselves and
-            actualize our dreams.
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa magni
+            veniam quasi iure unde numquam fugiat quas. Distinctio quibusdam
+            odit libero alias saepe, repellendus culpa odio laudantium dolorum,
+            facilis ex?
+          </AccordionBody>
+        </Accordion>
+        <Accordion open={open === 4} icon={<Icon id={4} open={open} />}>
+          <AccordionHeader onClick={() => handleOpen(4)}>
+            Is it safe to use?
+          </AccordionHeader>
+          <AccordionBody>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa magni
+            veniam quasi iure unde numquam fugiat quas. Distinctio quibusdam
+            odit libero alias saepe, repellendus culpa odio laudantium dolorum,
+            facilis ex?
+          </AccordionBody>
+        </Accordion>
+        <Accordion open={open === 5} icon={<Icon id={5} open={open} />}>
+          <AccordionHeader onClick={() => handleOpen(5)}>
+            Am I required to use the reservation system beforehand?
+          </AccordionHeader>
+          <AccordionBody>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa magni
+            veniam quasi iure unde numquam fugiat quas. Distinctio quibusdam
+            odit libero alias saepe, repellendus culpa odio laudantium dolorum,
+            facilis ex?
           </AccordionBody>
         </Accordion>
       </div>
