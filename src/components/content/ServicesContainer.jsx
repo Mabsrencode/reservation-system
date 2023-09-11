@@ -1,7 +1,7 @@
 import React from "react";
 
 function ServicesContainer() {
-  return <div>ServicesContainer</div>;
+  return <section>services</section>;
 }
 
 export default ServicesContainer;
