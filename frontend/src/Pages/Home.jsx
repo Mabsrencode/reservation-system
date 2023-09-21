@@ -45,7 +45,7 @@ function Home() {
                 quae. explicabo.
               </p>
               <div className="flex items-center">
-                <Link to="/signup">
+                <Link to="/sign-up">
                   <Button className="mr-4 py-2">Sign Up</Button>
                 </Link>
 

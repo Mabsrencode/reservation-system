@@ -37,10 +37,6 @@ function Accordions() {
             Is the reservation system user friendly?
           </AccordionHeader>
           <AccordionBody>
-            {/* We&apos;re not always in the position that we want to be at.
-            We&apos;re constantly growing. We&apos;re constantly making
-            mistakes. We&apos;re constantly trying to express ourselves and
-            actualize our dreams. */}
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi
             quo, non beatae molestias odit tempora iste sapiente sint modi vitae
             quaerat similique quia facere sit, debitis repudiandae labore
