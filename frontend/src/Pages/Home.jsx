@@ -5,7 +5,7 @@ import Accordions from "../components/content/Accordions";
 import Map from "../components/content/Map";
 import Testimonials from "../components/content/Testimonials";
 import ServicesContainer from "../components/content/ServicesContainer";
-function Home() {
+const Home = () => {
   return (
     <main>
       {/* hero */}

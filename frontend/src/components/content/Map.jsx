@@ -1,6 +1,6 @@
 import React from "react";
 
-function Map() {
+const Map = () => {
   return (
     <section className="text-gray-600 body-font relative">
       <div className="absolute inset-0 bg-gray-300">

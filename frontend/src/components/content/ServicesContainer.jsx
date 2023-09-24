@@ -1,7 +1,9 @@
-import React from "react";
+import React from 'react'
 
-function ServicesContainer() {
-  return <section>services</section>;
+const ServicesContainer = () => {
+  return (
+    <div>ServicesContainer</div>
+  )
 }
 
-export default ServicesContainer;
+export default ServicesContainer

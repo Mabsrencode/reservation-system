@@ -1,6 +1,6 @@
 import React from "react";
 
-function Aside() {
+const Aside = () => {
   return (
     <aside>
       <nav>

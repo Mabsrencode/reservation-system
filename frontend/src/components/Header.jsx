@@ -7,7 +7,7 @@ import {
   Button,
   IconButton,
 } from "@material-tailwind/react";
-function Header() {
+const Header = () => {
   const [openNav, setOpenNav] = React.useState(false);
 
   React.useEffect(() => {

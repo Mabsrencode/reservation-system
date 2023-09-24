@@ -1,7 +1,9 @@
-import React from "react";
+import React from 'react'
 
-function PriceTable() {
-  return <div>PriceTable</div>;
+const PriceTable = () => {
+  return (
+    <div>PriceTable</div>
+  )
 }
 
-export default PriceTable;
+export default PriceTable

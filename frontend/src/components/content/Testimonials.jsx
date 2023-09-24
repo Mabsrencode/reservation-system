@@ -1,6 +1,6 @@
 import React from "react";
 
-function Testimonials() {
+const Testimonials =() => {
   return (
     <section>
       <div className="min-w-screen min-h-screen bg-gray-50 flex items-center justify-center py-5">

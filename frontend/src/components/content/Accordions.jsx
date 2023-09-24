@@ -25,7 +25,7 @@ function Icon({ id, open }) {
     </svg>
   );
 }
-function Accordions() {
+const Accordions = () => {
   const [open, setOpen] = React.useState(0);
 
   const handleOpen = (value) => setOpen(open === value ? 0 : value);
