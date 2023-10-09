@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import UsersDetails from "../components/UsersDetails";
+import UsersDetails from "../components/BookingDetails";
 const AdminDashboard = () => {
   const [users, setUsers] = useState(null);
   useEffect(() => {

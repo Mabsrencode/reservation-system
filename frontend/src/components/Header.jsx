@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import {
   Navbar,
@@ -7,7 +7,9 @@ import {
   Button,
   IconButton,
 } from "@material-tailwind/react";
+import { AuthContext } from "../context/AuthContext";
 const Header = () => {
+  const { user } = useContext(AuthContext);
   const [openNav, setOpenNav] = React.useState(false);
 
   React.useEffect(() => {
@@ -65,9 +67,9 @@ const Header = () => {
         color="blue-gray"
         className="p-1 font-normal hover:text-blue-500 focus:text-blue-500"
       >
-        <Link to="/sign-in" className="flex items-center">
-          Sign In
-        </Link>
+        {!user && (<Link to="/login" className="flex items-center">
+          Login
+        </Link>)}
       </Typography>
     </ul>
   );
@@ -89,7 +91,9 @@ const Header = () => {
           className="hidden lg:inline-block "
         >
           <span>Book Now</span>
+
         </Button>
+
         <IconButton
           variant="text"
           className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
@@ -127,6 +131,7 @@ const Header = () => {
             </svg>
           )}
         </IconButton>
+        <div>{user ? user.username : null} </div>
       </div>
       <Collapse open={openNav}>
         <div className="container mx-auto">
