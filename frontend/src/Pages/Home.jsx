@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@material-tailwind/react";
 import Accordions from "../components/content/Accordions";
-import Map from "../components/content/Map";
+// import Map from "../components/content/Map";
 import Testimonials from "../components/content/Testimonials";
 import ServicesContainer from "../components/content/ServicesContainer";
 import { AuthContext } from "../context/AuthContext";
@@ -49,8 +49,8 @@ const Home = () => {
               <div className="flex items-center">
                 {user ? (<Link to="/booking">
                   <Button className="mr-4 py-2">Book Now</Button>
-                </Link>) : (<Link to="/sign-up">
-                  <Button className="mr-4 py-2">Sign Up</Button>
+                </Link>) : (<Link to="/register">
+                  <Button className="mr-4 py-2">Register Now</Button>
                 </Link>)}
 
                 <Link
@@ -68,7 +68,8 @@ const Home = () => {
       {/* services */}
 
       {/* map */}
-      {user ? (<ServicesContainer />) : (<Map />)}
+      <ServicesContainer />
+      {/* {user ? (<ServicesContainer />) : (<Map />)} */}
 
       {/* testimonials/feedback */}
       <Testimonials />

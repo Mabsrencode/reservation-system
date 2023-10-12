@@ -2,11 +2,15 @@ const express = require("express");
 const {
   getUsers,
   getUser,
-//   createUser,
+  //   createUser,
   deleteUser,
   updateUser,
 } = require("../controllers/user.controller");
-const {verifyToken, verifyUser, verifyAdmin} = require("../utils/verifyToken")
+const {
+  verifyToken,
+  verifyUser,
+  verifyAdmin,
+} = require("../utils/verifyToken");
 const router = express.Router();
 
 // router.get("/authenticating", verifyToken, (req, res, next) => {
@@ -20,15 +24,14 @@ const router = express.Router();
 //     res.send("hello ADMIN, you are logged in and you can delete ALL accounts")
 // })
 
+router.get("/", verifyAdmin, getUsers);
 
-router.get("/",verifyAdmin, getUsers);
-
-router.get("/:id",verifyUser, getUser);
+router.get("/:id", verifyUser, getUser);
 
 // router.post("/", createUser);
 
-router.delete("/:id",verifyUser, deleteUser);
+router.delete("/:id", verifyUser, deleteUser);
 
-router.patch("/:id",verifyUser, updateUser);
+router.patch("/:id", verifyUser, updateUser);
 
 module.exports = router;

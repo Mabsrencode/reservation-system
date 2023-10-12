@@ -8,6 +8,7 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { AuthContext } from "../context/AuthContext";
+import LogoutButton from "./LogoutButton";
 const Header = () => {
   const { user } = useContext(AuthContext);
   const [openNav, setOpenNav] = React.useState(false);
@@ -67,9 +68,13 @@ const Header = () => {
         color="blue-gray"
         className="p-1 font-normal hover:text-blue-500 focus:text-blue-500"
       >
-        {!user && (<Link to="/login" className="flex items-center">
+        {user ? (<LogoutButton />) : (<Link to="/login" className="flex items-center">
           Login
         </Link>)}
+        {/* {!user && (<Link to="/login" className="flex items-center">
+          Login
+        </Link>)} */}
+
       </Typography>
     </ul>
   );
