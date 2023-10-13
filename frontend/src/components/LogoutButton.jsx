@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import axios from 'axios';
+// import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const LogoutButton = () => {
@@ -10,6 +10,8 @@ const LogoutButton = () => {
         try {
             // await axios.post('/auth/logout');
             dispatch({ type: 'LOGOUT' });
+            document.cookie = null;
+
             localStorage.clear();
             navigate('/'); //or login navigate
         } catch (error) {

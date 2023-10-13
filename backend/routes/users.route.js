@@ -18,11 +18,11 @@ const router = express.Router();
 // })
 
 // router.get("/check-user/:id", verifyUser, (req, res, next) => {
-//     res.send("hello user, you are logged in and you can delete your account")
-// })
+//   res.send("hello user, you are logged in and you can delete your account");
+// });
 // router.get("/check-admin/:id", verifyAdmin, (req, res, next) => {
-//     res.send("hello ADMIN, you are logged in and you can delete ALL accounts")
-// })
+//   res.send("hello ADMIN, you are logged in and you can delete ALL accounts");
+// });
 
 router.get("/", verifyAdmin, getUsers);
 

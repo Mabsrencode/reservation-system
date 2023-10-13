@@ -38,8 +38,8 @@ const Header = () => {
         color="blue-gray"
         className="p-1 font-normal hover:text-blue-500 focus:text-blue-500"
       >
-        <Link to="/pricing" className="flex items-center">
-          Pricing
+        <Link to="/services" className="flex items-center">
+          Services
         </Link>
       </Typography>
       <Typography
@@ -68,6 +68,7 @@ const Header = () => {
         color="blue-gray"
         className="p-1 font-normal hover:text-blue-500 focus:text-blue-500"
       >
+
         {user ? (<LogoutButton />) : (<Link to="/login" className="flex items-center">
           Login
         </Link>)}
@@ -95,7 +96,9 @@ const Header = () => {
           size="sm"
           className="hidden lg:inline-block "
         >
-          <span>Book Now</span>
+          <Link to={user ? "/booking" : "/login"}>
+            <span>Book Now</span>
+          </Link>
 
         </Button>
 
