@@ -55,7 +55,7 @@ const Login = () => {
             <Input type="password" placeholder="Password" id="password" onChange={handleChange} className="registration_input" />
           </div>
           <Button className="mt-6" fullWidth disabled={loading} onClick={handleClick}>
-            Sign In
+            {loading ? "Loading..." : "Sign In"}
           </Button>
           {error && <span>{error.message}</span>}
           <Typography color="gray" className="mt-4 text-center font-normal">

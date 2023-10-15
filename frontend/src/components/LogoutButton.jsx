@@ -4,7 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const LogoutButton = () => {
-    const { dispatch } = useContext(AuthContext);
+    const { dispatch, loading } = useContext(AuthContext);
     const navigate = useNavigate();
     const handleLogout = async () => {
         try {
@@ -13,14 +13,14 @@ const LogoutButton = () => {
             document.cookie = null;
 
             localStorage.clear();
-            navigate('/'); //or login navigate
+            navigate('/login'); //or login navigate
         } catch (error) {
             console.error('Error logging out:', error);
         }
     };
 
     return (
-        <button onClick={handleLogout}>Logout</button>
+        <button disabled={loading} onClick={handleLogout}>Logout</button>
     );
 }
 

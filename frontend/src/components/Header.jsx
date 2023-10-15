@@ -69,12 +69,12 @@ const Header = () => {
         className="p-1 font-normal hover:text-blue-500 focus:text-blue-500"
       >
 
-        {user ? (<LogoutButton />) : (<Link to="/login" className="flex items-center">
-          Login
-        </Link>)}
+        {user ? (<LogoutButton />) : null}
         {/* {!user && (<Link to="/login" className="flex items-center">
           Login
         </Link>)} */}
+
+
 
       </Typography>
     </ul>
@@ -91,16 +91,15 @@ const Header = () => {
           CARWASH
         </Typography>
         <div className="hidden lg:block">{navList}</div>
-        <Button
-          variant="gradient"
-          size="sm"
-          className="hidden lg:inline-block "
-        >
-          <Link to={user ? "/booking" : "/login"}>
-            <span>Book Now</span>
-          </Link>
-
-        </Button>
+        <Link to={user ? `/user/profile/${user._id}` : "/login"}>
+          <Button
+            variant="gradient"
+            size="sm"
+            className="hidden lg:inline-block "
+          >
+            <span>{user ? user.username : "Sign In"} </span>
+          </Button>
+        </Link>
 
         <IconButton
           variant="text"
@@ -139,14 +138,18 @@ const Header = () => {
             </svg>
           )}
         </IconButton>
-        <div>{user ? user.username : null} </div>
+        {/* <div>{user ? user.username : null} </div> */}
       </div>
       <Collapse open={openNav}>
         <div className="container mx-auto">
           {navList}
-          <Button variant="gradient" size="sm" fullWidth className="mb-2">
-            <span>Book Now</span>
-          </Button>
+          <Link to={user ? `/users/${user._id}` : "/login"}>
+            <Button variant="gradient" size="sm" fullWidth className="mb-2">
+
+              <span>{user ? user.username : "Sign In"} </span>
+
+            </Button>
+          </Link>
         </div>
       </Collapse>
     </Navbar>

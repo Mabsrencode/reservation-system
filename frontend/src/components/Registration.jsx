@@ -76,7 +76,7 @@ const Registration = () => {
             containerProps={{ className: "-ml-2.5" }}
           />
           <Button className="mt-6" fullWidth disabled={isCheckbox ? loading : true} onClick={handleRegistration}>
-            Register
+            {loading ? "Loading..." : "Register"}
           </Button>
           {error && <span>{error.message}</span>}
           <Typography color="gray" className="mt-4 text-center font-normal">

@@ -24,14 +24,11 @@ const router = express.Router();
 //   res.send("hello ADMIN, you are logged in and you can delete ALL accounts");
 // });
 
-router.get("/", verifyAdmin, getUsers);
-
-router.get("/:id", verifyUser, getUser);
-
 // router.post("/", createUser);
 
-router.delete("/:id", verifyUser, deleteUser);
-
 router.patch("/:id", verifyUser, updateUser);
+router.delete("/:id", verifyUser, deleteUser);
+router.get("/:id", verifyUser, getUser);
+router.get("/", verifyAdmin, getUsers);
 
 module.exports = router;

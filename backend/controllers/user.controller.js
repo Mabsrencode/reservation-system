@@ -17,11 +17,11 @@ const getUser = async (req, res, next) => {
 
   try {
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(404).json({ error: "No such user found" });
+      return next(createError(404, "No such user found"));
     }
     const user = await User.findOne({ _id: id });
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return next(createError(404, "User not found"));
     }
     res.status(200).json(user);
   } catch (err) {
@@ -53,12 +53,12 @@ const deleteUser = async (req, res) => {
 
   try {
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(404).json({ error: "No such User found" });
+      return next(createError(404, "No such user found"));
     }
 
     const user = await User.findOneAndDelete({ _id: id });
     if (!user) {
-      return res.status(404).json({ error: "user not found" });
+      return next(createError(404, "User not found"));
     }
     res.status(200).json(user);
   } catch (err) {
@@ -71,7 +71,7 @@ const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(404).json({ error: "User not found" });
+      return next(createError(404, "User not found"));
     }
     const user = await User.findOneAndUpdate(
       { _id: id },
@@ -80,7 +80,7 @@ const updateUser = async (req, res) => {
       } //*{new: true}
     );
     if (!user) {
-      return res.status(404).json({ error: "user not found" });
+      return next(createError(404, "User not found"));
     }
     res.status(200).json(user);
   } catch (err) {

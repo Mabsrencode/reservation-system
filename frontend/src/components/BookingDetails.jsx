@@ -4,13 +4,10 @@
 //     const handleClick = async () => {
 //         try {
 //             const response = await fetch(`/api/bookings/${booking._id}`, {
-//                 method: 'DELETE',
+//                 method: 'GET',
 //             });
 
 //             if (response.ok) {
-//                 // Handle successful deletion, you can update the UI or take other actions as needed.
-//                 // For example, you could remove the booking from the list of bookings.
-//                 // Here, we'll just log a success message.
 //                 console.log('Booking deleted successfully');
 //             } else {
 //                 // Handle the case where the deletion was not successful, e.g., show an error message.

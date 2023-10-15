@@ -7,8 +7,7 @@ import Services from "./Pages/Services";
 import Booking from "./Pages/Booking";
 import Contact from "./Pages/Contact";
 import Login from "./Pages/Login";
-// import SignUp from "./Pages/SignUp";
-// import AdminDashboard from "./Pages/AdminDashboard";
+// import Profile from "./Pages/Profile";
 import Registration from "./components/Registration";
 
 function App() {
@@ -16,15 +15,14 @@ function App() {
     <Router>
       <Layout>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route index element={<Home />} />
           <Route path="/services" element={<Services />} />
           <Route path="/booking" element={<Booking />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Registration />} />
-          {/* <Route path="/sign-up" element={<SignUp />} /> */}
-          {/* <Route path="/admin-dash-board" element={<AdminDashboard />} /> */}
+          {/* <Route path="/user" element={<Profile />} /> */}
         </Routes>
       </Layout>
     </Router>

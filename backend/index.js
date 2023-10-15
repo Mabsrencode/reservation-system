@@ -10,7 +10,7 @@ const cookieParser = require("cookie-parser");
 
 const port = process.env.PORT;
 const app = express();
-app.use(cookieParser())
+app.use(cookieParser());
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
@@ -31,8 +31,8 @@ app.use((err, req, res, next) => {
     status: errorMessage,
     message: errorMessage,
     stack: err.stack,
-  })
-})
+  });
+});
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -46,7 +46,6 @@ app.use((req, res, next) => {
   );
   next();
 });
-
 
 const uri = process.env.DBURL;
 mongoose
@@ -64,9 +63,9 @@ mongoose
     console.error(error);
   });
 
-  mongoose.connection.on("disconnect", () => {
-    console.log("Mongoose Connection Disconnected");
-  })
+mongoose.connection.on("disconnect", () => {
+  console.log("Mongoose Connection Disconnected");
+});
 // const User = mongoose.model("User", userSchema);
 // app.post("/signup", async (req, res) => {
 //   const { email, phoneNumber, password } = req.body;
