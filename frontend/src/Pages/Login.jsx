@@ -1,7 +1,8 @@
 import axios from 'axios'
-import { useContext, useState } from 'react'
-import { AuthContext } from '../context/AuthContext'
+import { useState } from 'react'
+// import { AuthContext } from '../context/AuthContext'
 import { useNavigate, Link } from 'react-router-dom';
+import useAuth from '../components/hooks/useAuth';
 import {
   Card,
   Input,
@@ -16,7 +17,7 @@ const Login = () => {
     password: undefined
   })
 
-  const { loading, error, dispatch } = useContext(AuthContext);
+  const { loading, error, dispatch } = useAuth();
   const navigate = useNavigate()
   const handleChange = (e) => {
     setCredentials(prev => ({ ...prev, [e.target.id]: e.target.value }))
@@ -36,12 +37,6 @@ const Login = () => {
   // console.log(user)
   return (
     <div className='signIn'>
-      {/* <div className="login_container">
-        <input type="text" placeholder='username' id='username' onChange={handleChange} className="login_input" />
-        <input type="password" placeholder='password' id='password' onChange={handleChange} className="login_input" />
-        <button disabled={loading} onClick={handleClick} className="loginButton">Sign In</button>
-        {error && <span>{error.message}</span>}
-      </div> */}
       <Card className="container my-16 mx-auto" color="transparent" shadow={false}>
         <Typography variant="h4" color="blue-gray">
           Sign Up

@@ -8,7 +8,9 @@ import Booking from "./Pages/Booking";
 import Contact from "./Pages/Contact";
 import Login from "./Pages/Login";
 // import Profile from "./Pages/Profile";
+import Page404 from "./Pages/Page404";
 import Registration from "./components/Registration";
+import RequireAuth from "./components/RequireAuth";
 
 function App() {
   return (
@@ -17,12 +19,15 @@ function App() {
         <Routes>
           <Route index element={<Home />} />
           <Route path="/services" element={<Services />} />
-          <Route path="/booking" element={<Booking />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Registration />} />
-          {/* <Route path="/user" element={<Profile />} /> */}
+          <Route element={<RequireAuth />}>
+            <Route path="/booking" element={<Booking />} />
+            {/* <Route path="/user" element={<Profile />} /> */}
+          </Route>
+          <Route path="*" element={<Page404 />} />
         </Routes>
       </Layout>
     </Router>

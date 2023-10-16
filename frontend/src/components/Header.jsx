@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+
 import {
   Navbar,
   Collapse,
@@ -69,7 +70,7 @@ const Header = () => {
         className="p-1 font-normal hover:text-blue-500 focus:text-blue-500"
       >
 
-        {user ? (<LogoutButton />) : null}
+        {user ? (<LogoutButton />) : (<></>)}
         {/* {!user && (<Link to="/login" className="flex items-center">
           Login
         </Link>)} */}
