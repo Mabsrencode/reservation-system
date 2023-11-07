@@ -1,6 +1,7 @@
 // import { React, useEffect, useState } from "react";
+// import { AuthContext } from "../context/AuthContext";
 // const Profile = () => {
-//     const [user, setUser] = useState(null);
+//     const [user, setUser] = useState(AuthContext);
 //     useEffect(() => {
 //         const fetchUser = async () => {
 //             const response = await fetch(`http://localhost:4000/users/${user._id}`);

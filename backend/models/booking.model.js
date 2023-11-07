@@ -5,6 +5,7 @@ const bookingSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     phoneNumber: { type: Number, required: true },
     bookingDate: { type: Date, required: true },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps: { type: String } }
 );

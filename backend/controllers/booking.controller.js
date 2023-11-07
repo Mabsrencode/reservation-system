@@ -29,7 +29,7 @@ const getBooking = async (req, res, next) => {
     console.log(err);
   }
 };
-//create a user
+//create a booking
 const createBooking = async (req, res) => {
   const { email, phoneNumber, bookingDate } = req.body;
   //add doc to database
@@ -47,7 +47,7 @@ const createBooking = async (req, res) => {
   }
 };
 
-//delete user
+//delete booking
 const deleteBooking = async (req, res) => {
   const { id } = req.params;
 
@@ -66,7 +66,7 @@ const deleteBooking = async (req, res) => {
     console.log(err);
   }
 };
-// update user
+// update booking
 const updateBooking = async (req, res) => {
   try {
     const { id } = req.params;

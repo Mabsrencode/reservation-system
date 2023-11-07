@@ -17,7 +17,7 @@ const Login = () => {
     password: undefined
   })
 
-  const { loading, error, dispatch } = useAuth();
+  const { loading, error, dispatch } = useAuth();  //!authContext
   const navigate = useNavigate()
   const handleChange = (e) => {
     setCredentials(prev => ({ ...prev, [e.target.id]: e.target.value }))

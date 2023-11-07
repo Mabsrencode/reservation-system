@@ -8,9 +8,11 @@ import Booking from "./Pages/Booking";
 import Contact from "./Pages/Contact";
 import Login from "./Pages/Login";
 // import Profile from "./Pages/Profile";
+import Admin from "./Pages/Admin";
 import Page404 from "./Pages/Page404";
 import Registration from "./components/Registration";
-import RequireAuth from "./components/RequireAuth";
+import RequireAuth from "./context/RequireAuth";
+import AdminAuth from "./context/AdminAuth";
 
 function App() {
   return (
@@ -26,6 +28,9 @@ function App() {
           <Route element={<RequireAuth />}>
             <Route path="/booking" element={<Booking />} />
             {/* <Route path="/user" element={<Profile />} /> */}
+          </Route>
+          <Route element={<AdminAuth />}>
+            <Route path="/admin" element={<Admin />} />
           </Route>
           <Route path="*" element={<Page404 />} />
         </Routes>

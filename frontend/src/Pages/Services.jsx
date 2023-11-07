@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { Link } from "react-router-dom";
 import {
   Card,
   CardHeader,
@@ -7,7 +8,8 @@ import {
   Typography,
   Button,
 } from "@material-tailwind/react";
-function CheckIcon() {
+import { AuthContext } from '../context/AuthContext';
+const CheckIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -26,6 +28,7 @@ function CheckIcon() {
   );
 }
 const Services = () => {
+  const { user } = useContext(AuthContext);
   return (
     <div className='flex justify-center align-center gap-20 my-20 mx-4 flex-wrap'>
       <Card color="gray" variant="gradient" className="w-full max-w-[20rem] p-8">
@@ -88,15 +91,17 @@ const Services = () => {
           </ul>
         </CardBody>
         <CardFooter className="mt-12 p-0">
-          <Button
-            size="lg"
-            color="white"
-            className="hover:scale-[1.02] focus:scale-[1.02] active:scale-100"
-            ripple={false}
-            fullWidth={true}
-          >
-            Buy Now
-          </Button>
+          <Link to={user ? "/bundle-1" : "/login"}>
+            <Button
+              size="lg"
+              color="white"
+              className="hover:scale-[1.02] focus:scale-[1.02] active:scale-100"
+              ripple={false}
+              fullWidth={true}
+            >
+              {user ? "Book Online Now" : "Sign in"}
+            </Button>
+          </Link>
         </CardFooter>
       </Card>
       <Card color="gray" variant="gradient" className="w-full max-w-[20rem] p-8">
@@ -159,15 +164,17 @@ const Services = () => {
           </ul>
         </CardBody>
         <CardFooter className="mt-12 p-0">
-          <Button
-            size="lg"
-            color="white"
-            className="hover:scale-[1.02] focus:scale-[1.02] active:scale-100"
-            ripple={false}
-            fullWidth={true}
-          >
-            Buy Now
-          </Button>
+          <Link to={user ? "/bundle-2" : "/login"}>
+            <Button
+              size="lg"
+              color="white"
+              className="hover:scale-[1.02] focus:scale-[1.02] active:scale-100"
+              ripple={false}
+              fullWidth={true}
+            >
+              {user ? "Book Online Now" : "Sign in"}
+            </Button>
+          </Link>
         </CardFooter>
       </Card>
       <Card color="gray" variant="gradient" className="w-full max-w-[20rem] p-8">
@@ -230,15 +237,17 @@ const Services = () => {
           </ul>
         </CardBody>
         <CardFooter className="mt-12 p-0">
-          <Button
-            size="lg"
-            color="white"
-            className="hover:scale-[1.02] focus:scale-[1.02] active:scale-100"
-            ripple={false}
-            fullWidth={true}
-          >
-            Buy Now
-          </Button>
+          <Link to={user ? "/bundle-3" : "/login"}>
+            <Button
+              size="lg"
+              color="white"
+              className="hover:scale-[1.02] focus:scale-[1.02] active:scale-100"
+              ripple={false}
+              fullWidth={true}
+            >
+              {user ? "Book Online Now" : "Sign in"}
+            </Button>
+          </Link>
         </CardFooter>
       </Card>
     </div>

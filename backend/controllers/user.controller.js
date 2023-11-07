@@ -31,15 +31,17 @@ const getUser = async (req, res, next) => {
 };
 //create a user
 const createUser = async (req, res) => {
-  const { email, phoneNumber, UserDate } = req.body; //! UserDate
+  const { email, phoneNumber, UserDate, isAdmin } = req.body; //! UserDate
   //add doc to database
   try {
     const user = await User.create({
       email,
       phoneNumber,
       UserDate,
+      isAdmin,
     });
     res.status(200).json(user);
+    console.log(user.isAdmin);
     console.log(user);
   } catch (err) {
     next(err);

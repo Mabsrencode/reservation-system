@@ -12,6 +12,7 @@ export const AuthReducer = (state, action) => {
   switch (action.type) {
     case "LOGIN_START":
     case "REGISTER_START":
+    case "BOOKING_START":
       return {
         user: null,
         loading: true,
@@ -19,6 +20,7 @@ export const AuthReducer = (state, action) => {
       };
     case "LOGIN_SUCCESS":
     case "REGISTER_SUCCESS":
+    case "BOOKING_SUCCESS":
       return {
         user: action.payload,
         loading: false,
@@ -26,6 +28,7 @@ export const AuthReducer = (state, action) => {
       };
     case "LOGIN_FAILURE":
     case "REGISTER_FAILURE":
+    case "BOOKING_FAILURE":
       return {
         user: null,
         loading: false,
