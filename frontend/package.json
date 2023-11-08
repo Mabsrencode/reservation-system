@@ -41,6 +41,5 @@
   },
   "devDependencies": {
     "tailwindcss": "^3.3.3"
-  },
-  "proxy": "https://q-zone-api.onrender.com"
+  }
 }
