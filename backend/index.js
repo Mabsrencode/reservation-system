@@ -19,9 +19,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("q-zone-api.onrender.com/api/auth", authRoute);
-app.use("q-zone-api.onrender.com/api/users", usersRoute);
-app.use("q-zone-api.onrender.com/api/bookings", bookingRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/users", usersRoute);
+app.use("/api/bookings", bookingRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
