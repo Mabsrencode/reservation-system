@@ -36,7 +36,7 @@ const Registration = () => {
     dispatch({ type: 'REGISTER_START' });
 
     try {
-      const res = await axios.post('/auth/register', credentials);
+      const res = await axios.post('q-zone-api.onrender.com/auth/register', credentials);
       dispatch({ type: 'REGISTER_SUCCESS', payload: res.data });
       navigate('/'); //! new update
     } catch (err) {
