@@ -13,7 +13,8 @@ import { useLocation, Navigate } from "react-router-dom";
 // import useAuth from "../components/hooks/useAuth";
 import { AuthContext } from "./AuthContext";
 import { useContext } from "react";
-import Booking from "../Pages/Booking";
+// import Booking from "../Pages/Booking";
+import BookingForm from "../components/BookingDetails";
 
 const RequireAuth = ({ children }) => {
   // const { auth } = useAuth();
@@ -21,7 +22,10 @@ const RequireAuth = ({ children }) => {
   const location = useLocation();
 
   return user ? (
-    <Booking />
+    <>
+      {/* <Booking /> */}
+      <BookingForm user={user} />
+    </>
   ) : (
     <Navigate to="/login" state={{ from: location }} replace />
   );

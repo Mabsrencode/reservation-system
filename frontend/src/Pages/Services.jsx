@@ -50,7 +50,7 @@ const Services = () => {
             color="white"
             className="mt-6 flex justify-center gap-1 text-7xl font-normal"
           >
-            <span className="mt-2 text-4xl">$</span>29{" "}
+            <span className="mt-2 text-4xl">PHP</span>400{" "}
             <span className="self-end text-4xl">/mo</span>
           </Typography>
         </CardHeader>
@@ -123,7 +123,7 @@ const Services = () => {
             color="white"
             className="mt-6 flex justify-center gap-1 text-7xl font-normal"
           >
-            <span className="mt-2 text-4xl">$</span>29{" "}
+            <span className="mt-2 text-4xl">PHP</span>400{" "}
             <span className="self-end text-4xl">/mo</span>
           </Typography>
         </CardHeader>
@@ -196,7 +196,7 @@ const Services = () => {
             color="white"
             className="mt-6 flex justify-center gap-1 text-7xl font-normal"
           >
-            <span className="mt-2 text-4xl">$</span>29{" "}
+            <span className="mt-2 text-4xl">PHP</span>400{" "}
             <span className="self-end text-4xl">/mo</span>
           </Typography>
         </CardHeader>
