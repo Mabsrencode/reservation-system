@@ -55,7 +55,7 @@ mongoose
   })
   .then(() => {
     console.log("MongoDB Connected");
-    app.listen(port, () => {
+    app.listen(() => {
       console.log(`MongoDB Connected, Server running on port ${port}`);
     });
   })

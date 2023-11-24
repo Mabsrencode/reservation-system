@@ -27,7 +27,7 @@ function App() {
           <Route path="/register" element={<Registration />} />
           <Route element={<RequireAuth />}>
             <Route path="/booking" element={<Booking />} />
-            {/* <Route path="/user" element={<Profile />} /> */}
+            {/* <Route path="/user/:id" element={<Profile />} /> */}
           </Route>
           <Route element={<AdminAuth />}>
             <Route path="/admin" element={<Admin />} />

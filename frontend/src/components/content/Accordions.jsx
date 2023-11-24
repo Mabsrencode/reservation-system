@@ -13,9 +13,8 @@ function Icon({ id, open }) {
       viewBox="0 0 24 24"
       strokeWidth={2}
       stroke="currentColor"
-      className={`${
-        id === open ? "rotate-180" : ""
-      } h-5 w-5 transition-transform`}
+      className={`${id === open ? "rotate-180" : ""
+        } h-5 w-5 transition-transform`}
     >
       <path
         strokeLinecap="round"
@@ -30,7 +29,7 @@ const Accordions = () => {
 
   const handleOpen = (value) => setOpen(open === value ? 0 : value);
   return (
-    <section>
+    <section className="mx-2 sm:mx-24">
       <div className="max-w-fit my-12 mx-2 sm:mx-2 md:mx-2 lg:mx-auto">
         <Accordion open={open === 1} icon={<Icon id={1} open={open} />}>
           <AccordionHeader onClick={() => handleOpen(1)}>
