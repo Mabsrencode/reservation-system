@@ -56,7 +56,7 @@ const Registration = () => {
         <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
           <div className="mb-4 flex flex-col gap-6">
             <Input type="text" placeholder="Username" id="username" onChange={handleChange} className="registration_input" />
-            <Input type="email" placeholder="Email" id="email" onChange={handleChange} className="registration_input" />
+            <Input type="email" placeholder="Email" id="email" onChange={handleChange} className="registration_input" pattern='^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$' />
             <Input type="tel" placeholder="Phone Number" id="phone_number" onChange={handleChange} className="registration_input" />
             <Input type="password" placeholder="Password" id="password" onChange={handleChange} className="registration_input" />
           </div>
