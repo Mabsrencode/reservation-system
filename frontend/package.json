@@ -42,5 +42,5 @@
   "devDependencies": {
     "tailwindcss": "^3.3.5"
   },
-  "proxy": "https://q-zone-api.onrender.com"
+  "proxy": "http://localhost:4000/"
 }
