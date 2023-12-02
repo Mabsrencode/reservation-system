@@ -1,0 +1,19 @@
+.table {
+  width: 50%;
+  margin: 0 auto;
+  border: 2px solid var(--primary-color);
+  padding: 20px 32px;
+}
+table {
+  width: 100%;
+  margin: 0 auto;
+}
+th {
+  text-align: left;
+}
+tbody tr td {
+  margin-top: 5px;
+}
+.book-now-button {
+  float: right;
+}

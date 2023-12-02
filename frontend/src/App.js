@@ -1,41 +1,32 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Layout from "./components/Layout/Layout";
-import Home from "./Pages/Home";
-import About from "./Pages/About";
-import Services from "./Pages/Services";
-import Booking from "./Pages/Booking";
-import Contact from "./Pages/Contact";
-import Login from "./Pages/Login";
-// import Profile from "./Pages/Profile";
-import Admin from "./Pages/Admin";
-import Page404 from "./Pages/Page404";
-import Registration from "./components/Registration";
-import RequireAuth from "./context/RequireAuth";
-import AdminAuth from "./context/AdminAuth";
-
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./layout/Layout";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Services from "./pages/Services";
+import NoPage from "./pages/NoPage";
+import SignIn from "./pages/SignIn";
+import Register from "./pages/Register";
+import Booking from "./pages/Booking";
 function App() {
   return (
-    <Router>
-      <Layout>
+    <div className="App">
+      <BrowserRouter>
         <Routes>
-          <Route index element={<Home />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Registration />} />
-          <Route element={<RequireAuth />}>
-            <Route path="/booking" element={<Booking />} />
-            {/* <Route path="/user/:id" element={<Profile />} /> */}
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="services/book/:_id" element={<Booking />} />
+            <Route path="*" element={<NoPage />} />
           </Route>
-          <Route element={<AdminAuth />}>
-            <Route path="/admin" element={<Admin />} />
-          </Route>
-          <Route path="*" element={<Page404 />} />
         </Routes>
-      </Layout>
-    </Router>
+      </BrowserRouter>
+    </div>
   );
 }
 
