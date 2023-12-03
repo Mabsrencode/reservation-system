@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 // import { Link } from 'react-router-dom';
-import { Button, Select, Option } from '@material-tailwind/react'; //, Input
+import { Button, Select, Option, Input } from '@material-tailwind/react'; //, Input
 const Booking = () => {
     const [service, setService] = useState([]);
 
@@ -26,7 +26,6 @@ const Booking = () => {
                 <table>
                     <thead>
                         <tr>
-                            <th></th>
                             <th>SMALL</th>
                             <th>MEDIUM</th>
                             <th>LARGE</th>
@@ -35,7 +34,6 @@ const Booking = () => {
                     </thead>
                     <tbody className='mt-20'>
                         <tr>
-                            <td></td>
                             <td className="text-gray-700">{service.small}</td>
                             <td className="text-gray-700">{service.medium}</td>
                             <td className="text-gray-700">{service.large}</td>
@@ -52,6 +50,12 @@ const Booking = () => {
                         <Option>X-LARGE</Option>
 
                     </Select>
+                    <div className='mt-4'>
+                        <Input type='date' label='Pick a date'></Input>
+                    </div>
+                </div>
+                <div>
+
                 </div>
                 <Button className='mt-4'>
                     Pay Now
