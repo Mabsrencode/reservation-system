@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import "../styles/booking.css"
 // import { Link } from 'react-router-dom';
 import { Button, Select, Option, Input } from '@material-tailwind/react'; //, Input
 const Booking = () => {
@@ -51,7 +52,7 @@ const Booking = () => {
 
                     </Select>
                     <div className='mt-4'>
-                        <Input type='date' label='Pick a date'></Input>
+                        <Input type='date' label='Pick a date' id='date'></Input>
                     </div>
                 </div>
                 <div>

@@ -1,6 +1,9 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 import { Button, Carousel } from "@material-tailwind/react";
+import Banner1 from "../assets/banner/banner1.jpg";
+import Banner2 from "../assets/banner/banner2.jpg";
+import Banner3 from "../assets/banner/banner3.jpg";
 import "../styles/home.css"
 import Accordions from '../components/accordions/Accordions';
 import Testimonials from '../components/testimonials/Testimonials';
@@ -20,27 +23,22 @@ const Home = () => {
                         >
                             <path d="M50 0H100L50 100H0L50 0Z" />
                         </svg>
-                        {/* <img
-                            className="object-cover w-full h-56 rounded shadow-lg lg:rounded-none lg:shadow-none md:h-96 lg:h-full "
-                            src="https://scontent.fmnl8-3.fna.fbcdn.net/v/t39.30808-6/376617703_682357273940870_3389933641310435906_n.jpg?stp=cp6_dst-jpg&_nc_cat=101&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeFXfNJLtiLrDgZAk6JfytaJNFGdvJiqIQ00UZ28mKohDV5aiSRj1TbAWNE4acflSdPt_D1dwkSq5PdUm26gv6Q7&_nc_ohc=xVGART9kCsoAX_GLt4M&_nc_ht=scontent.fmnl8-3.fna&oh=00_AfCPooOkUJN5iZZxu5Vp4bsp2mvIyzvMqjsEDdP8SsLF_A&oe=656BE82E"
-                            alt="banner"
-                        /> */}
                         <Carousel autoplay={true} prevArrow={false} nextArrow={false} loop={true} className='z-10'
                             // className="rounded-xl"
                             navigation={false}
                         >
                             <img
-                                src="https://scontent.fmnl8-3.fna.fbcdn.net/v/t39.30808-6/376617703_682357273940870_3389933641310435906_n.jpg?stp=cp6_dst-jpg&_nc_cat=101&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeFXfNJLtiLrDgZAk6JfytaJNFGdvJiqIQ00UZ28mKohDV5aiSRj1TbAWNE4acflSdPt_D1dwkSq5PdUm26gv6Q7&_nc_ohc=xVGART9kCsoAX_GLt4M&_nc_ht=scontent.fmnl8-3.fna&oh=00_AfCPooOkUJN5iZZxu5Vp4bsp2mvIyzvMqjsEDdP8SsLF_A&oe=656BE82E"
+                                src={Banner1}
                                 alt=" 1"
                                 className="object-cover w-full h-56 rounded shadow-lg lg:rounded-none lg:shadow-none md:h-96 lg:h-full "
                             />
                             <img
-                                src="https://scontent.fmnl8-3.fna.fbcdn.net/v/t39.30808-6/353751420_636372491872682_453364921932947133_n.jpg?stp=cp6_dst-jpg&_nc_cat=104&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeGNMFsyNKPzaTJVAv2tlSFC59gmM7fX73fn2CYzt9fvd557gmrbYHdwce-xOMoZiKdOv61jZrKyC0bS4-mFrgaY&_nc_ohc=6Vmv17UulqoAX8ikS1S&_nc_ht=scontent.fmnl8-3.fna&oh=00_AfAFEdfOqyKS6RkzG6sK9ttvyF_bAWpsNAZm2PpHjRduVA&oe=656EA87A"
+                                src={Banner2}
                                 alt=" 2"
                                 className="object-cover w-full h-56 rounded shadow-lg lg:rounded-none lg:shadow-none md:h-96 lg:h-full "
                             />
                             <img
-                                src="https://scontent.fmnl8-3.fna.fbcdn.net/v/t39.30808-6/341784987_173555755624477_6289078246031432220_n.jpg?stp=cp6_dst-jpg&_nc_cat=101&ccb=1-7&_nc_sid=a73e89&_nc_eui2=AeHWAEd8bW6cHPbt7e5OmvSbljxX2qtq5YSWPFfaq2rlhHQqtPO3eUuxJKiNGyyx2ouVRtvylxv16whIHWJncNjV&_nc_ohc=4HunzQHLW0wAX-ErjzY&_nc_ht=scontent.fmnl8-3.fna&oh=00_AfAa_mIaY8E8n2rFTrB7UDgSBJ3ZSJ4lf_1xpuFSJ0LSww&oe=656E1744"
+                                src={Banner3}
                                 alt=" 3"
                                 className="object-cover w-full h-56 rounded shadow-lg lg:rounded-none lg:shadow-none md:h-96 lg:h-full "
                             />
