@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react'
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState } from 'react' //, useContext
+import { Link } from 'react-router-dom'; // useNavigate,
 import {
     Card,
     Input,
