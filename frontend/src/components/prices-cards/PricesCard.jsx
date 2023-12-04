@@ -2,7 +2,7 @@ import React from "react";
 import "./prices-cards.css";
 import { Button } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-const PricesCard = ({ services }) => {
+const PricesCard = ({ services, loading }) => {
     return (
         <div className="table rounded-lg mt-24">
             <table>
@@ -15,7 +15,27 @@ const PricesCard = ({ services }) => {
                         <th>X-LARGE</th>
                     </tr>
                 </thead>
-                <tbody>
+
+                {loading ? (<tbody>
+                    <br />
+                    <tr role="status" className="max-w-sm animate-pulse mt-2" >
+                        <td className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></td>
+                        <td className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></td>
+                        <td className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></td>
+                        <td className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[330px] mb-2.5"></td>
+                        <td className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[300px] mb-2.5"></td>
+                        <span className="sr-only">Loading...</span>
+                    </tr>
+                    <br />
+                    <tr role="status" className="max-w-sm animate-pulse mt-2" >
+                        <td className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></td>
+                        <td className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></td>
+                        <td className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></td>
+                        <td className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[330px] mb-2.5"></td>
+                        <td className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[300px] mb-2.5"></td>
+                        <span className="sr-only">Loading...</span>
+                    </tr>
+                </tbody>) : (<tbody>
                     {services.map((service) => (
                         <tr key={service._id}>
                             <td className="text-gray-700 capitalize font-bold">{service.title}</td>
@@ -31,6 +51,10 @@ const PricesCard = ({ services }) => {
                         </tr>
                     ))}
                 </tbody>
+
+
+                )}
+
             </table>
         </div>
     );

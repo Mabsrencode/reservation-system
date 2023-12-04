@@ -7,6 +7,7 @@
 table {
   width: 100%;
   margin: 0 auto;
+  position: relative;
 }
 th {
   text-align: left;
@@ -16,4 +17,14 @@ tbody tr td {
 }
 .book-now-button {
   float: right;
+}
+.pc-loading-skeleton {
+  height: 20px;
+  width: 100%;
+  margin: 0 auto;
+  position: absolute;
+  background-color: var(--secondary-color-low-opacity);
+}
+tbody tr {
+  height: 30px;
 }

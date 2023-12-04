@@ -9,8 +9,11 @@ import {
     IconButton,
 } from "@material-tailwind/react";
 import Logo from "../logo/Logo";
-
+import LogoutButton from "../log-out-btn/LogoutButton"
+import { useUser } from '../../context/userContext';
 const Header = () => {
+    // const user = JSON.parse(localStorage.getItem('user')) || null;
+    const { user } = useUser();
     const [openNav, setOpenNav] = React.useState(false);
 
     React.useEffect(() => {
@@ -21,6 +24,7 @@ const Header = () => {
     }, []);
 
     const navList = (
+
         <ul className="nav-list mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
             <Typography
                 as="li"
@@ -52,26 +56,6 @@ const Header = () => {
                     About Us
                 </Link>
             </Typography>
-            {/* <Typography
-                as="li"
-                variant="small"
-                color="white"
-                className="p-1 font-normal hover:text-orange-500 focus:text-orange-500"
-            >
-                <Link to="/pricing" className="flex items-center">
-                    Pricing
-                </Link>
-            </Typography>
-            <Typography
-                as="li"
-                variant="small"
-                color="white"
-                className="p-1 font-normal hover:text-orange-500 focus:text-orange-500"
-            >
-                <Link to="/booking" className="flex items-center">
-                    Booking
-                </Link>
-            </Typography> */}
             <Typography
                 as="li"
                 variant="small"
@@ -82,7 +66,14 @@ const Header = () => {
                     Contact Us
                 </Link>
             </Typography>
-
+            <Typography
+                as="li"
+                variant="small"
+                color="white"
+                className="p-1 font-normal hover:text-blue-500 focus:text-blue-500"
+            >
+                {user ? (<LogoutButton />) : (<></>)}
+            </Typography>
         </ul>
     );
     return (
@@ -91,24 +82,16 @@ const Header = () => {
                 <Logo />
                 <div className="hidden lg:block">{navList}</div>
                 <div className="sign-in-up">
-                    {/* <Typography variant="small"
-                        color="white"
-                        className="lg:inline-block p-1 font-normal hover:text-orange-500  mr-2 focus:text-orange-500">
-                        <Link className="ml-4" to="/register">
-
-                            Register
-
-                        </Link>
-                    </Typography> */}
-                    <Link to="/sign-in">
+                    <Link to={user ? `/user/profile/${user.data._id}` : "/sign-in"}>
                         <Button
                             variant="gradient"
                             size="sm"
                             className="hidden lg:inline-block "
                         >
-                            <span>Sign In </span>
+                            {user ? <h1>{user.data.name}</h1> : <span>Sign In </span>}
                         </Button>
                     </Link>
+
                 </div>
 
                 <IconButton
@@ -153,10 +136,10 @@ const Header = () => {
             <Collapse open={openNav}>
                 <div className="container mx-auto">
                     {navList}
-                    <Link to="/login">
+                    <Link to={user ? `/user/profile/${user._id}` : "/sign-in"}>
                         <Button variant="gradient" size="sm" fullWidth className="mb-2">
 
-                            <span>Sign In </span>
+                            {user ? <h1>{user.data.name}</h1> : <span>Sign In </span>}
 
                         </Button>
                     </Link>

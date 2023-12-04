@@ -5,14 +5,18 @@ import "../styles/booking.css"
 import { Button, Select, Option, Input } from '@material-tailwind/react'; //, Input
 const Booking = () => {
     const [service, setService] = useState([]);
+    const [loading, setLoading] = useState();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
+                setLoading(true);
                 const data = (await axios.post('/api/services/book/:id')).data;
                 setService(data);
+                setLoading(false);
                 console.log(data);
             } catch (error) {
+                setLoading(false);
                 console.log(error);
             }
         };
