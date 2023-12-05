@@ -26,7 +26,7 @@ const Register = () => {
     const navigate = useNavigate();
     const handleRegistration = async (e) => {
         e.preventDefault();
-
+        const telAsNumber = Number(tel);
         if (name === "" || email === "" || tel === "" || password === "" || cpassword === "") {
             setError(true);
             setErrorMessage("Please fill all the fields.")
@@ -34,12 +34,14 @@ const Register = () => {
             setError(true);
             setErrorMessage("Password do not match.")
         }
-        else if (email !== "^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$") {
+        // eslint-disable-next-line
+        else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
             setError(true);
             setErrorMessage("Invalid Email.")
-        }
-        else {
-
+        } else if (isNaN(telAsNumber)) {
+            setError(true);
+            setErrorMessage("Please enter your mobile number without letters.");
+        } else {
             const user = {
                 name,
                 email,
@@ -75,7 +77,7 @@ const Register = () => {
                 <div className="mb-4 flex flex-col gap-6">
                     <Input type="text" placeholder="Full Name" id="full-name" onChange={(e) => { setName(e.target.value) }} className="registration_input capitalize pl-6" required />
                     <Input type="email" placeholder="Email" id="email" onChange={(e) => { setEmail(e.target.value) }} className="registration_input pl-6" required />
-                    <Input type="tel" placeholder="Mobile Number" id="phone_number" onChange={(e) => { setTel(e.target.value) }} className="registration_input pl-6" required />
+                    <Input type="tel" placeholder="Mobile Number" id="phone_number" onChange={(e) => { setTel(e.target.value) }} className="registration_input pl-6" maxLength={11} required />
                     <Input type="password" placeholder="Password" id="password" onChange={(e) => { setPassword(e.target.value) }} className="registration_input pl-6" required />
                     <Input type="password" placeholder="Confirm Password" id="cpassword" onChange={(e) => { setCpassword(e.target.value) }} className="registration_input pl-6" required />
                 </div>
