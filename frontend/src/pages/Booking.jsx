@@ -6,7 +6,18 @@ import { Button, Select, Option, Input } from '@material-tailwind/react'; //, In
 const Booking = () => {
     const [service, setService] = useState([]);
     const [loading, setLoading] = useState();
+    const [error, setError] = useState(false)
+    const currentDate = new Date();
+    const options = { timeZone: 'Asia/Manila' };
+    const [selectedDate, setSelectedDate] = useState(currentDate.toLocaleString('en-US', options).split(',')[0]);
+    const [vehicle, setVehicle] = useState();
+    const handleSelectChange = (event) => {
+        const selectedValue = event?.target?.value;
+        setVehicle(selectedValue);
+    };
+    const handleClick = async () => {
 
+    }
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -17,6 +28,7 @@ const Booking = () => {
                 console.log(data);
             } catch (error) {
                 setLoading(false);
+                setError(true)
                 console.log(error);
             }
         };
@@ -48,23 +60,27 @@ const Booking = () => {
                     </tbody>
                 </table>
                 <div className="w-72 mt-4">
-                    <Select label="Size of vehicle">
-                        <Option>SMALL</Option>
-                        <Option>MEDIUM</Option>
-                        <Option>LARGE</Option>
-                        <Option>X-LARGE</Option>
-
+                    {/* last update */}
+                    <Select label="Size of vehicle" onChange={handleSelectChange}>
+                        <Option value={service.small}>SMALL</Option>
+                        <Option value={service.medium}>MEDIUM</Option>
+                        <Option value={service.large}>LARGE</Option>
+                        <Option value={service.x_large}>X-LARGE</Option>
                     </Select>
                     <div className='mt-4'>
-                        <Input type='date' label='Pick a date' id='date'></Input>
+                        <Input type='date' label='Pick a date' id='date' onChange={(e) => { setSelectedDate(e.target.value) }}></Input>
                     </div>
                 </div>
-                <div>
-
+                <div className="mt-2">
+                    <h1 className='text-sm  font-bold mb-20 '>Reservation Date: {selectedDate}</h1>
                 </div>
-                <Button className='mt-4'>
-                    Pay Now
+                <div className='mt-10'>
+                    <h1 className='text-lg font-bold text-orange-500'>Total: {vehicle}</h1>
+                </div>
+                <Button className='mt-4' onChange={handleClick}>
+                    {loading ? "Processing..." : "Pay Now"}
                 </Button>
+                {error ? <span>Something went wrong!</span> : <></>}
             </div>
         </section>
     )

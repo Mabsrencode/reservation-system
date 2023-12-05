@@ -17,23 +17,23 @@ const PricesCard = ({ services, loading }) => {
                 </thead>
 
                 {loading ? (<tbody>
-                    <br />
+                    <tr></tr>
                     <tr role="status" className="max-w-sm animate-pulse mt-2" >
                         <td className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></td>
                         <td className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></td>
                         <td className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></td>
                         <td className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[330px] mb-2.5"></td>
                         <td className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[300px] mb-2.5"></td>
-                        <span className="sr-only">Loading...</span>
+
                     </tr>
-                    <br />
+                    <tr></tr>
                     <tr role="status" className="max-w-sm animate-pulse mt-2" >
                         <td className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></td>
                         <td className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></td>
                         <td className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></td>
                         <td className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[330px] mb-2.5"></td>
                         <td className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[300px] mb-2.5"></td>
-                        <span className="sr-only">Loading...</span>
+
                     </tr>
                 </tbody>) : (<tbody>
                     {services.map((service) => (

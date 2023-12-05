@@ -8,6 +8,7 @@ import {
     Button,
     IconButton,
 } from "@material-tailwind/react";
+import { IoMdPerson } from "react-icons/io";
 import Logo from "../logo/Logo";
 import LogoutButton from "../log-out-btn/LogoutButton"
 import { useUser } from '../../context/userContext';
@@ -70,7 +71,7 @@ const Header = () => {
                 as="li"
                 variant="small"
                 color="white"
-                className="p-1 font-normal hover:text-blue-500 focus:text-blue-500"
+                className="p-1 font-normal hover:text-orange-500 focus:text-orange-500"
             >
                 {user ? (<LogoutButton />) : (<></>)}
             </Typography>
@@ -88,7 +89,8 @@ const Header = () => {
                             size="sm"
                             className="hidden lg:inline-block "
                         >
-                            {user ? <h1>{user.data.name}</h1> : <span>Sign In </span>}
+                            {user ? <div
+                                className="flex justify-center align-center"><IoMdPerson className="text-sm mr-2 text-orange-500" />{user.data.name}</div> : <span>Sign In </span>}
                         </Button>
                     </Link>
 

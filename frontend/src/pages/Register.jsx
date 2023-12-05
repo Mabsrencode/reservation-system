@@ -21,12 +21,25 @@ const Register = () => {
         setIsCheckbox(!isCheckbox);
     }
     const [error, setError] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
     const handleRegistration = async (e) => {
         e.preventDefault();
 
-        if (password === cpassword) {
+        if (name === "" || email === "" || tel === "" || password === "" || cpassword === "") {
+            setError(true);
+            setErrorMessage("Please fill all the fields.")
+        } else if (password !== cpassword) {
+            setError(true);
+            setErrorMessage("Password do not match.")
+        }
+        else if (email !== "^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$") {
+            setError(true);
+            setErrorMessage("Invalid Email.")
+        }
+        else {
+
             const user = {
                 name,
                 email,
@@ -35,20 +48,18 @@ const Register = () => {
                 cpassword
             }
             try {
+                setError(false)
                 setLoading(true)
                 const data = await axios.post("/api/users/register", user)
                 localStorage.setItem("user", JSON.stringify(data))
-                navigate('/');
+                navigate('/sign-in');
                 setLoading(false)
-                console.log(user)
             } catch (error) {
+                setErrorMessage(error)
                 setLoading(false)
                 setError(true)
                 console.log(error)
             }
-        } else {
-
-            console.log(error)
         }
     };
     return (
@@ -64,7 +75,7 @@ const Register = () => {
                 <div className="mb-4 flex flex-col gap-6">
                     <Input type="text" placeholder="Full Name" id="full-name" onChange={(e) => { setName(e.target.value) }} className="registration_input capitalize pl-6" required />
                     <Input type="email" placeholder="Email" id="email" onChange={(e) => { setEmail(e.target.value) }} className="registration_input pl-6" required />
-                    <Input type="tel" placeholder="Phone Number" id="phone_number" onChange={(e) => { setTel(e.target.value) }} className="registration_input pl-6" required />
+                    <Input type="tel" placeholder="Mobile Number" id="phone_number" onChange={(e) => { setTel(e.target.value) }} className="registration_input pl-6" required />
                     <Input type="password" placeholder="Password" id="password" onChange={(e) => { setPassword(e.target.value) }} className="registration_input pl-6" required />
                     <Input type="password" placeholder="Confirm Password" id="cpassword" onChange={(e) => { setCpassword(e.target.value) }} className="registration_input pl-6" required />
                 </div>
@@ -86,7 +97,7 @@ const Register = () => {
                 <Button className="mt-6" fullWidth disabled={isCheckbox ? loading : true} onClick={handleRegistration}>
                     {loading ? "Loading..." : "Register"}
                 </Button>
-                {error && <span>{error.message}</span>}
+                {error ? <div className='text-red-900 font-normal mt-2'>{errorMessage}</div> : <></>}
                 <Typography color="gray" className="mt-4 text-center font-normal">
                     Already have an account?{" "}
                     <Link to={"/sign-in"} className="font-medium  text-white">Sign In</Link>

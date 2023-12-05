@@ -12,7 +12,6 @@ const Services = () => {
                 const data = (await axios.get("/api/services")).data;
                 setServices(data);
                 setLoading(false);
-                console.log(data)
             } catch (error) {
                 setLoading(false);
                 console.log(error);

@@ -12,6 +12,7 @@ import { useUser } from '../context/userContext';
 
 const SignIn = () => {
     const [error, setError] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
     const [loading, setLoading] = useState(false)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -33,7 +34,7 @@ const SignIn = () => {
         } catch (error) {
             setLoading(false)
             setError(true)
-
+            setErrorMessage("Invalid Password or Email.")
             console.log(error)
         }
     };
@@ -61,6 +62,7 @@ const SignIn = () => {
                     Don't have an account?{" "}
                     <Link to={"/register"} className="font-medium text-white">Register</Link>
                 </Typography>
+                {error ? (<span className='text-center text-red-900 font-bold'>{errorMessage}</span>) : <></>}
             </form>
         </Card>
     )
