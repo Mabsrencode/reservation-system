@@ -37,7 +37,7 @@ const Booking = () => {
     }, []);
     return (
         <section className='mb-20'>
-{loading ? <h1>loading...</h1> : <></>}
+            {loading ? <h1>loading...</h1> : <></>}
             <h1 className='text-6xl mt-20 md:text-7xl font-bold mb-20 text-center'>Booking details</h1>
             <div className='booking-card mx-auto w-1/2 border-2 border-orange-500 py-5 px-10 rounded-lg'>
                 <h1 className='text-2xl mb-4 font-bold'>{service.title}</h1>
@@ -81,7 +81,7 @@ const Booking = () => {
                 <Button className='mt-4' onChange={handleClick}>
                     {loading ? "Processing..." : "Pay Now"}
                 </Button>
-                {error ? <span>Something went wrong!</span> : <></>}
+                {error ? <div>Something went wrong!</div> : <></>}
             </div>
         </section>
     )

@@ -57,12 +57,11 @@ const SignIn = () => {
                 <Button className="mt-6" fullWidth disabled={loading} onClick={handleSignIn}>
                     {loading ? "Loading..." : "Sign In"}
                 </Button>
-                {error && <span>{error.message}</span>}
+                {error ? (<div className='mt-2 text-red-900'>{errorMessage}</div>) : <></>}
                 <Typography color="gray" className="mt-4 text-center font-normal">
                     Don't have an account?{" "}
                     <Link to={"/register"} className="font-medium text-white">Register</Link>
                 </Typography>
-                {error ? (<span className='text-center text-red-900 font-bold'>{errorMessage}</span>) : <></>}
             </form>
         </Card>
     )
