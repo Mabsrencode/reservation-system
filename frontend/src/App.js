@@ -10,6 +10,7 @@ import NoPage from "./pages/NoPage";
 import SignIn from "./pages/SignIn";
 import Register from "./pages/Register";
 import Booking from "./pages/Booking";
+import ScrollToTopButton from "./components/up-button/ScrollToTopButton";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           </Routes>
         </UserProvider>
       </BrowserRouter>
+      <ScrollToTopButton />
     </div>
   );
 }

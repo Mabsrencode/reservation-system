@@ -6,6 +6,7 @@ app.use(express.json());
 const dbConfig = require("./db");
 const servicesRoute = require("./routes/services.route");
 const usersRoute = require("./routes/users.route");
+const bookingRoute = require("./routes/booking.route");
 const port = process.env.PORT || 4000;
 app.use((req, res, next) => {
   console.log(req.path, req.body);
@@ -13,5 +14,6 @@ app.use((req, res, next) => {
 });
 app.use("/api", servicesRoute);
 app.use("/api/users", usersRoute);
+app.use("/api/bookings", bookingRoute);
 
 app.listen(port, () => console.log(`Starting server on port ${port}`));

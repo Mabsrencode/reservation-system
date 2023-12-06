@@ -22,6 +22,7 @@ const servicesSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    currentBookings: [],
   },
   { timestamps: { type: String } }
 );

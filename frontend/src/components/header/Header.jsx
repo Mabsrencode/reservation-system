@@ -73,7 +73,7 @@ const Header = () => {
                 color="white"
                 className="p-1 font-normal hover:text-orange-500 focus:text-orange-500"
             >
-                {user ? (<LogoutButton />) : (<></>)}
+                {user ? (<LogoutButton />) : <></>}
             </Typography>
         </ul>
     );
@@ -133,7 +133,6 @@ const Header = () => {
                         </svg>
                     )}
                 </IconButton>
-                {/* <div>{user ? user.username : null} </div> */}
             </div>
             <Collapse open={openNav}>
                 <div className="container mx-auto">
