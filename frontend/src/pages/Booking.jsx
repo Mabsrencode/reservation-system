@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import "../styles/booking.css"
+import StripeCheckout from 'react-stripe-checkout';
 // import { Link } from 'react-router-dom';
 import { Button, Select, Option, Input } from '@material-tailwind/react'; //, Input
 import { useUser } from '../context/userContext';
@@ -48,6 +49,7 @@ const Booking = () => {
         } else {
             try {
                 setLoading(true);
+                // eslint-disable-next-line
                 const result = await axios.post('/api/bookings/book-service', bookingDetails)
                 res.send("Service booked successfully")
                 setLoading(false);
