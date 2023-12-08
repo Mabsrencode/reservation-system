@@ -8,8 +8,9 @@ import "../styles/home.css"
 import Accordions from '../components/accordions/Accordions';
 import Testimonials from '../components/testimonials/Testimonials';
 import Services from '../components/services/Services';
+import { useUser } from '../context/userContext';
 const Home = () => {
-
+    const { user } = useUser();
     return (
         <>
             <section className='hero'>
@@ -63,14 +64,12 @@ const Home = () => {
                                 quae. explicabo.
                             </p>
                             <div className="flex items-center">
-                                {/* {user ? (<Link to="/booking">
-                                <Button className="mr-4 py-2">Book Now</Button>
-                            </Link>) : (<Link to="/register">
-                                <Button className="mr-4 py-2">Register Now</Button>
-                            </Link>)} */}
-                                <Link to="/register">
-                                    <Button className="mr-4 py-2">Register</Button>
-                                </Link>
+                                {user ? (<Link to="/services">
+                                    <Button className="mr-4 py-2">Book Now</Button>
+                                </Link>) : (<Link to="/register">
+                                    <Button className="mr-4 py-2">Register Now</Button>
+                                </Link>)}
+
                                 <Link
                                     to="/about"
                                     aria-label=""

@@ -7,19 +7,19 @@ const servicesSchema = mongoose.Schema(
       required: true,
     },
     small: {
-      type: String,
+      type: Number,
       required: true,
     },
     medium: {
-      type: String,
+      type: Number,
       required: true,
     },
     large: {
-      type: String,
+      type: Number,
       required: true,
     },
     x_large: {
-      type: String,
+      type: Number,
       required: true,
     },
     currentBookings: [],

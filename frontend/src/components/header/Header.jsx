@@ -67,6 +67,16 @@ const Header = () => {
                     Contact Us
                 </Link>
             </Typography>
+            {user?.data?.isAdmin ? <Typography
+                as="li"
+                variant="small"
+                color="white"
+                className="p-1 font-normal hover:text-orange-500 focus:text-orange-500"
+            >
+                <Link to="/admin" className="flex items-center">
+                    Admin Dashboard
+                </Link>
+            </Typography> : <></>}
             <Typography
                 as="li"
                 variant="small"

@@ -22,4 +22,12 @@ router.post("/services/book/:_id", async (req, res) => {
   }
 });
 
+router.post("/add-services", async (req, res) => {
+  try {
+    const newServices = new Services(req.body);
+    const user = await newServices.save();
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+});
 module.exports = router;

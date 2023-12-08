@@ -19,11 +19,15 @@ const Booking = () => {
     const [selectedTime, setSelectedTime] = useState("")
     const [vehiclePrice, setVehiclePrice] = useState();
     const accessToken = process.env.REACT_APP_STRIPE_ACCESS_TOKEN;
+    const accessTokenSms = process.env.REACT_APP_SEMAPHORE_ACCESS_TOKEN;
     const { _id } = useParams();
     const navigate = useNavigate()
     // console.log(vehiclePrice);
     // console.log(service._id);
     // console.log(user.data.name)
+    const phone_number = user.data.tel
+    const phone = phone_number.toString()
+    const recipient = user.data.name
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -61,6 +65,12 @@ const Booking = () => {
                 setLoading(true);
                 // eslint-disable-next-line
                 const result = await axios.post('/api/bookings/book-service', bookingDetails)
+                const response = await axios.post('/api/bookings/send-message', {
+                    apikey: accessTokenSms,
+                    number: `+63${phone}`,
+                    message: `Hello ${recipient}! You are now Successfully Booked from Q-Zone Professional Detailers. Thank you for booking on us.\n\n `,
+                });
+                console.log(response);
                 console.log(result)
                 setLoading(false);
                 setSuccess(true);
@@ -120,9 +130,6 @@ const Booking = () => {
                 <div className='mt-6'>
                     <h1 className='text-lg font-bold text-orange-500'>Total : {vehiclePrice ? vehiclePrice : 0}</h1>
                 </div>
-                {/* <Button className='mt-4' onClick={bookService}>
-                    {loading ? "Processing..." : "Pay Now"}
-                </Button> */}
                 <StripeCheckout
                     disabled={selectedTime ? false : true}
                     amount={vehiclePrice * 100}

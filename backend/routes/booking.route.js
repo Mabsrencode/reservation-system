@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const router = express.Router();
+const axios = require("axios");
 const Booking = require("../models/booking.model");
 const Service = require("../models/services.model");
 const stripeKey = process.env.STRIPE_TOKEN;
@@ -124,4 +125,30 @@ router.post("/delete-booking", async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 });
+
+//getall
+router.get("/all-bookings", async (req, res) => {
+  try {
+    const bookings = await Booking.find();
+    res.send(bookings);
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+});
+
+router.post("/send-message", async (req, res) => {
+  try {
+    console.log("Request to Semaphore:", req.body);
+    const response = await axios.post(
+      "https://semaphore.co/api/v4/messages",
+      req.body
+    );
+    console.log("Semaphore API Response:", response.data); // Log response
+    res.json(response.data);
+  } catch (error) {
+    console.error("Semaphore API Error:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 module.exports = router;

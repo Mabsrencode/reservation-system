@@ -33,4 +33,13 @@ router.post("/sign-in", async (req, res) => {
     return res.status(404).json({ message: error });
   }
 });
+
+router.get("/all-users", async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.status(200).send(users);
+  } catch (error) {
+    return res.status(404).json({ message: error });
+  }
+});
 module.exports = router;

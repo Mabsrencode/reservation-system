@@ -39,31 +39,33 @@ const SignIn = () => {
         }
     };
     return (
-        <Card className="container my-16 max-w-md mx-auto" color="transparent" shadow={false}>
-            <Typography variant="h4" color="white">
-                Sign In
-            </Typography>
-            <Typography className="mt-1 font-normal">
-                Enter your details to Sign In.
-            </Typography>
-            <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
-                <div className="mb-4 flex flex-col gap-6">
-
-                    <Input type="email" placeholder="Email" id="email" onChange={(e) => { setEmail(e.target.value) }} className="registration_input pl-6" />
-
-                    <Input type="password" placeholder="Password" id="password" onChange={(e) => { setPassword(e.target.value) }} className="registration_input pl-6" />
-
-                </div>
-                <Button className="mt-6" fullWidth disabled={loading} onClick={handleSignIn}>
-                    {loading ? "Loading..." : "Sign In"}
-                </Button>
-                {error ? (<div className='mt-2 text-red-900'>{errorMessage}</div>) : <></>}
-                <Typography color="gray" className="mt-4 text-center font-normal">
-                    Don't have an account?{" "}
-                    <Link to={"/register"} className="font-medium text-white">Register</Link>
+        <section className='h-5/6  my-12 bg-white dark:bg-gray-900'>
+            <Card className="py-14 container my-16 max-w-md mx-auto" color="transparent" shadow={false}>
+                <Typography variant="h4" color="black">
+                    Sign In
                 </Typography>
-            </form>
-        </Card>
+                <Typography className="mt-1 font-normal">
+                    Enter your details to Sign In.
+                </Typography>
+                <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
+                    <div className="mb-4 flex flex-col gap-6">
+
+                        <Input type="email" placeholder="Email" id="email" onChange={(e) => { setEmail(e.target.value) }} className="registration_input pl-6 " />
+
+                        <Input type="password" placeholder="Password" id="password" onChange={(e) => { setPassword(e.target.value) }} className="registration_input pl-6" />
+
+                    </div>
+                    <Button className="mt-6" fullWidth disabled={loading} onClick={handleSignIn}>
+                        {loading ? "Loading..." : "Sign In"}
+                    </Button>
+                    {error ? (<div className='mt-2 text-red-900'>{errorMessage}</div>) : <></>}
+                    <Typography color="gray" className="mt-4 text-center font-normal">
+                        Don't have an account?{" "}
+                        <Link to={"/register"} className="font-medium text-white">Register</Link>
+                    </Typography>
+                </form>
+            </Card>
+        </section>
     )
 }
 

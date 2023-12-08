@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ServicesCards from "../components/services-cards/ServicesCards";
 import PricesCard from "../components/prices-cards/PricesCard";
+import { useUser } from "../context/userContext";
 const Services = () => {
+    const { user } = useUser()
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState();
     useEffect(() => {
@@ -23,7 +25,7 @@ const Services = () => {
 
     return (
         <section className="mt-24">
-            <PricesCard services={services} loading={loading} />
+            {user ? <PricesCard services={services} loading={loading} /> : <></>}
 
             <ServicesCards />
         </section>
