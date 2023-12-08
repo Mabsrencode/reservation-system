@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import "../styles/booking.css"
 import StripeCheckout from 'react-stripe-checkout';
@@ -11,18 +12,21 @@ const Booking = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
+    const [success, setSuccess] = useState(false)
     const currentDate = new Date();
     const options = { timeZone: 'Asia/Manila' };
     const [selectedDate, setSelectedDate] = useState(currentDate.toLocaleString('en-US', options).split(',')[0]);
     const [selectedTime, setSelectedTime] = useState("")
     const [vehiclePrice, setVehiclePrice] = useState();
+    const accessToken = process.env.REACT_APP_STRIPE_ACCESS_TOKEN;
+    const { _id } = useParams();
     // console.log(vehiclePrice);
     // console.log(service._id);
-    console.log(user.data.name)
+    // console.log(user.data.name)
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = (await axios.post(`/api/services/book/:id`)).data;
+                const data = (await axios.post(`/api/services/book/${_id}`)).data;
                 setService(data);
                 // console.log(data);
             } catch (error) {
@@ -31,9 +35,13 @@ const Booking = () => {
         };
 
         fetchData();
-    }, []);
+    }, [_id]);
 
-    const bookService = async (req, res) => {
+    // const bookService = async (req, res) => {
+
+    // }
+    const onToken = async (token) => {
+        setLoading(true);
         const user_id = user.data._id
 
         const bookingDetails = {
@@ -42,6 +50,7 @@ const Booking = () => {
             selectedDate,
             selectedTime,
             vehiclePrice,
+            token
         }
         if (bookingDetails.service === "" || bookingDetails.user_id === "" || bookingDetails.selectedDate === "" || bookingDetails.selectedTime === "" || bookingDetails.vehiclePrice === "") {
             setError(true);
@@ -51,17 +60,17 @@ const Booking = () => {
                 setLoading(true);
                 // eslint-disable-next-line
                 const result = await axios.post('/api/bookings/book-service', bookingDetails)
-                res.send("Service booked successfully")
+                console.log(result)
                 setLoading(false);
+                setSuccess(true);
             } catch (error) {
                 setLoading(false);
                 console.log(error)
             }
         }
-    }
+    };
     return (
         <section className='mb-20'>
-
             <h1 className='text-6xl mt-20 md:text-7xl font-bold mb-20 text-center'>Booking details</h1>
             <div className='booking-card mx-auto w-1/2 border-2 border-orange-500 py-5 px-10 rounded-lg'>
                 <h1 className='text-2xl mb-4 font-bold'>{service.title}</h1>
@@ -109,10 +118,22 @@ const Booking = () => {
                 <div className='mt-6'>
                     <h1 className='text-lg font-bold text-orange-500'>Total : {vehiclePrice ? vehiclePrice : 0}</h1>
                 </div>
-                <Button className='mt-4' onClick={bookService}>
+                {/* <Button className='mt-4' onClick={bookService}>
                     {loading ? "Processing..." : "Pay Now"}
-                </Button>
+                </Button> */}
+                <StripeCheckout
+                    disabled={selectedTime ? false : true}
+                    amount={vehiclePrice * 100}
+                    token={onToken}
+                    currency='PHP'
+                    stripeKey={accessToken}
+                >
+                    <Button className='mt-4' disabled={selectedTime ? false : true}>
+                        {loading ? "Processing..." : "Pay Now"}
+                    </Button>
+                </StripeCheckout>
                 {error ? <div className='mt-2 text-red-900'>{errorMessage}</div> : <></>}
+                {success ? <div className='mt-2 text-green-900'>Payment Success, and you are now booked.</div> : <></>}
             </div>
         </section>
     )

@@ -83,7 +83,7 @@ const Header = () => {
                 <Logo />
                 <div className="hidden lg:block">{navList}</div>
                 <div className="sign-in-up">
-                    <Link to={user ? `/user/profile/${user.data._id}` : "/sign-in"}>
+                    <Link to={user ? `/profile` : "/sign-in"}>
                         <Button
                             variant="gradient"
                             size="sm"
@@ -137,7 +137,7 @@ const Header = () => {
             <Collapse open={openNav}>
                 <div className="container mx-auto">
                     {navList}
-                    <Link to={user ? `/user/profile/${user._id}` : "/sign-in"}>
+                    <Link to={user ? `/profile` : "/sign-in"}>
                         <Button variant="gradient" size="sm" fullWidth className="mb-2">
 
                             {user ? <h1>{user.data.name}</h1> : <span>Sign In </span>}
