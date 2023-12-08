@@ -102,4 +102,26 @@ router.post("/cancel-booking", async (req, res) => {
   }
 });
 
+//delete
+router.post("/delete-booking", async (req, res) => {
+  const { bookingId } = req.body;
+  try {
+    const booking = await Booking.findOne({ _id: bookingId });
+
+    if (!booking) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+
+    console.log("Deleting booking:", booking);
+
+    await booking.deleteOne();
+
+    console.log("Booking deleted successfully");
+
+    res.send("Booking deleted successfully");
+  } catch (error) {
+    console.error("Delete Booking Error:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
 module.exports = router;

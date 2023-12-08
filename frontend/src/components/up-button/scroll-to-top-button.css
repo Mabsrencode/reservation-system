@@ -6,6 +6,7 @@
   right: 1rem;
   transition: 0.5s linear;
   animation: bounce 1.5s infinite;
+  z-index: 1000;
 }
 @-o-keyframes bounce {
   0%,

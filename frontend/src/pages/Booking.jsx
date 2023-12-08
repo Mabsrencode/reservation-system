@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "../styles/booking.css"
 import StripeCheckout from 'react-stripe-checkout';
@@ -20,6 +20,7 @@ const Booking = () => {
     const [vehiclePrice, setVehiclePrice] = useState();
     const accessToken = process.env.REACT_APP_STRIPE_ACCESS_TOKEN;
     const { _id } = useParams();
+    const navigate = useNavigate()
     // console.log(vehiclePrice);
     // console.log(service._id);
     // console.log(user.data.name)
@@ -63,6 +64,7 @@ const Booking = () => {
                 console.log(result)
                 setLoading(false);
                 setSuccess(true);
+                navigate("/profile")
             } catch (error) {
                 setLoading(false);
                 console.log(error)

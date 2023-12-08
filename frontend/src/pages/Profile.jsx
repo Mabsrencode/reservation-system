@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-
 import {
     Tabs,
     TabsHeader,
@@ -167,6 +166,19 @@ export const MyBookingsTab = () => {
             console.log(error);
         }
     };
+    //delete
+    const handleDelete = async (bookingId) => {
+        try {
+            setLoading(true);
+            const result = await axios.post("/api/bookings/delete-booking", { bookingId });
+            console.log(result);
+            setLoading(false);
+            setBookings((prevBookings) => prevBookings.filter((booking) => booking._id !== bookingId));
+        } catch (error) {
+            setLoading(false);
+            console.log(error);
+        }
+    }
     return (<section>
         {bookings && bookings.map((booking) => (
             <div key={booking._id} className="bg-white overflow-hidden shadow rounded-lg border mt-6 mb-6">
@@ -244,6 +256,9 @@ export const MyBookingsTab = () => {
                         <Button onClick={() => { console.log(booking.serviceId); cancelBooking(booking._id, booking.serviceId) }}>{loading ? "Processing..." : "Cancel Booking"}</Button>
                     </div> : <></>}
                 </div>
+                {booking.status === 'cancelled' ? <div className="text-right mx-2 my-2">
+                    <Button onClick={() => { handleDelete(booking._id) }}>{loading ? "Processing..." : "Delete"}</Button>
+                </div> : <></>}
             </div>
         ))}
     </section>);
