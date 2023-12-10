@@ -27,7 +27,7 @@ const SignIn = () => {
         }
         try {
             setLoading(true)
-            const data = await axios.post("/api/users/sign-in", user)
+            const data = await axios.post("https://q-zone-api.onrender.com/api/users/sign-in", user)
             navigate('/')
             setLoading(false)
             setUser(data);
