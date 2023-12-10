@@ -11,7 +11,7 @@ const Services = () => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const data = (await axios.get("https://q-zone-api.onrender.com/api/services")).data;
+                const data = (await axios.get("/api/services")).data;
                 setServices(data);
                 setLoading(false);
             } catch (error) {

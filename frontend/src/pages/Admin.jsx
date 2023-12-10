@@ -98,7 +98,7 @@ export const Bookings = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = (await axios.get("https://q-zone-api.onrender.com/api/bookings/all-bookings")).data;
+                const data = (await axios.get("/api/bookings/all-bookings")).data;
                 setBookings(data);
             } catch (error) {
                 console.log(error);
@@ -193,7 +193,7 @@ export const Services = () => {
     const handleDeleteService = async (serviceId) => {
         try {
             setLoadingStates(prevStates => ({ ...prevStates, [serviceId]: true })); // Set loading state for this service
-            const result = await axios.post("https://q-zone-api.onrender.com/api/delete-service", { serviceId });
+            const result = await axios.post("/api/delete-service", { serviceId });
             console.log(result);
             setLoadingStates(prevStates => ({ ...prevStates, [serviceId]: false })); // Reset loading state for this service
             setServices((prevServices) => prevServices.filter((service) => service._id !== serviceId));
@@ -211,7 +211,7 @@ export const Services = () => {
             setTimeout(() => {
                 setLoading(false);
             }, 3000)
-            const response = await axios.post("https://q-zone-api.onrender.com/api/add-services", service);
+            const response = await axios.post("/api/add-services", service);
             setLoading(false);
             setServices([...services, response.data]);
             setTitle("");
@@ -319,7 +319,7 @@ export const Users = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = (await axios.get("https://q-zone-api.onrender.com/api/users/all-users")).data;
+                const data = (await axios.get("/api/users/all-users")).data;
                 setUsers(data);
             } catch (error) {
                 console.log(error);
