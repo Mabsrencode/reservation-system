@@ -135,7 +135,7 @@ router.get("/all-bookings", async (req, res) => {
     return res.status(400).json({ error });
   }
 });
-
+//sms
 router.post("/send-message", async (req, res) => {
   try {
     console.log("Request to Semaphore:", req.body);
@@ -143,7 +143,7 @@ router.post("/send-message", async (req, res) => {
       "https://semaphore.co/api/v4/messages",
       req.body
     );
-    console.log("Semaphore API Response:", response.data); // Log response
+    console.log("Semaphore API Response:", response.data);
     res.json(response.data);
   } catch (error) {
     console.error("Semaphore API Error:", error.message);
