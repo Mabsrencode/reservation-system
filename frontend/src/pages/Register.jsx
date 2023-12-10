@@ -61,7 +61,7 @@ const Register = () => {
             }
             try {
                 setLoading(true)
-                const data = await axios.post("/api/users/register", user)
+                const data = await axios.post("https://q-zone-api.onrender.com/api/users/register", user)
                 localStorage.setItem("user", JSON.stringify(data))
                 navigate('/sign-in');
                 setLoading(false)

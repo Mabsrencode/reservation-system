@@ -132,7 +132,7 @@ export const MyBookingsTab = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = (await axios.post("/api/bookings/booking-id", { user_id: user.data._id })).data;
+                const data = (await axios.post("https://q-zone-api.onrender.com/api/bookings/booking-id", { user_id: user.data._id })).data;
                 setBookings(data);
                 console.log(data)
             } catch (error) {
@@ -146,7 +146,7 @@ export const MyBookingsTab = () => {
     const cancelBooking = async (bookingId, serviceId) => {
         try {
             setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: true }));
-            const result = (await axios.post("/api/bookings/cancel-booking", { bookingId, serviceId })).data;
+            const result = (await axios.post("https://q-zone-api.onrender.com/api/bookings/cancel-booking", { bookingId, serviceId })).data;
             console.log(result)
             setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: false }));
             setBookings(prevBookings =>
@@ -163,7 +163,7 @@ export const MyBookingsTab = () => {
     const handleDelete = async (bookingId) => {
         try {
             setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: true }));
-            const result = await axios.post("/api/bookings/delete-booking", { bookingId });
+            const result = await axios.post("https://q-zone-api.onrender.com/api/bookings/delete-booking", { bookingId });
             console.log(result);
             setBookings((prevBookings) => prevBookings.filter((booking) => booking._id !== bookingId));
         } catch (error) {
