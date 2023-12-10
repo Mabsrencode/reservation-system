@@ -68,12 +68,12 @@ const Booking = () => {
                 setLoading(true);
                 // eslint-disable-next-line
                 const result = await axios.post('/api/bookings/book-service', bookingDetails)
-                const response = await axios.post('/api/bookings/send-message', {
-                    apikey: accessTokenSms,
-                    number: `+63${phone}`,
-                    message: `Hello ${recipient}! You are now Successfully Booked from Q-Zone Professional Detailers. Thank you for booking on us.\n\nAnd your payment of P${vehiclePrice}.00 has been successfully processed on ${currentDate}. `,
-                });
-                console.log(response);
+                // const response = await axios.post('/api/bookings/send-message', {
+                //     apikey: accessTokenSms,
+                //     number: `+63${phone}`,
+                //     message: `Hello ${recipient}! You are now Successfully Booked from Q-Zone Professional Detailers. Thank you for booking on us.\n\nAnd your payment of P${vehiclePrice}.00 has been successfully processed on ${currentDate}. \n\nYour Transaction ID`,
+                // });
+                // console.log(response);
                 console.log(result)
                 setLoading(false);
                 setSuccess(true);

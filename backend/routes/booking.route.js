@@ -15,6 +15,9 @@ router.post("/book-service", async (req, res) => {
       email: token.email,
       source: token.id,
     });
+
+    const transactionId = generateRandomTransactionId(); // Generate a random transaction ID
+
     const payment = await stripe.charges.create(
       {
         amount: vehiclePrice * 100,
@@ -26,6 +29,7 @@ router.post("/book-service", async (req, res) => {
         idempotencyKey: uuidv4(),
       }
     );
+
     if (payment) {
       const newBooking = new Booking({
         service: service.title,
@@ -34,8 +38,9 @@ router.post("/book-service", async (req, res) => {
         selectedDate,
         selectedTime,
         vehiclePrice,
-        transactionId: "1234",
+        transactionId: transactionId,
       });
+
       const booking = await newBooking.save();
 
       const serviceTemp = await Service.findOne({ _id: service._id });
@@ -54,6 +59,10 @@ router.post("/book-service", async (req, res) => {
     console.log(error);
   }
 });
+function generateRandomTransactionId() {
+  const randomNumber = Math.floor(Math.random() * 1000000);
+  return `TXN-${randomNumber}`;
+}
 
 router.post("/booking-id", async (req, res) => {
   const user_id = req.body.user_id;
