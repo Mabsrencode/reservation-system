@@ -28,6 +28,9 @@ const Booking = () => {
     const phone_number = user.data.tel
     const phone = phone_number.toString()
     const recipient = user.data.name
+
+    // const payedService = service.vehiclePrice;
+    // console.log(payedService)
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -68,7 +71,7 @@ const Booking = () => {
                 const response = await axios.post('/api/bookings/send-message', {
                     apikey: accessTokenSms,
                     number: `+63${phone}`,
-                    message: `Hello ${recipient}! You are now Successfully Booked from Q-Zone Professional Detailers. Thank you for booking on us.\n\n `,
+                    message: `Hello ${recipient}! You are now Successfully Booked from Q-Zone Professional Detailers. Thank you for booking on us.\n\nAnd your payment of P${vehiclePrice}.00 has been successfully processed on ${currentDate}. `,
                 });
                 console.log(response);
                 console.log(result)

@@ -59,9 +59,7 @@ const Home = () => {
                                 </span>
                             </h2>
                             <p className="pr-5 mb-5 text-base text-gray-700 md:text-lg">
-                                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                                accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-                                quae. explicabo.
+                                Trust us to bring out the true brilliance of your vehicle, leaving a lasting impression on every journey.
                             </p>
                             <div className="flex items-center">
                                 {user ? (<Link to="/services">

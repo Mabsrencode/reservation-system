@@ -30,4 +30,27 @@ router.post("/add-services", async (req, res) => {
     return res.status(400).json({ error });
   }
 });
+
+//delete
+router.post("/delete-service", async (req, res) => {
+  const { serviceId } = req.body;
+  try {
+    const service = await Services.findOne({ _id: serviceId });
+
+    if (!service) {
+      return res.status(404).json({ error: "Service not found" });
+    }
+
+    console.log("Deleting Service:", service);
+
+    await service.deleteOne();
+
+    console.log("Service deleted successfully");
+
+    res.send("Service deleted successfully");
+  } catch (error) {
+    console.error("Delete Service Error:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
 module.exports = router;

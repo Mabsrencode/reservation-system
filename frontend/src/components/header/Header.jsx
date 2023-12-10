@@ -54,7 +54,7 @@ const Header = () => {
                 className="p-1 font-normal hover:text-orange-500 focus:text-orange-500"
             >
                 <Link to="/about" className="flex items-center">
-                    About Us
+                    About us
                 </Link>
             </Typography>
             <Typography
@@ -64,7 +64,7 @@ const Header = () => {
                 className="p-1 font-normal hover:text-orange-500 focus:text-orange-500"
             >
                 <Link to="/contact" className="flex items-center">
-                    Contact Us
+                    Contact us
                 </Link>
             </Typography>
             {user?.data?.isAdmin ? <Typography

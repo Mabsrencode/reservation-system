@@ -153,7 +153,7 @@ export const Bookings = () => {
                                 <td className="px-6 py-4">
                                     {booking.selectedTime}
                                 </td>
-                                <td className="px-6 py-4">
+                                <td className={`px-6 py-4 ${booking.status === "booked" ? "text-green-500" : "text-red-500"} `}>
                                     {booking.status}
                                 </td>
                             </tr>
@@ -190,15 +190,29 @@ export const Services = () => {
         fetchData();
     }, []);
 
+    const handleDeleteService = async (serviceId) => {
+        try {
+            setLoading(true);
+            const result = await axios.post("/api/delete-service", { serviceId });
+            console.log(result);
+            setLoading(false);
+            setServices((prevServices) => prevServices.filter((service) => service._id !== serviceId));
+        } catch (error) {
+            setLoading(false);
+            console.log(error);
+        }
+    }
+
     const handleAddService = async (e) => {
         e.preventDefault();
         try {
             const service = { title, small, medium, large, x_large };
             setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-            }, 3000);
+            // setTimeout(() => {
+            //     setLoading(false);
+            // }, 3000);
             const response = await axios.post("/api/add-services", service);
+            setLoading(false);
             setServices([...services, response.data]);
             setTitle("")
             setSmall("")
@@ -231,6 +245,7 @@ export const Services = () => {
                             <th scope="col" className="px-6 py-3">
                                 X-LARGE
                             </th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -251,6 +266,9 @@ export const Services = () => {
                                 <td className="px-6 py-4">
                                     {service.x_large}
                                 </td>
+                                <td className="px-6 py-4">
+                                    <Button onClick={() => { handleDeleteService(service._id) }}>{loading ? "Processing..." : "Delete"}</Button>
+                                </td>
                             </tr>
                         ))}
                         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -269,6 +287,7 @@ export const Services = () => {
                             <td className="px-6 py-4">
                                 <Input type="number" placeholder="X-LARGE" id="x_large" name="x_large" onChange={(e) => { setXLarge(e.target.value) }} />
                             </td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </table>
@@ -327,7 +346,7 @@ export const Users = () => {
                                 <td className="px-6 py-4">
                                     {user.email}
                                 </td>
-                                <td className="px-6 py-4">
+                                <td className="px-6 py-4 text-blue-500">
                                     +63 {user.tel}
                                 </td>
                             </tr>

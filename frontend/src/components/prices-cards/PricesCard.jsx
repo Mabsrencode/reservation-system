@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const PricesCard = ({ services, loading }) => {
     return (
         <div className="table rounded-lg mt-24">
-            <table>
+            <table className="max-w-7xl">
                 <thead>
                     <tr>
                         <th className="text-orange-500 font-bold">AUTO DETAILING</th>
@@ -18,7 +18,7 @@ const PricesCard = ({ services, loading }) => {
 
                 {loading ? (<tbody>
                     <tr></tr>
-                    <tr role="status" className="max-w-sm animate-pulse mt-2" >
+                    <tr role="status" className="max-w-md animate-pulse mt-2" >
                         <td className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></td>
                         <td className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></td>
                         <td className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></td>
@@ -27,7 +27,7 @@ const PricesCard = ({ services, loading }) => {
 
                     </tr>
                     <tr></tr>
-                    <tr role="status" className="max-w-sm animate-pulse mt-2" >
+                    <tr role="status" className="max-w-md animate-pulse mt-2" >
                         <td className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></td>
                         <td className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></td>
                         <td className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></td>
