@@ -366,8 +366,11 @@ export const Services = () => {
                                                 <Input type="number" placeholder="Enter service Name" value={updateForm.x_large} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, x_large: e.target.value }))} />
                                             </td>
                                             <td className="px-6 py-4">
-                                                <Button onClick={() => handleUpdateService(service._id)} disabled={loadingStates[service._id]}>
+                                                <Button className="mr-2" onClick={() => handleUpdateService(service._id)} disabled={loadingStates[service._id]}>
                                                     {loadingStates[service._id] ? "Processing..." : "Update"}
+                                                </Button>
+                                                <Button onClick={() => { setEditingServiceId(null); setUpdateForm({ title: "", small: "", medium: "", large: "", x_large: "" }); }}>
+                                                    Cancel
                                                 </Button>
                                             </td>
                                         </>
