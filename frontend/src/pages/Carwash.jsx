@@ -6,7 +6,7 @@ import StripeCheckout from 'react-stripe-checkout';
 // import { Link } from 'react-router-dom';
 import { Button, Select, Option, Input } from '@material-tailwind/react'; //, Input
 import { useUser } from '../context/userContext';
-const Booking = () => {
+const Carwash = () => {
     const { user } = useUser();
     const [service, setService] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -34,7 +34,7 @@ const Booking = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = (await axios.post(`/api/auto-detailing/book/${_id}`)).data;
+                const data = (await axios.post(`/api/carwash/book/${_id}`)).data;
                 setService(data);
                 // console.log(data);
             } catch (error) {
@@ -67,7 +67,7 @@ const Booking = () => {
             try {
                 setLoading(true);
                 // eslint-disable-next-line
-                const result = await axios.post('/api/bookings/book-service', bookingDetails)
+                const result = await axios.post('/api/bookings/book-carwash', bookingDetails)
                 // const response = await axios.post('/api/bookings/send-message', {
                 //     apikey: accessTokenSms,
                 //     number: `+63${phone}`,
@@ -155,4 +155,4 @@ const Booking = () => {
     )
 }
 
-export default Booking
+export default Carwash

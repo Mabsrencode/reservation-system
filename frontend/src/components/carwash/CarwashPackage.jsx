@@ -1,14 +1,14 @@
 import React from "react";
-import "./prices-cards.css";
 import { Button } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-const PricesCard = ({ services, loading }) => {
+const CarwashPackage = ({ carwash, loading }) => {
+    console.log(carwash)
     return (
         <div className="table rounded-lg mt-24">
             <table className="max-w-7xl">
                 <thead>
                     <tr>
-                        <th className="text-orange-500 font-bold">AUTO DETAILING</th>
+                        <th className="text-orange-500 font-bold">CAR WASH PACKAGE</th>
                         <th>SMALL</th>
                         <th>MEDIUM</th>
                         <th>LARGE</th>
@@ -36,15 +36,15 @@ const PricesCard = ({ services, loading }) => {
 
                     </tr>
                 </tbody>) : (<tbody>
-                    {services.map((service) => (
-                        <tr key={service._id}>
-                            <td className="text-gray-700 capitalize font-bold">{service.title}</td>
-                            <td className="text-gray-700">{service.small}</td>
-                            <td className="text-gray-700">{service.medium}</td>
-                            <td className="text-gray-700">{service.large}</td>
-                            <td className="text-gray-700">{service.x_large}</td>
+                    {carwash.map((wash) => (
+                        <tr key={wash._id}>
+                            <td className="text-gray-700 capitalize font-bold">{wash.title}</td>
+                            <td className="text-gray-700">{wash.small}</td>
+                            <td className="text-gray-700">{wash.medium}</td>
+                            <td className="text-gray-700">{wash.large}</td>
+                            <td className="text-gray-700">{wash.x_large}</td>
                             <td className="book-now-button">
-                                <Link to={`book/auto-detailing/${service._id}`}>
+                                <Link to={`book/carwash/${wash._id}`}>
                                     <Button>Book Now</Button>
                                 </Link>
                             </td>
@@ -60,4 +60,4 @@ const PricesCard = ({ services, loading }) => {
     );
 };
 
-export default PricesCard;
+export default CarwashPackage;

@@ -95,13 +95,17 @@ export default Admin
 
 export const Bookings = () => {
     const [bookings, setBookings] = useState([]);
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = (await axios.get("https://q-zone-api.onrender.com/api/bookings/all-bookings")).data;
+                setLoading(true);
+                const data = (await axios.get("/api/bookings/all-bookings")).data;
                 setBookings(data);
+                setLoading(false)
             } catch (error) {
                 console.log(error);
+                setLoading(false)
             }
         };
 
@@ -109,75 +113,144 @@ export const Bookings = () => {
     }, []);
     return (
         <section>
-
-
-            <div className="relative overflow-x-auto">
-                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" className="px-6 py-3">
-                                ID:
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                USER ID:
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                SERVICE:
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                DATE:
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                TIME:
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                STATUS:
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {bookings.map((booking) => (
-                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={booking._id}>
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {booking._id}
+            {loading ? (
+                <div role="status" className=" p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                            <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                        </div>
+                        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                    </div>
+                    <div className="flex items-center justify-between pt-4">
+                        <div>
+                            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                            <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                        </div>
+                        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                    </div>
+                    <div className="flex items-center justify-between pt-4">
+                        <div>
+                            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                            <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                        </div>
+                        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                    </div>
+                    <div className="flex items-center justify-between pt-4">
+                        <div>
+                            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                            <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                        </div>
+                        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                    </div>
+                    <div className="flex items-center justify-between pt-4">
+                        <div>
+                            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                            <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                        </div>
+                        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                    </div>
+                    <div className="flex items-center justify-between pt-4">
+                        <div>
+                            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                            <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                        </div>
+                        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                    </div>
+                    <div className="flex items-center justify-between pt-4">
+                        <div>
+                            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                            <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                        </div>
+                        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                    </div>
+                    <div className="flex items-center justify-between pt-4">
+                        <div>
+                            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                            <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                        </div>
+                        <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+                    </div>
+                </div>
+            ) : (
+                <div className="relative overflow-x-auto">
+                    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" className="px-6 py-3">
+                                    ID:
                                 </th>
-                                <td className="px-6 py-4">
-                                    {booking.user_id}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {booking.service}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {booking.selectedDate}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {booking.selectedTime}
-                                </td>
-                                <td className={`px-6 py-4 ${booking.status === "booked" ? "text-green-500" : "text-red-500"} `}>
-                                    {booking.status}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+                                <th scope="col" className="px-6 py-3">
+                                    USER ID:
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    SERVICE:
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    DATE:
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    TIME:
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    STATUS:
+                                </th>
+                            </tr >
+                        </thead >
+                        <tbody>
+                            {bookings.map((booking) => (
+                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={booking._id}>
+                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {booking._id}
+                                    </th>
+                                    <td className="px-6 py-4">
+                                        {booking.user_id}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {booking.service}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {booking.selectedDate}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {booking.selectedTime}
+                                    </td>
+                                    <td className={`px-6 py-4 ${booking.status === "booked" ? "text-green-500" : "text-red-500"} `}>
+                                        {booking.status}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table >
+                </div >
 
+            )}
         </section>
     )
 }
 export const Services = () => {
     const [loading, setLoading] = useState(false);
     const [services, setServices] = useState([]);
+    console.log(services)
     const [title, setTitle] = useState("");
     const [small, setSmall] = useState("");
     const [medium, setMedium] = useState("");
     const [large, setLarge] = useState("");
     const [x_large, setXLarge] = useState("");
     const [loadingStates, setLoadingStates] = useState({});
+    const [editingServiceId, setEditingServiceId] = useState(null);
+
+    const [updateForm, setUpdateForm] = useState({
+        title: "",
+        small: "",
+        medium: "",
+        large: "",
+        x_large: "",
+    });
     const fetchData = async () => {
         try {
             setLoading(true);
-            const data = (await axios.get("https://q-zone-api.onrender.com/api/services")).data;
+            const data = (await axios.get("/api/services/auto-detailing")).data;
             setServices(data);
         } catch (error) {
             console.log(error);
@@ -192,28 +265,25 @@ export const Services = () => {
 
     const handleDeleteService = async (serviceId) => {
         try {
-            setLoadingStates(prevStates => ({ ...prevStates, [serviceId]: true })); // Set loading state for this service
-            const result = await axios.post("https://q-zone-api.onrender.com/api/delete-service", { serviceId });
+            setLoadingStates(prevStates => ({ ...prevStates, [serviceId]: true }));
+            const result = await axios.post("/api/delete-service", { serviceId });
             console.log(result);
-            setLoadingStates(prevStates => ({ ...prevStates, [serviceId]: false })); // Reset loading state for this service
+            setLoadingStates(prevStates => ({ ...prevStates, [serviceId]: false }));
             setServices((prevServices) => prevServices.filter((service) => service._id !== serviceId));
         } catch (error) {
-            setLoadingStates(prevStates => ({ ...prevStates, [serviceId]: false })); // Reset loading state if there's an error
+            setLoadingStates(prevStates => ({ ...prevStates, [serviceId]: false }));
             console.log(error);
         }
     }
 
     const handleAddService = async (e) => {
         e.preventDefault();
+        const service = { title, small, medium, large, x_large };
         try {
-            const service = { title, small, medium, large, x_large };
             setLoading(true);
-            setTimeout(() => {
-                setLoading(false);
-            }, 3000)
-            const response = await axios.post("https://q-zone-api.onrender.com/api/add-services", service);
+            const response = await axios.post("/api/add-services", service);
+            setServices(prevServices => [...prevServices, response.data]);
             setLoading(false);
-            setServices([...services, response.data]);
             setTitle("");
             setSmall("");
             setMedium("");
@@ -224,7 +294,32 @@ export const Services = () => {
             console.log(error);
         }
     };
-
+    const handleUpdateService = async (serviceId) => {
+        try {
+            setLoadingStates((prevStates) => ({ ...prevStates, [serviceId]: true }));
+            const response = await axios.post("/api/update-service", {
+                serviceId,
+                updatedServiceData: updateForm,
+            });
+            setServices((prevServices) =>
+                prevServices.map((service) =>
+                    service._id === serviceId ? response.data : service
+                )
+            );
+            setLoadingStates((prevStates) => ({ ...prevStates, [serviceId]: false }));
+            setEditingServiceId(null); // Reset the editing state
+            setUpdateForm({
+                title: "",
+                small: "",
+                medium: "",
+                large: "",
+                x_large: "",
+            });
+        } catch (error) {
+            setLoadingStates((prevStates) => ({ ...prevStates, [serviceId]: false }));
+            console.log(error);
+        }
+    };
     return (
         <section>
             <div className="relative overflow-x-auto">
@@ -250,37 +345,62 @@ export const Services = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {services.map((service) => (<>
-                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={service._id}>
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {service.title}
-                                </th>
-                                <td className="px-6 py-4">
-                                    {service.small}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {service.medium}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {service.large}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {service.x_large}
-                                </td>
-                                <td className="px-6 py-4">
-                                    <Button onClick={() => { handleDeleteService(service._id) }} disabled={loadingStates[service._id]}>
-                                        {loadingStates[service._id] ? "Processing..." : "Delete"}
-                                    </Button>
-                                </td>
-                            </tr>
-                            <tr key={service._id}>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </>))}
+                        {services.map((service) => (
+                            <>
+                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={service._id}>
+                                    {editingServiceId === service._id ? (
+                                        <>
+                                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                <Input type="text" placeholder="Enter service Name" value={updateForm.title} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, title: e.target.value }))} />
+                                            </th>
+                                            <td className="px-6 py-4">
+                                                <Input type="number" placeholder="Enter service Name" value={updateForm.small} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, small: e.target.value }))} />
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <Input type="number" placeholder="Enter service Name" value={updateForm.medium} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, medium: e.target.value }))} />
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <Input type="number" placeholder="Enter service Name" value={updateForm.large} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, large: e.target.value }))} />
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <Input type="number" placeholder="Enter service Name" value={updateForm.x_large} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, x_large: e.target.value }))} />
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <Button onClick={() => handleUpdateService(service._id)} disabled={loadingStates[service._id]}>
+                                                    {loadingStates[service._id] ? "Processing..." : "Update"}
+                                                </Button>
+                                            </td>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                {service.title}
+                                            </th>
+                                            <td className="px-6 py-4">
+                                                {service.small}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {service.medium}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {service.large}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {service.x_large}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <Button className="mr-2" onClick={() => setEditingServiceId(service._id)}>
+                                                    Edit
+                                                </Button>
+                                                <Button onClick={() => { handleDeleteService(service._id) }} disabled={loadingStates[service._id]}>
+                                                    {loadingStates[service._id] ? "Processing..." : "Delete"}
+                                                </Button>
+                                            </td>
+                                        </>
+                                    )}
+                                </tr>
+                            </>
+                        ))}
                         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                             <td className="px-6 py-4">
                                 <Input type="text" placeholder="TITLE" id="title" name="title" onChange={(e) => { setTitle(e.target.value) }} />
@@ -319,7 +439,7 @@ export const Users = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = (await axios.get("https://q-zone-api.onrender.com/api/users/all-users")).data;
+                const data = (await axios.get("/api/users/all-users")).data;
                 setUsers(data);
             } catch (error) {
                 console.log(error);

@@ -3,10 +3,12 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 const Booking = require("../models/booking.model");
-const Service = require("../models/services.model");
+const Service = require("../models/services.model"); //auto detailing model
+const Carwash = require("../models/carwash.model"); //carwash package model
 const stripeKey = process.env.STRIPE_TOKEN;
 const stripe = require("stripe")(stripeKey);
 const { v4: uuidv4 } = require("uuid");
+
 router.post("/book-service", async (req, res) => {
   const { service, user_id, selectedDate, selectedTime, vehiclePrice, token } =
     req.body;
@@ -73,7 +75,10 @@ router.post("/booking-id", async (req, res) => {
     return res.status(400).json({ error });
   }
 });
+//*CANCEL
+// Assuming you have your Service and Carwash models required at the top of your router file
 
+// Your cancel-booking route
 router.post("/cancel-booking", async (req, res) => {
   const { bookingId, serviceId } = req.body;
   try {
@@ -90,20 +95,25 @@ router.post("/cancel-booking", async (req, res) => {
     await bookingItem.save();
 
     const service = await Service.findOne({ _id: serviceId });
-    if (!service) {
-      return res.status(404).json({ error: "Service not found" });
+    const carwash = await Carwash.findOne({ _id: serviceId });
+
+    if (service) {
+      const updatedBookings = service.currentBookings.filter(
+        (booking) => booking.bookingId.toString() !== bookingId
+      );
+      service.currentBookings = updatedBookings;
+      await service.save();
+      console.log("Service updated successfully");
+    } else if (carwash) {
+      const updatedBookings = carwash.currentBookings.filter(
+        (booking) => booking.bookingId.toString() !== bookingId
+      );
+      carwash.currentBookings = updatedBookings;
+      await carwash.save();
+      console.log("Carwash updated successfully");
+    } else {
+      console.log("Service or Carwash not found");
     }
-
-    const bookings = service.currentBookings;
-    const temp = bookings.filter(
-      (booking) =>
-        booking &&
-        booking.bookingId &&
-        booking.bookingId.toString() !== bookingId
-    );
-    service.currentBookings = temp;
-
-    await service.save();
 
     res.send("Your booking cancelled successfully");
   } catch (error) {
@@ -144,7 +154,7 @@ router.get("/all-bookings", async (req, res) => {
     return res.status(400).json({ error });
   }
 });
-//sms
+//*sms
 router.post("/send-message", async (req, res) => {
   try {
     console.log("Request to Semaphore:", req.body);
@@ -160,4 +170,57 @@ router.post("/send-message", async (req, res) => {
   }
 });
 
+//!carwash
+router.post("/book-carwash", async (req, res) => {
+  const { service, user_id, selectedDate, selectedTime, vehiclePrice, token } =
+    req.body;
+  try {
+    const customer = await stripe.customers.create({
+      email: token.email,
+      source: token.id,
+    });
+
+    const transactionId = generateRandomTransactionId(); // Generate a random transaction ID
+
+    const payment = await stripe.charges.create(
+      {
+        amount: vehiclePrice * 100,
+        customer: customer.id,
+        currency: "PHP",
+        receipt_email: token.email,
+      },
+      {
+        idempotencyKey: uuidv4(),
+      }
+    );
+
+    if (payment) {
+      const newBooking = new Booking({
+        service: service.title,
+        serviceId: service._id,
+        user_id,
+        selectedDate,
+        selectedTime,
+        vehiclePrice,
+        transactionId: transactionId,
+      });
+
+      const booking = await newBooking.save();
+
+      const serviceTemp = await Carwash.findOne({ _id: service._id });
+      serviceTemp.currentBookings.push({
+        bookingId: booking._id,
+        selectedDate: selectedDate,
+        selectedTime: selectedTime,
+        user_id: user_id,
+        status: booking.status,
+      });
+
+      await serviceTemp.save();
+    }
+    res.send("Payment Successful!");
+  } catch (error) {
+    console.log(error);
+  }
+});
 module.exports = router;

@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 import Booking from "./pages/Booking";
 import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
+import Carwash from "./pages/Carwash";
 import ScrollToTopButton from "./components/up-button/ScrollToTopButton";
 
 function App() {
@@ -27,7 +28,11 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/register" element={<Register />} />
-              <Route path="services/book/:_id" element={<Booking />} />
+              <Route
+                path="services/book/auto-detailing/:_id"
+                element={<Booking />}
+              />
+              <Route path="services/book/carwash/:_id" element={<Carwash />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="*" element={<NoPage />} />
