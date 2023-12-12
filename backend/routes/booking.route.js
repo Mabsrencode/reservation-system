@@ -18,7 +18,7 @@ router.post("/book-service", async (req, res) => {
       source: token.id,
     });
 
-    const transactionId = generateRandomTransactionId(); // Generate a random transaction ID
+    const transactionId = generateRandomTransactionId();
 
     const payment = await stripe.charges.create(
       {
@@ -76,9 +76,6 @@ router.post("/booking-id", async (req, res) => {
   }
 });
 //*CANCEL
-// Assuming you have your Service and Carwash models required at the top of your router file
-
-// Your cancel-booking route
 router.post("/cancel-booking", async (req, res) => {
   const { bookingId, serviceId } = req.body;
   try {
@@ -180,7 +177,7 @@ router.post("/book-carwash", async (req, res) => {
       source: token.id,
     });
 
-    const transactionId = generateRandomTransactionId(); // Generate a random transaction ID
+    const transactionId = generateRandomTransactionId();
 
     const payment = await stripe.charges.create(
       {
