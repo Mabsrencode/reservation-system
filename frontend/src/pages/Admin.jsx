@@ -106,7 +106,7 @@ export const Bookings = () => {
         fetchData();
     }, []);
     return (
-        <section>
+        <section className="my-6">
             {loading ? (
                 <div role="status" className=" p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700">
                     <div className="flex items-center justify-between">
@@ -396,7 +396,7 @@ export const Services = () => {
         }
     };
     return (
-        <section>
+        <section >
             <div className="relative overflow-x-auto">
                 <h1 className="text-center text-7xl text-white my-6">Auto Detailing</h1>
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -646,7 +646,7 @@ export const Users = () => {
         fetchData();
     }, []);
     return (
-        <section>
+        <section className="my-6">
 
             <div className="relative overflow-x-auto">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
