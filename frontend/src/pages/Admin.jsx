@@ -34,7 +34,7 @@ const data = [
 
 const Admin = () => {
     const { user } = useUser();
-    const isAdmin = user && user.role === "admin";
+    const isAdmin = user && user.data.isAdmin;
     if (!isAdmin) {
         return <Navigate to="/*" />;
     }
