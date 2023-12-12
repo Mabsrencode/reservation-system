@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
+import { Navigate } from "react-router-dom";
 import {
     Tabs,
     TabsHeader,
@@ -12,7 +13,6 @@ import { BsTools } from "react-icons/bs";
 import {
     BookOpenIcon, UserCircleIcon
 } from "@heroicons/react/24/solid";
-import { Link } from "react-router-dom";
 import { useUser } from "../context/userContext";
 const data = [
     {
@@ -34,6 +34,10 @@ const data = [
 
 const Admin = () => {
     const { user } = useUser();
+    const isAdmin = user && user.role === "admin";
+    if (!isAdmin) {
+        return <Navigate to="/*" />;
+    }
     const renderTabContent = (tabValue) => {
         switch (tabValue) {
             case "bookings":
@@ -48,7 +52,7 @@ const Admin = () => {
     };
     return (
         <section className="px-1 my-12 md:px-20">
-            {user?.data?.isAdmin ? <div className="mx-auto">
+            <div className="mx-auto">
                 <Tabs id="custom-animation" value="bookings">
                     <TabsHeader className="bg-orange-500">
                         {data.map(({ label, value, icon }) => (
@@ -74,17 +78,7 @@ const Admin = () => {
                         ))}
                     </TabsBody>
                 </Tabs>
-            </div> : <main className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
-                <div className="text-center">
-                    <h1 className="text-5xl font-semibold text-black-600">404</h1>
-                    <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">You are not Authorize to enter this page.</h1>
-                    <p className="mt-6 text-base leading-7 text-gray-600">Sorry, we couldn't find the page you're looking for.</p>
-                    <div className="mt-10 flex items-center justify-center gap-x-6">
-                        <Link to="/" ><Button>Go back home</Button></Link>
-                        <Link to="/contact" className="text-sm font-semibold text-gray-900">Contact support <span aria-hidden="true">&rarr;</span></Link>
-                    </div>
-                </div>
-            </main>}
+            </div>
         </section>
     )
 }

@@ -1,6 +1,12 @@
 import React from 'react'
 import { Input } from '@material-tailwind/react'
+import { Navigate } from 'react-router-dom';
+import { useUser } from '../context/userContext';
 const Contact = () => {
+    const { user } = useUser();
+    if (!user) {
+        return <Navigate to="/sign-in" />
+    }
     return (
         <>
             <section className="h-5/6  my-12 bg-white dark:bg-gray-900">
