@@ -10,7 +10,6 @@ import {
     Typography,
 } from "@material-tailwind/react";
 const Register = () => {
-    const [name, setName] = useState("")
     const [firstName, setFistName] = useState("")
     const [lastName, setLastName] = useState("")
     const [email, setEmail] = useState("")
@@ -28,51 +27,53 @@ const Register = () => {
     const navigate = useNavigate();
     const handleRegistration = async (e) => {
         e.preventDefault();
-        setName(`${firstName} ${lastName}`)
-        const telAsNumber = Number(tel);
+        const fullName = `${firstName} ${lastName}`;
+
         if (firstName === "" || lastName === "" || email === "" || tel === "" || password === "" || cpassword === "") {
             setError(true);
-            setErrorMessage("Please fill all the fields.")
+            setErrorMessage("Please fill all the fields.");
         } else if (password !== cpassword) {
             setError(true);
-            setErrorMessage("Password do not match.")
-        }
-        // eslint-disable-next-line
-        else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+            setErrorMessage("Password does not match.");
+            // eslint-disable-next-line
+        } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
             setError(true);
-            setErrorMessage("Invalid Email.")
-        } else if (isNaN(telAsNumber)) {
+            setErrorMessage("Invalid Email.");
+        } else if (isNaN(Number(tel))) {
             setError(true);
             setErrorMessage("Please enter your mobile number without letters.");
         } else if (password.length < 8) {
             setError(true);
             setErrorMessage("Minimum password must be at least 8 characters.");
         } else if (password.length > 24) {
-            setError(true)
+            setError(true);
             setErrorMessage("Maximum password must be at least 24 characters.");
         } else {
-            setError(false)
+            setError(false);
+
             const user = {
-                name,
+                name: fullName,
                 email,
                 tel,
                 password,
-                cpassword
-            }
+                cpassword,
+            };
+
             try {
-                setLoading(true)
-                const data = await axios.post("/api/users/register", user)
-                localStorage.setItem("user", JSON.stringify(data))
+                setLoading(true);
+                const data = await axios.post("/api/users/register", user);
+                localStorage.setItem("user", JSON.stringify(data));
                 navigate('/sign-in');
-                setLoading(false)
             } catch (error) {
-                setErrorMessage(error)
-                setLoading(false)
-                setError(true)
-                console.log(error)
+                setErrorMessage("Something went wrong with the server. Please try again.");
+                setError(true);
+                console.error(error);
+            } finally {
+                setLoading(false);
             }
         }
     };
+
     return (
 
         <section className='my-12 bg-white dark:bg-gray-900'>
