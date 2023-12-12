@@ -86,12 +86,30 @@ const Register = () => {
                 </Typography>
                 <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
                     <div className="mb-4 flex flex-col gap-6">
-                        <Input type="text" placeholder="First Name" id="first-name" onChange={(e) => { setFistName(e.target.value) }} className="registration_input capitalize pl-6" required />
-                        <Input type="text" placeholder="Last Name" id="last-name" onChange={(e) => { setLastName(e.target.value) }} className="registration_input capitalize pl-6" required />
-                        <Input type="email" placeholder="Email" id="email" onChange={(e) => { setEmail(e.target.value) }} className="registration_input pl-6" required />
-                        <Input type="tel" placeholder="Mobile Number" id="phone_number" onChange={(e) => { setTel(e.target.value) }} className="registration_input pl-6" maxLength={11} required />
-                        <Input type="password" placeholder="Password" id="password" onChange={(e) => { setPassword(e.target.value) }} className="registration_input pl-6" required />
-                        <Input type="password" placeholder="Confirm Password" id="cpassword" onChange={(e) => { setCpassword(e.target.value) }} className="registration_input pl-6" required />
+                        <div>
+                            <label htmlFor="first-name">First Name</label>
+                            <Input type="text" placeholder="First Name" id="first-name" onChange={(e) => { setFistName(e.target.value) }} className="registration_input capitalize pl-6" required />
+                        </div>
+                        <div>
+                            <label htmlFor="last-name">Last Name</label>
+                            <Input type="text" placeholder="Last Name" id="last-name" onChange={(e) => { setLastName(e.target.value) }} className="registration_input capitalize pl-6" required />
+                        </div>
+                        <div>
+                            <label htmlFor="email">Email</label>
+                            <Input type="email" placeholder="Email" id="email" onChange={(e) => { setEmail(e.target.value) }} className="registration_input pl-6" required />
+                        </div>
+                        <div>
+                            <label htmlFor="phone_number">Mobile Number</label>
+                            <Input type="tel" placeholder="Mobile Number" id="phone_number" onChange={(e) => { setTel(e.target.value) }} className="registration_input pl-6" maxLength={11} required />
+                        </div>
+                        <div>
+                            <label htmlFor="password">Password</label>
+                            <Input type="password" placeholder="Password" id="password" onChange={(e) => { setPassword(e.target.value) }} className="registration_input pl-6" required />
+                        </div>
+                        <div>
+                            <label htmlFor="cpassword">Confirm Password</label>
+                            <Input type="password" placeholder="Confirm Password" id="cpassword" onChange={(e) => { setCpassword(e.target.value) }} className="registration_input pl-6" required />
+                        </div>
                     </div>
                     <Checkbox onClick={handleCheck}
                         label={

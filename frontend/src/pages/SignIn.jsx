@@ -50,11 +50,14 @@ const SignIn = () => {
                 </Typography>
                 <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
                     <div className="mb-4 flex flex-col gap-6">
-
-                        <Input type="email" placeholder="Email" id="email" onChange={(e) => { setEmail(e.target.value) }} className="registration_input pl-6 " />
-
-                        <Input type="password" placeholder="Password" id="password" onChange={(e) => { setPassword(e.target.value) }} className="registration_input pl-6" />
-
+                        <div>
+                            <label htmlFor="email" >Email</label>
+                            <Input type="email" placeholder="Email" id="email" onChange={(e) => { setEmail(e.target.value) }} className="registration_input pl-6 " />
+                        </div>
+                        <div>
+                            <label htmlFor="password" >Password</label>
+                            <Input type="password" placeholder="Password" id="password" onChange={(e) => { setPassword(e.target.value) }} className="registration_input pl-6" />
+                        </div>
                     </div>
                     <Button className="mt-6" fullWidth disabled={loading} onClick={handleSignIn}>
                         {loading ? <><svg aria-hidden="true" role="status" className="inline w-4 h-4 me-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
