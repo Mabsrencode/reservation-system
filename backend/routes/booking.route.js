@@ -166,6 +166,21 @@ router.post("/send-message", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+//*admin sms
+router.post("/send-message-admin", async (req, res) => {
+  try {
+    console.log("Request to Semaphore:", req.body);
+    const response = await axios.post(
+      "https://semaphore.co/api/v4/messages",
+      req.body
+    );
+    console.log("Semaphore API Response:", response.data);
+    res.json(response.data);
+  } catch (error) {
+    console.error("Semaphore API Error:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 //!carwash
 router.post("/book-carwash", async (req, res) => {
