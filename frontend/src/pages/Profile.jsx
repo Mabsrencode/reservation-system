@@ -160,17 +160,17 @@ export const MyBookingsTab = () => {
         }
     };
     //delete
-    const handleDelete = async (bookingId) => {
-        try {
-            setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: true }));
-            const result = await axios.post("/api/bookings/delete-booking", { bookingId });
-            console.log(result);
-            setBookings((prevBookings) => prevBookings.filter((booking) => booking._id !== bookingId));
-        } catch (error) {
-            setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: false }));
-            console.log(error);
-        }
-    }
+    // const handleDelete = async (bookingId) => {
+    //     try {
+    //         setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: true }));
+    //         const result = await axios.post("/api/bookings/delete-booking", { bookingId });
+    //         console.log(result);
+    //         setBookings((prevBookings) => prevBookings.filter((booking) => booking._id !== bookingId));
+    //     } catch (error) {
+    //         setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: false }));
+    //         console.log(error);
+    //     }
+    // }
     return (<section>
         {bookings.length > 0 ? <>
             {bookings && bookings.map((booking) => (
@@ -267,7 +267,7 @@ export const MyBookingsTab = () => {
                             </Button>
                         </div> : <></>}
                     </div>
-                    {(booking.status.trim().toLowerCase() === 'cancelled' || booking.status.trim().toUpperCase() === 'CANCELLED') ? (
+                    {/* {(booking.status.trim().toLowerCase() === 'cancelled' || booking.status.trim().toUpperCase() === 'CANCELLED') ? (
                         <div className="text-right mx-2 my-2">
                             <Button onClick={() => { handleDelete(booking._id) }}>
                                 {loadingStates[booking._id] ? (
@@ -281,7 +281,7 @@ export const MyBookingsTab = () => {
                                 ) : "Delete"}
                             </Button>
                         </div>
-                    ) : <></>}
+                    ) : <></>} */}
 
                 </div>
             ))}</> : <> <div className="bg-white overflow-hidden shadow rounded-lg border my-6">
@@ -290,7 +290,7 @@ export const MyBookingsTab = () => {
                         There is nothing booked.
                     </h3>
                     <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                        Try to booked something. In the service Page.
+                        Try to book something in the services Page.
                     </p>
                 </div>
             </div></>}

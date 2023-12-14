@@ -17,7 +17,9 @@ const Services = () => {
                 setLoading(true);
                 const data = (await axios.get("/api/services/auto-detailing")).data;
                 setServices(data);
-                setLoading(false);
+                setTimeout(() => {
+                    setLoading(false);
+                }, 1000)
             } catch (error) {
                 setLoading(false);
                 console.log(error);
@@ -33,7 +35,9 @@ const Services = () => {
                 setLoadingCarwash(true);
                 const data = (await axios.get("/api/services/carwash-package")).data;
                 setCarwash(data);
-                setLoadingCarwash(false);
+                setTimeout(() => {
+                    setLoadingCarwash(false);
+                }, 2000)
             } catch (error) {
                 setLoadingCarwash(false);
                 console.log(error);
