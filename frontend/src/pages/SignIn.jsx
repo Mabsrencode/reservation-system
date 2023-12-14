@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
     Card,
     Input,
     Button,
     Typography,
+    Checkbox,
+    CardFooter,
+    CardBody,
 } from "@material-tailwind/react";
 import { useUser } from '../context/userContext';
 
@@ -40,25 +43,32 @@ const SignIn = () => {
     };
 
     return (
-        <section className='h-5/6  my-12 bg-white dark:bg-gray-900'>
-            <Card className="py-14 container my-16 max-w-md mx-auto" color="transparent" shadow={false}>
-                <Typography variant="h4" color="black">
-                    Sign In
-                </Typography>
-                <Typography className="mt-1 font-normal">
-                    Enter your details to Sign In.
-                </Typography>
-                <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
-                    <div className="mb-4 flex flex-col gap-6">
-                        <div>
-                            <label htmlFor="email" >Email</label>
-                            <Input type="email" placeholder="Email" id="email" onChange={(e) => { setEmail(e.target.value) }} className="registration_input pl-6 " />
-                        </div>
-                        <div>
-                            <label htmlFor="password" >Password</label>
-                            <Input type="password" placeholder="Password" id="password" onChange={(e) => { setPassword(e.target.value) }} className="registration_input pl-6" />
-                        </div>
+        <section className='h-5/6  my-12 dark:bg-gray-900'>
+            <Card className="mx-auto w-full max-w-[24rem]">
+                <CardBody className="flex flex-col gap-4">
+                    <Typography variant="h4" color="blue-gray">
+                        Sign In
+                    </Typography>
+                    <Typography
+                        className="mb-3 font-normal"
+                        variant="paragraph"
+                        color="gray"
+                    >
+                        Enter your email and password to Sign In.
+                    </Typography>
+                    <Typography className="-mb-2" variant="h6">
+                        Your Email
+                    </Typography>
+                    <Input type="email" placeholder="Email" id="email" onChange={(e) => { setEmail(e.target.value) }} className="registration_input pl-6 " />
+                    <Typography className="-mb-2" variant="h6">
+                        Your Password
+                    </Typography>
+                    <Input type="password" placeholder="Password" id="password" onChange={(e) => { setPassword(e.target.value) }} className="registration_input pl-6" />
+                    <div className="-ml-2.5 -mt-3">
+                        <Checkbox label="Remember Me" />
                     </div>
+                </CardBody>
+                <CardFooter className="pt-0">
                     <Button className="mt-6" fullWidth disabled={loading} onClick={handleSignIn}>
                         {loading ? <><svg aria-hidden="true" role="status" className="inline w-4 h-4 me-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB" />
@@ -67,11 +77,20 @@ const SignIn = () => {
                             Loading...</> : "Sign In"}
                     </Button>
                     {error ? (<div className='mt-2 text-red-900'>{errorMessage}</div>) : <></>}
-                    <Typography color="gray" className="mt-4 text-center font-normal">
-                        Don't have an account?{" "}
-                        <Link to={"/register"} className="font-medium text-black hover:underline">Register</Link>
+                    <Typography variant="small" className="mt-4 flex justify-center">
+                        Don&apos;t have an account?
+                        <Typography
+                            as="a"
+                            href="/register"
+                            variant="small"
+                            color="blue-gray"
+                            className="ml-1 font-bold"
+
+                        >
+                            Sign up
+                        </Typography>
                     </Typography>
-                </form>
+                </CardFooter>
             </Card>
         </section>
     )

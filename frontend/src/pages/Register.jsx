@@ -41,7 +41,7 @@ const Register = () => {
             setErrorMessage("Invalid Email.");
         } else if (isNaN(Number(tel))) {
             setError(true);
-            setErrorMessage("Please enter your mobile number without letters.");
+            setErrorMessage("Mobile Number must be numeric only.");
         } else if (password.length < 8) {
             setError(true);
             setErrorMessage("Minimum password must be at least 8 characters.");
@@ -134,9 +134,15 @@ const Register = () => {
                             Loading...</> : "Register"}
                     </Button>
                     {error ? <div className='text-red-900 font-normal mt-2'>{errorMessage}</div> : <></>}
-                    <Typography color="gray" className="mt-4 text-center font-normal">
-                        Already have an account?{" "}
-                        <Link to={"/sign-in"} className="font-medium  text-black hover:underline">Sign In</Link>
+                    <Typography
+                        as="a"
+                        href="/sign-in"
+                        variant="small"
+                        color="blue-gray"
+                        className="ml-1 font-bold mt-2"
+
+                    >
+                        Already have an account?{" "}   Sign In
                     </Typography>
                 </form>
             </Card>

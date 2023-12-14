@@ -9,6 +9,7 @@ const Services = () => {
     const [services, setServices] = useState([]);
     const [carwash, setCarwash] = useState([]);
     const [loading, setLoading] = useState();
+    const [loadingCarwash, setLoadingCarwash] = useState();
     console.log(carwash)
     useEffect(() => {
         const fetchData = async () => {
@@ -29,12 +30,12 @@ const Services = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                setLoading(true);
+                setLoadingCarwash(true);
                 const data = (await axios.get("/api/services/carwash-package")).data;
                 setCarwash(data);
-                setLoading(false);
+                setLoadingCarwash(false);
             } catch (error) {
-                setLoading(false);
+                setLoadingCarwash(false);
                 console.log(error);
             }
         };
@@ -47,7 +48,7 @@ const Services = () => {
             {user ? <>
                 <PricesCard services={services} loading={loading} />
                 <br />
-                <CarwashPackage className="mt-2" carwash={carwash} loading={loading} />
+                <CarwashPackage className="mt-2" carwash={carwash} loading={loadingCarwash} />
             </> : <></>}
 
             <ServicesCards />

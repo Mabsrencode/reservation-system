@@ -66,12 +66,13 @@ const Booking = () => {
         } else {
             try {
                 setLoading(true);
-                // eslint-disable-next-line
+                // eslint-disable-next-line 
                 const result = await axios.post('/api/bookings/book-service', bookingDetails)
+
                 // const response = await axios.post('/api/bookings/send-message', {
                 //     apikey: accessTokenSms,
                 //     number: `+63${phone}`,
-                //     message: `Hello ${recipient}! You are now Successfully Booked from Q-Zone Professional Detailers. Thank you for booking on us.\n\nAnd your payment of P${vehiclePrice}.00 has been successfully processed on ${currentDate}. \n\nYour Transaction ID`,
+                //     message: `Hello ${recipient}! You are now Successfully Booked from Q-Zone Professional Detailers. Thank you for booking on us.\n\nAnd your payment of P${vehiclePrice * 0.20}.00 has been successfully processed on ${currentDate}.`,
                 // });
                 // console.log(response);
                 console.log(result)
@@ -131,11 +132,11 @@ const Booking = () => {
 
                 </div>
                 <div className='mt-6'>
-                    <h1 className='text-lg font-bold text-orange-500'>Total : P{vehiclePrice ? vehiclePrice : 0}.00</h1>
+                    <h1 className='text-lg font-bold text-orange-500'>Reservation Fee : P{vehiclePrice ? vehiclePrice * 0.20 : 0}.00</h1>
                 </div>
                 <StripeCheckout
                     disabled={selectedTime ? false : true}
-                    amount={vehiclePrice * 100}
+                    amount={vehiclePrice * 100 * 0.20}
                     token={onToken}
                     currency='PHP'
                     stripeKey={accessToken}

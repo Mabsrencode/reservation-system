@@ -229,10 +229,10 @@ export const Services = () => {
     const [carwash, setCarwash] = useState([]);
     console.log(services)
     const [title, setTitle] = useState("");
-    const [small, setSmall] = useState("");
-    const [medium, setMedium] = useState("");
-    const [large, setLarge] = useState("");
-    const [x_large, setXLarge] = useState("");
+    const [small, setSmall] = useState(Number);
+    const [medium, setMedium] = useState(Number);
+    const [large, setLarge] = useState(Number);
+    const [x_large, setXLarge] = useState(Number);
     const [loadingStates, setLoadingStates] = useState({});
     const [editingServiceId, setEditingServiceId] = useState(null);
     const [error, setError] = useState(false);
@@ -294,25 +294,29 @@ export const Services = () => {
     const handleAddService = async (e) => {
         e.preventDefault();
         const service = { title, small, medium, large, x_large };
+        if (title === "" || small === "" || medium === "" || large === "" || x_large === "") {
+            setError(true)
+            setErrorMessage("Please fill the following fields.")
+        } else {
+            try {
+                setError(false)
+                setLoading(true);
+                const response = await axios.post("/api/add-services", service);
+                setServices(prevServices => [...prevServices, response.data]);
+                setLoading(false);
+                setTitle("");
+                setSmall("");
+                setMedium("");
+                setLarge("");
+                setXLarge("");
+                window.location.reload();
+            } catch (error) {
+                setLoading(false);
+                console.log(error);
+                setError(true);
+                setErrorMessage("Something went wrong from the server. Please try again.");
 
-        setError(false);
-        try {
-            setLoading(true);
-            const response = await axios.post("/api/add-services", service);
-            setServices(prevServices => [...prevServices, response.data]);
-            setLoading(false);
-            setTitle("");
-            setSmall("");
-            setMedium("");
-            setLarge("");
-            setXLarge("");
-            window.location.reload();
-        } catch (error) {
-            setLoading(false);
-            console.log(error);
-            setError(true);
-            setErrorMessage("Something went wrong from the server. Please try again.");
-
+            }
         }
     };
     //!carwash
