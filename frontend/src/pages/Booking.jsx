@@ -141,7 +141,7 @@ const Booking = () => {
 
                 </div>
                 <div className='mt-6'>
-                    <h1 className='text-lg font-bold text-orange-500'>Reservation Fee : P{vehiclePrice ? vehiclePrice * 0.20 : 0}.00</h1>
+                    <h1 className='text-lg font-bold text-orange-500'>Down Payment : P{vehiclePrice ? vehiclePrice * 0.20 : 0}.00</h1>
                 </div>
                 <StripeCheckout
                     disabled={selectedTime ? false : true}
