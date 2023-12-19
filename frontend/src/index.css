@@ -3,6 +3,7 @@
   --primary-color: #f97316;
   --secondary-color: #0c0a09;
   --secondary-color-low-opacity: rgba(129, 119, 113, 0.5);
+  --accent-color-low-opacity: rgba(0, 0, 0, 0.9);
 }
 @tailwind base;
 @tailwind components;

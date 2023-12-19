@@ -1,6 +1,8 @@
 import React, { useState } from 'react'; //useContext
 import axios from 'axios';
-
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { auth } from "../firebase/setup"
+import phFlag from "../assets/philippines.png";
 import { useNavigate, Link } from 'react-router-dom';
 import {
     Card,
@@ -10,13 +12,19 @@ import {
     Typography,
 } from "@material-tailwind/react";
 const Register = () => {
+    const [user, setUser] = useState(null)
+    const [otp, setOtp] = useState("")
     const [firstName, setFistName] = useState("")
     const [lastName, setLastName] = useState("")
     const [email, setEmail] = useState("")
     const [tel, setTel] = useState("")
     const [password, setPassword] = useState("")
     const [cpassword, setCpassword] = useState("")
-
+    const [sending, setSending] = useState(false);
+    const [sendSuccess, setSendSuccess] = useState("")
+    const [verifyingOtp, setVerifyingOtp] = useState(false);
+    const [verified, setVerified] = useState();
+    const [errorVerifying, setErrorVerifying] = useState(false);
     const [isCheckbox, setIsCheckbox] = useState(false);
     const handleCheck = () => {
         setIsCheckbox(!isCheckbox);
@@ -25,6 +33,42 @@ const Register = () => {
     const [errorMessage, setErrorMessage] = useState("")
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
+    const sendOtp = async () => {
+        try {
+            setSending(true);
+            const recaptcha = new RecaptchaVerifier(auth, "recaptcha", {});
+            const confirmation = await signInWithPhoneNumber(auth, tel, recaptcha)
+            setUser(confirmation)
+            setSendSuccess("Verification Code has been sent successfully.")
+            setSending(false)
+
+        } catch (error) {
+            setSendSuccess("Too many request. Please try again.");
+            console.log(error);
+            setSending(false)
+            setErrorVerifying(true);
+        }
+
+    }
+    //verifying
+    const verifyOtp = async () => {
+        try {
+            setSendSuccess("")
+            setVerifyingOtp(true);
+            const data = await user.confirm(otp)
+            console.log(data)
+            setSendSuccess("Verified.")
+            setVerifyingOtp(false)
+            setVerified(true)
+        } catch (error) {
+            console.log(error);
+            setSendSuccess("Invalid Verification Code");
+            setVerifyingOtp(false)
+            setVerified(false)
+            setErrorVerifying(true);
+        }
+    }
+    //registration
     const handleRegistration = async (e) => {
         e.preventDefault();
         const fullName = `${firstName} ${lastName}`;
@@ -48,6 +92,9 @@ const Register = () => {
         } else if (password.length > 24) {
             setError(true);
             setErrorMessage("Maximum password must be at least 24 characters.");
+        } else if (!verified) {
+            setError(true);
+            setErrorMessage("Invalid Verification Code.");
         } else {
             setError(false);
 
@@ -74,10 +121,11 @@ const Register = () => {
         }
     };
 
+
     return (
 
-        <section className='my-12 bg-white dark:bg-gray-900'>
-            <Card className="container py-12 my-16 max-w-md mx-auto" color="transparent" shadow={false}>
+        <section className='my-12 dark:bg-gray-900'>
+            <Card className="container p-4  bg-white my-16 mx-auto w-full  max-w-[26rem] " color="transparent" shadow={false}>
                 <Typography variant="h4" color="black">
                     Sign Up
                 </Typography>
@@ -100,8 +148,17 @@ const Register = () => {
                         </div>
                         <div>
                             <label htmlFor="phone_number">Mobile Number</label>
-                            <Input type="tel" placeholder="Mobile Number" id="phone_number" onChange={(e) => { setTel(e.target.value) }} className="registration_input pl-6" maxLength={11} required />
+
+                            <div className='flex items-center gap-4'>
+                                <div className='flex items-center gap-1'><img className='w-[30px]' src={phFlag} alt="ph" /> <h1>+63</h1></div><Input type="tel" placeholder="920*******" id="phone_number" onChange={(e) => { setTel("+63" + e.target.value) }} className="registration_input pl-6 " maxLength={10} required />
+                            </div>
+                            <div className='mt-2 flex items-center gap-2' >
+                                <Input type='text' placeholder="Verification Code" id='otp' onChange={(e) => { setOtp(e.target.value) }} /><Button onClick={sendOtp} disabled={sending} className=' w-1/2'>{sending ? "Sending..." : "Send OTP"}</Button>
+                            </div>
+                            <Button className='mt-2' onClick={verifyOtp} disabled={verifyingOtp}>{verifyingOtp ? "Verifying..." : "Verify Otp"}</Button>
+                            {<h1 className={`mt-2 ${errorVerifying ? "text-red-900" : "text-green-500"}`} >{sendSuccess}</h1>}
                         </div>
+                        <div id="recaptcha"></div>
                         <div>
                             <label htmlFor="password">Password</label>
                             <Input type="password" placeholder="Password" id="password" onChange={(e) => { setPassword(e.target.value) }} className="registration_input pl-6" required />
@@ -134,16 +191,17 @@ const Register = () => {
                             Loading...</> : "Register"}
                     </Button>
                     {error ? <div className='text-red-900 font-normal mt-2'>{errorMessage}</div> : <></>}
-                    <Typography
-                        as="a"
-                        href="/sign-in"
-                        variant="small"
-                        color="blue-gray"
-                        className="ml-1 font-bold mt-2"
+                    <Link to={"/sign-in"}>
+                        <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="ml-1 font-bold mt-2"
 
-                    >
-                        Already have an account?{" "}   Sign In
-                    </Typography>
+                        >
+                            Already have an account?{" "}   Sign In
+                        </Typography>
+                    </Link>
+
                 </form>
             </Card>
         </section>

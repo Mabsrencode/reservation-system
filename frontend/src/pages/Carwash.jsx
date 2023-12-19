@@ -67,13 +67,14 @@ const Carwash = () => {
             try {
                 setLoading(true);
                 const result = await axios.post('/api/bookings/book-carwash', bookingDetails)
+                // eslint-disable-next-line
                 // const response = await axios.post('/api/bookings/send-message', {
                 //     apikey: accessTokenSms,
-                //     number: `+63${phone}`,
+                //     number: `+${phone}`,
                 //     message: `Hello ${recipient}! You are now Successfully Booked from Q-Zone Professional Detailers. Thank you for booking on us.\n\nAnd your payment of P${vehiclePrice * 0.20}.00 has been successfully processed on ${currentDate}.`,
                 // });
                 // console.log(response);
-
+                // eslint-disable-next-line
                 // const responseAdmin = await axios.post('/api/bookings/send-message-admin', {
                 //     apikey: accessTokenSms,
                 //     number: `+639205746697`,

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import {
     Card,
     Input,
@@ -79,16 +79,18 @@ const SignIn = () => {
                     {error ? (<div className='mt-2 text-red-900'>{errorMessage}</div>) : <></>}
                     <Typography variant="small" className="mt-4 flex justify-center">
                         Don&apos;t have an account?
-                        <Typography
-                            as="a"
-                            href="/register"
-                            variant="small"
-                            color="blue-gray"
-                            className="ml-1 font-bold"
+                        <Link to="/register">
+                            <Typography
+                                as="a"
+                                variant="small"
+                                color="blue-gray"
+                                className="ml-1 font-bold"
 
-                        >
-                            Sign up
-                        </Typography>
+                            >
+                                Sign up
+                            </Typography>
+                        </Link>
+
                     </Typography>
                 </CardFooter>
             </Card>

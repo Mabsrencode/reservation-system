@@ -4,6 +4,7 @@ import { Button, Carousel } from "@material-tailwind/react";
 import Banner1 from "../assets/banner/banner1.jpg";
 import Banner2 from "../assets/banner/banner2.jpg";
 import Banner3 from "../assets/banner/banner3.jpg";
+import VideoBanner1 from "../assets/video/qzone-banner-vid.mp4";
 import "../styles/home.css"
 import Accordions from '../components/accordions/Accordions';
 import Testimonials from '../components/testimonials/Testimonials';
@@ -86,6 +87,20 @@ const Home = () => {
             </section>
             <section>
                 <Services />
+            </section>
+            <section>
+                <div className='relative'>
+                    <video className="w-full object-cover" autoPlay muted loop>
+                        <source src={VideoBanner1} type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                    <div className='video-banner-container rounded-lg absolute w-1/4 p-4 border-2 border-orange-500'>
+                        <h1 className='text-2xl font-extrabold tracking-tight text-orange-500 uppercase'>Auto Detailing Services</h1>
+                        <p className='mt-4 text-justify text-gray-500'>Q-Zone makes your car detailing experience better for your vehicle and the environment by championing the newest technology and services in the industry.</p>
+                        <Link to={"/services"}>
+                            <Button className='mt-4'>Our Services</Button></Link>
+                    </div>
+                </div>
             </section>
             <section>
                 <Testimonials />

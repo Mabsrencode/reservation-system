@@ -7,9 +7,11 @@ import {
     TabsBody,
     Tab,
     TabPanel,
-    Input, Button
+    Input, Button, Alert
 } from "@material-tailwind/react";
+import { FaRegCheckCircle } from "react-icons/fa";
 import { BsTools } from "react-icons/bs";
+import { RiErrorWarningLine } from "react-icons/ri";
 import {
     BookOpenIcon, UserCircleIcon
 } from "@heroicons/react/24/solid";
@@ -90,23 +92,93 @@ export default Admin
 export const Bookings = () => {
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(false);
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setLoading(true);
-                const data = (await axios.get("/api/bookings/all-bookings")).data;
-                setBookings(data);
-                setLoading(false)
-            } catch (error) {
-                console.log(error);
-                setLoading(false)
-            }
-        };
+    const [loadingStates, setLoadingStates] = useState({});
+    const [loadingStatesBoneFire, setLoadingStatesBoneFire] = useState({});
+    const [bookingCount, setBookingCount] = useState(0);
+    const [cancelledCount, setCancelledCount] = useState(0);
+    const [ongoingCount, setOngoingCount] = useState(0);
+    const [doneCount, setDoneCount] = useState(0);
+    const [sendNotification, setSendNotification] = useState({});
+    const [modalMessage, setModalMessage] = useState(false);
+    const accessTokenSms = process.env.REACT_APP_SEMAPHORE_ACCESS_TOKEN;
+    const fetchData = async () => {
+        try {
+            setLoading(true);
+            const data = (await axios.get("/api/bookings/all-bookings")).data;
+            setBookings(data);
+            console.log(data)
+            const bookingCount = data.filter(booking => booking.status === 'booked').length;
+            const cancelledCount = data.filter(booking => booking.status === 'cancelled').length;
+            const ongoingCount = data.filter(booking => booking.status === 'ongoing').length;
+            const doneCount = data.filter(booking => booking.status === 'done').length;
+            setBookingCount(bookingCount);
+            setCancelledCount(cancelledCount);
+            setOngoingCount(ongoingCount);
+            setDoneCount(doneCount);
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchData();
     }, []);
+
+    const sortByStatus = (a, b) => {
+        const statusOrder = ['booked', 'done', 'cancelled'];
+        const indexA = statusOrder.indexOf(a.status);
+        const indexB = statusOrder.indexOf(b.status);
+        return indexA - indexB;
+    };
+
+    const sortedBookings = [...bookings].sort(sortByStatus);
+
+    const handleUpdateDone = async (bookingId) => {
+        try {
+            setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: true }));
+            await axios.post("/api/bookings/update-done", { bookingId });
+            fetchData();
+            setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: false }));
+        } catch (error) {
+            setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: false }));
+            console.error("Error updating status:", error.response);
+        }
+    };
+
+    const handleUpdateOngoing = async (bookingId) => {
+        try {
+            setLoadingStatesBoneFire(prevStates => ({ ...prevStates, [bookingId]: true }));
+            await axios.post("/api/bookings/update-ongoing", { bookingId });
+            fetchData();
+            setLoadingStatesBoneFire(prevStates => ({ ...prevStates, [bookingId]: false }));
+        } catch (error) {
+            setLoadingStatesBoneFire(prevStates => ({ ...prevStates, [bookingId]: false }));
+            console.error("Error updating status:", error.response);
+        }
+    }
+    const handleUpdateMessage = async (userNumber, userName, bookingId) => {
+        try {
+            setSendNotification(prevStates => ({ ...prevStates, [bookingId]: true }));
+            // const response = await axios.post('/api/bookings/send-message-notify', {
+            //     apikey: accessTokenSms,
+            //     number: `+63${userNumber}`,
+            //     message: `Hello ${userName}! You are now able to go from Q-Zone Professional Detailers. Your slot is now available.\n\nThank you!`,
+            // });
+            setModalMessage(true);
+            setTimeout(() => {
+                setModalMessage(false);
+            }, 5000)
+            setSendNotification(prevStates => ({ ...prevStates, [bookingId]: false }));
+        } catch (error) {
+            setSendNotification(prevStates => ({ ...prevStates, [bookingId]: false }));
+            console.log(error)
+        }
+    }
     return (
         <section className="my-6">
+            {modalMessage ? <Alert className="fixed top-2 right-2 max-w-xs flex justify-center"><FaRegCheckCircle className="inline mr-2 text-green-500 text-lg" />Message Sent.</Alert> : <></>}
             {loading ? (
                 <div role="status" className=" p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700">
                     <div className="flex items-center justify-between">
@@ -171,11 +243,16 @@ export const Bookings = () => {
                     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
+                                <th colSpan={7} className="px-6 py-3 text-center">
+                                    <RiErrorWarningLine className="inline text-base text-gray-700" /> <span className="text-green-500">BOOKED: {bookingCount}</span> | <span className="text-yellow-700">ONGOING: {ongoingCount}</span> | <span className="text-green-500">DONE: {doneCount}</span> | <span className="text-red-500">CANCELLED: {cancelledCount}</span>
+                                </th>
+                            </tr>
+                            <tr className="border-t border-b">
                                 <th scope="col" className="px-6 py-3">
-                                    ID:
+                                    NAME:
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    USER ID:
+                                    EMAIL:
                                 </th>
                                 <th scope="col" className="px-6 py-3">
                                     SERVICE:
@@ -189,16 +266,20 @@ export const Bookings = () => {
                                 <th scope="col" className="px-6 py-3">
                                     STATUS:
                                 </th>
+                                <th scope="col" className="px-6 py-3 text-center">
+                                    ACTION:
+                                </th>
                             </tr >
+
                         </thead >
                         <tbody>
-                            {bookings.map((booking) => (
+                            {sortedBookings.map((booking) => (
                                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={booking._id}>
                                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {booking._id}
+                                        {booking.userName ? booking.userName.toUpperCase() : ''}
                                     </th>
                                     <td className="px-6 py-4">
-                                        {booking.user_id}
+                                        {booking.userEmail}
                                     </td>
                                     <td className="px-6 py-4">
                                         {booking.service}
@@ -209,8 +290,13 @@ export const Bookings = () => {
                                     <td className="px-6 py-4">
                                         {booking.selectedTime}
                                     </td>
-                                    <td className={`px-6 py-4 ${booking.status === "booked" ? "text-green-500" : "text-red-500"} `}>
-                                        {booking.status}
+                                    <td className={`px-6 py-4 ${booking.status === "ongoing" ? "text-yellow-700" : ""} ${booking.status === "booked" || booking.status === "done" ? "text-green-500" : "text-red-500"} `}>
+                                        {booking.status.toUpperCase()}
+                                    </td>
+                                    <td className="px-6 py-4 text-center">
+                                        {booking.status === "done" || booking.status === "cancelled" ? <></> : <><Button className="mr-2" onClick={() => { handleUpdateDone(booking._id) }} disabled={booking.status === "booked" || loadingStates[booking._id] ? true : false}>
+                                            {loadingStates[booking._id] ? "Processing..." : "UPDATE DONE"}
+                                        </Button><Button className="mr-1" onClick={() => { handleUpdateMessage(booking.userNumber, booking.userName, booking._id) }}>{sendNotification[booking._id] ? "Sending..." : "NOTIFY"}</Button> <Button onClick={() => { handleUpdateOngoing(booking._id) }} disabled={booking.status === "ongoing" ? "disabled" : loadingStatesBoneFire[booking._id]}> {loadingStatesBoneFire[booking._id] ? "Processing..." : "ONGOING"}</Button></>}{booking.status === "done" ? <Button>Generate Receipt</Button> : <></>}
                                     </td>
                                 </tr>
                             ))}
@@ -434,16 +520,16 @@ export const Services = () => {
                                                 <Input type="text" placeholder="Enter service Name" value={updateForm.title} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, title: e.target.value }))} />
                                             </th>
                                             <td className="px-6 py-4">
-                                                <Input type="number" placeholder="Enter service Name" value={updateForm.small} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, small: e.target.value }))} />
+                                                <Input type="number" placeholder="Small" value={updateForm.small} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, small: e.target.value }))} />
                                             </td>
                                             <td className="px-6 py-4">
-                                                <Input type="number" placeholder="Enter service Name" value={updateForm.medium} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, medium: e.target.value }))} />
+                                                <Input type="number" placeholder="Medium" value={updateForm.medium} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, medium: e.target.value }))} />
                                             </td>
                                             <td className="px-6 py-4">
-                                                <Input type="number" placeholder="Enter service Name" value={updateForm.large} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, large: e.target.value }))} />
+                                                <Input type="number" placeholder="Large" value={updateForm.large} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, large: e.target.value }))} />
                                             </td>
                                             <td className="px-6 py-4">
-                                                <Input type="number" placeholder="Enter service Name" value={updateForm.x_large} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, x_large: e.target.value }))} />
+                                                <Input type="number" placeholder="Extra Large" value={updateForm.x_large} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, x_large: e.target.value }))} />
                                             </td>
                                             <td className="px-6 py-4">
                                                 <Button className="mr-2" onClick={() => handleUpdateService(service._id)} disabled={loadingStates[service._id]}>
@@ -550,16 +636,16 @@ export const Services = () => {
                                                 <Input type="text" placeholder="Enter service Name" value={updateForm.title} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, title: e.target.value }))} />
                                             </th>
                                             <td className="px-6 py-4">
-                                                <Input type="number" placeholder="Enter service Name" value={updateForm.small} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, small: e.target.value }))} />
+                                                <Input type="number" placeholder="Small" value={updateForm.small} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, small: e.target.value }))} />
                                             </td>
                                             <td className="px-6 py-4">
-                                                <Input type="number" placeholder="Enter service Name" value={updateForm.medium} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, medium: e.target.value }))} />
+                                                <Input type="number" placeholder="Medium" value={updateForm.medium} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, medium: e.target.value }))} />
                                             </td>
                                             <td className="px-6 py-4">
-                                                <Input type="number" placeholder="Enter service Name" value={updateForm.large} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, large: e.target.value }))} />
+                                                <Input type="number" placeholder="Large" value={updateForm.large} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, large: e.target.value }))} />
                                             </td>
                                             <td className="px-6 py-4">
-                                                <Input type="number" placeholder="Enter service Name" value={updateForm.x_large} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, x_large: e.target.value }))} />
+                                                <Input type="number" placeholder="Extra Large" value={updateForm.x_large} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, x_large: e.target.value }))} />
                                             </td>
                                             <td className="px-6 py-4">
                                                 <Button className="mr-2" onClick={() => handleUpdateServiceCarwash(service._id)} disabled={loadingStates[service._id]}>
@@ -684,7 +770,7 @@ export const Users = () => {
                                     {user.email}
                                 </td>
                                 <td className="px-6 py-4 text-blue-500">
-                                    +63 {user.tel}
+                                    +{user.tel}
                                 </td>
                             </tr>
                         ))}
@@ -694,5 +780,3 @@ export const Users = () => {
         </section>
     )
 }
-
-

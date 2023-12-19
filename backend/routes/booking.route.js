@@ -10,8 +10,17 @@ const stripe = require("stripe")(stripeKey);
 const { v4: uuidv4 } = require("uuid");
 
 router.post("/book-service", async (req, res) => {
-  const { service, user_id, selectedDate, selectedTime, vehiclePrice, token } =
-    req.body;
+  const {
+    service,
+    user_id,
+    selectedDate,
+    selectedTime,
+    vehiclePrice,
+    token,
+    userEmail,
+    userName,
+    userNumber,
+  } = req.body;
   try {
     const customer = await stripe.customers.create({
       email: token.email,
@@ -37,6 +46,9 @@ router.post("/book-service", async (req, res) => {
         service: service.title,
         serviceId: service._id,
         user_id,
+        userEmail,
+        userName,
+        userNumber,
         selectedDate,
         selectedTime,
         vehiclePrice,
@@ -65,6 +77,47 @@ function generateRandomTransactionId() {
   const randomNumber = Math.floor(Math.random() * 1000000);
   return `TXN-${randomNumber}`;
 }
+//update status
+router.post("/update-done", async (req, res) => {
+  const { bookingId } = req.body;
+  try {
+    const booking = await Booking.findOne({ _id: bookingId });
+
+    if (!booking) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+
+    //update the status to "done"
+    booking.status = "done";
+    await booking.save();
+
+    res.send("Booking status updated successfully");
+  } catch (error) {
+    console.error("Update Done Error:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+//update ongoing
+router.post("/update-ongoing", async (req, res) => {
+  const { bookingId } = req.body;
+  try {
+    const booking = await Booking.findOne({ _id: bookingId });
+
+    if (!booking) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+
+    //update the status to "done"
+    booking.status = "ongoing";
+    await booking.save();
+
+    res.send("Booking status updated successfully");
+  } catch (error) {
+    console.error("Update Done Error:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 router.post("/booking-id", async (req, res) => {
   const user_id = req.body.user_id;
@@ -151,8 +204,24 @@ router.get("/all-bookings", async (req, res) => {
     return res.status(400).json({ error });
   }
 });
-//*sms
+//*sms success booking
 router.post("/send-message", async (req, res) => {
+  try {
+    console.log("Request to Semaphore:", req.body);
+    const response = await axios.post(
+      "https://semaphore.co/api/v4/messages",
+      req.body
+    );
+    console.log("Semaphore API Response:", response.data);
+    res.json(response.data);
+  } catch (error) {
+    console.error("Semaphore API Error:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+//*sms success booking
+router.post("/send-message-notify", async (req, res) => {
   try {
     console.log("Request to Semaphore:", req.body);
     const response = await axios.post(
