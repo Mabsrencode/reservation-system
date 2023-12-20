@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import {
@@ -128,13 +128,12 @@ export const MyProfile = () => {
 };
 
 export const MyBookingsTab = () => {
+
     const { user } = useUser();
     const [bookings, setBookings] = useState([]);
     const [loadingStates, setLoadingStates] = useState({});
-    const printElement = document.getElementById("print-element")
-    const generateReceipt = () => {
-        printElement.window.print()
-    }
+    const printRef = useRef();
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -177,6 +176,17 @@ export const MyBookingsTab = () => {
             console.log(error);
         }
     }
+
+    const generateReceipt = () => {
+        const printContent = document.getElementById("print-element").innerHTML;
+        const originalContent = document.body.innerHTML;
+
+        document.body.innerHTML = printContent;
+
+        window.print();
+
+        document.body.innerHTML = originalContent;
+    }
     return (<section>
         {bookings.length > 0 ? <>
             {bookings && bookings.map((booking) => (
@@ -189,7 +199,7 @@ export const MyBookingsTab = () => {
                             This is some information about the your bookings.
                         </p>
                     </div>
-                    <div id="print-element" className="border-t border-gray-200 px-4 py-5 sm:p-0">
+                    <div ref={printRef} id="print-element" className="border-t border-gray-200 px-4 py-5 sm:p-0">
                         <dl className="sm:divide-y sm:divide-gray-200">
                             <div className="flex py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt className="text-sm font-medium text-orange-500 font-bold">
@@ -318,7 +328,7 @@ export const MyBookingsTab = () => {
 };
 
 export const SettingsTab = () => {
-    const { user } = useUser();
+    const { user, setUser } = useUser();
     const userId = user.data._id
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
@@ -328,6 +338,9 @@ export const SettingsTab = () => {
     const [isEditingEmail, setIsEditingEmail] = useState(false);
     const [isEditingNumber, setIsEditingNumber] = useState(false);
     const [isEditingPassword, setIsEditingPassword] = useState(false);
+    useEffect(() => {
+        localStorage.setItem("user", JSON.stringify(user));
+    }, [user]);
     //name 
     const handleEditName = () => {
         setIsEditingName(true);
@@ -335,12 +348,12 @@ export const SettingsTab = () => {
     const handleCancelEditName = () => {
         setIsEditingName(false)
     }
-
     const handleFullNameUpdate = async () => {
         try {
-            await axios.put(`/api/users/update-fullname/${userId}`, {
+            const response = await axios.put(`/api/users/update-fullname/${userId}`, {
                 newFullName: fullName,
             });
+            setUser(response.data);
             setIsEditingName(false);
         } catch (error) {
             console.error('Error updating full name:', error);
@@ -356,9 +369,10 @@ export const SettingsTab = () => {
 
     const handleEmailUpdate = async () => {
         try {
-            await axios.put(`/api/users/update-email/${userId}`, {
+            const response = await axios.put(`/api/users/update-email/${userId}`, {
                 newEmail: email,
             });
+            setUser(response.data);
             setIsEditingEmail(false);
         } catch (error) {
             console.error('Error updating email:', error);
@@ -373,9 +387,10 @@ export const SettingsTab = () => {
     }
     const handlePhoneNumberUpdate = async () => {
         try {
-            await axios.put(`/api/users/update-phonenumber/${userId}`, {
+            const response = await axios.put(`/api/users/update-phonenumber/${userId}`, {
                 newPhoneNumber: phoneNumber,
             });
+            setUser(response.data);
             setIsEditingNumber(false);
         } catch (error) {
             console.error('Error updating phone number:', error);
