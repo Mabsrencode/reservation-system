@@ -131,6 +131,10 @@ export const MyBookingsTab = () => {
     const { user } = useUser();
     const [bookings, setBookings] = useState([]);
     const [loadingStates, setLoadingStates] = useState({});
+    const printElement = document.getElementById("print-element")
+    const generateReceipt = () => {
+        printElement.window.print()
+    }
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -173,13 +177,6 @@ export const MyBookingsTab = () => {
             console.log(error);
         }
     }
-    const generateReceipt = async (bookingId) => {
-        try {
-
-        } catch (error) {
-
-        }
-    };
     return (<section>
         {bookings.length > 0 ? <>
             {bookings && bookings.map((booking) => (
@@ -192,7 +189,7 @@ export const MyBookingsTab = () => {
                             This is some information about the your bookings.
                         </p>
                     </div>
-                    <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
+                    <div id="print-element" className="border-t border-gray-200 px-4 py-5 sm:p-0">
                         <dl className="sm:divide-y sm:divide-gray-200">
                             <div className="flex py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt className="text-sm font-medium text-orange-500 font-bold">
@@ -292,7 +289,7 @@ export const MyBookingsTab = () => {
                         </div>
                     ) : <></>}
                     {booking.status === 'done' ? <div className="text-right mx-2 my-2">
-                        <Button className="mr-2" onClick={() => { generateReceipt(booking._id, booking.serviceId) }} disabled={loadingStates[booking._id]}>
+                        <Button className="mr-2" onClick={generateReceipt} disabled={loadingStates[booking._id]}>
                             {loadingStates[booking._id] ? (
                                 <>
                                     <svg aria-hidden="true" role="status" className="inline w-4 h-4 me-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -321,6 +318,8 @@ export const MyBookingsTab = () => {
 };
 
 export const SettingsTab = () => {
+    const { user } = useUser();
+    const userId = user.data._id
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -338,7 +337,14 @@ export const SettingsTab = () => {
     }
 
     const handleFullNameUpdate = async () => {
-
+        try {
+            await axios.put(`/api/users/update-fullname/${userId}`, {
+                newFullName: fullName,
+            });
+            setIsEditingName(false);
+        } catch (error) {
+            console.error('Error updating full name:', error);
+        }
     };
     //email
     const handleEditEmail = () => {
@@ -349,7 +355,14 @@ export const SettingsTab = () => {
     }
 
     const handleEmailUpdate = async () => {
-
+        try {
+            await axios.put(`/api/users/update-email/${userId}`, {
+                newEmail: email,
+            });
+            setIsEditingEmail(false);
+        } catch (error) {
+            console.error('Error updating email:', error);
+        }
     };
     //number
     const handleEditNumber = () => {
@@ -358,8 +371,15 @@ export const SettingsTab = () => {
     const handleCancelEditNumber = () => {
         setIsEditingNumber(false)
     }
-    const handlePhoneNumberUpdate = () => {
-
+    const handlePhoneNumberUpdate = async () => {
+        try {
+            await axios.put(`/api/users/update-phonenumber/${userId}`, {
+                newPhoneNumber: phoneNumber,
+            });
+            setIsEditingNumber(false);
+        } catch (error) {
+            console.error('Error updating phone number:', error);
+        }
     };
     //password
     const handleEditPassword = () => {
@@ -371,9 +391,15 @@ export const SettingsTab = () => {
 
     };
 
-    const handleSavePassword = () => {
-
-        setIsEditingPassword(false);
+    const handleSavePassword = async () => {
+        try {
+            await axios.put(`/api/users/update-password/${userId}`, {
+                newPassword: password,
+            });
+            setIsEditingPassword(false);
+        } catch (error) {
+            console.error('Error updating password:', error);
+        }
     };
     return (
         <section>
@@ -406,7 +432,7 @@ export const SettingsTab = () => {
                                 Mobile Number
                             </dt>
                             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                {isEditingNumber ? <div className="flex gap-2"><Input type="tel" id="tel" name="tel" placeholder="Telephone Number" onChange={(e) => { setPhoneNumber(e.target.value) }}></Input><Button onClick={handlePhoneNumberUpdate}>SAVE</Button><Button onClick={handleCancelEditNumber}>CANCEL</Button></div> : <Button onClick={handleEditNumber} className="float-right">Edit</Button>}
+                                {isEditingNumber ? <div className="flex gap-2"><Input type="tel" id="tel" name="tel" placeholder="Telephone Number" onChange={(e) => { setPhoneNumber("+63" + e.target.value) }}></Input><Button onClick={handlePhoneNumberUpdate}>SAVE</Button><Button onClick={handleCancelEditNumber}>CANCEL</Button></div> : <Button onClick={handleEditNumber} className="float-right">Edit</Button>}
                             </dd>
                         </div>
                         <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

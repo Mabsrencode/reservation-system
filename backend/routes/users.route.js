@@ -42,4 +42,74 @@ router.get("/all-users", async (req, res) => {
     return res.status(404).json({ message: error });
   }
 });
+
+router.put("/update-fullname/:userId", async (req, res) => {
+  const userId = req.params.userId;
+  const newFullName = req.body.newFullName;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await user.updateFullName(newFullName);
+    res.status(200).json({ message: "Full Name updated successfully" });
+  } catch (error) {
+    console.error("Error updating full name:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+router.put("/update-email/:userId", async (req, res) => {
+  const userId = req.params.userId;
+  const newEmail = req.body.newEmail;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await user.updateEmail(newEmail);
+    res.status(200).json({ message: "Email updated successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
+
+router.put("/update-phonenumber/:userId", async (req, res) => {
+  const userId = req.params.userId;
+  const newPhoneNumber = req.body.newPhoneNumber;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await user.updatePhoneNumber(newPhoneNumber);
+    res.status(200).json({ message: "Phone Number updated successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
+
+router.put("/update-password/:userId", async (req, res) => {
+  const userId = req.params.userId;
+  const newPassword = req.body.newPassword;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await user.updatePassword(newPassword);
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;

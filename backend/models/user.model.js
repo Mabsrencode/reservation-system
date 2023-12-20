@@ -26,5 +26,20 @@ const userSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
-
+userSchema.methods.updateFullName = async function (newFullName) {
+  this.name = newFullName;
+  await this.save();
+};
+userSchema.methods.updateEmail = async function (newEmail) {
+  this.email = newEmail;
+  await this.save();
+};
+userSchema.methods.updatePhoneNumber = async function (newPhoneNumber) {
+  this.tel = newPhoneNumber;
+  await this.save();
+};
+userSchema.methods.updatePassword = async function (newPassword) {
+  this.password = newPassword;
+  await this.save();
+};
 module.exports = mongoose.model("Users", userSchema);
