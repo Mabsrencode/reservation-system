@@ -100,6 +100,7 @@ export const Bookings = () => {
     const [doneCount, setDoneCount] = useState(0);
     const [sendNotification, setSendNotification] = useState({});
     const [modalMessage, setModalMessage] = useState(false);
+    // eslint-disable-next-line
     const accessTokenSms = process.env.REACT_APP_SEMAPHORE_ACCESS_TOKEN;
     const fetchData = async () => {
         try {
