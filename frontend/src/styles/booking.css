@@ -1,5 +1,36 @@
+@import "rsuite/dist/rsuite-no-reset.min.css";
 input[type="date"]::-webkit-calendar-picker-indicator,
 input[type="time"]::-webkit-calendar-picker-indicator {
   background-color: white;
   border-radius: 5px;
+}
+.car-image {
+  background-color: white;
+}
+.selected {
+  background-color: var(--primary-color) !important;
+}
+.car-image:hover {
+  background-color: var(--primary-color);
+}
+
+.bg-gray {
+  background-color: rgba(242, 242, 242, 0.3);
+}
+.rs-calendar-table-cell-content:hover {
+  color: black;
+}
+.rs-calendar-month-dropdown-row {
+  color: black;
+}
+.rs-calendar-header-title:hover {
+  color: black !important;
+}
+.rs-calendar-header-title {
+  color: white !important;
+}
+.size-card-title {
+  text-align: center;
+  margin-top: -40px;
+  font-weight: 700;
 }

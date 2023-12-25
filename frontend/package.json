@@ -19,6 +19,7 @@
     "react-scripts": "5.0.1",
     "react-stripe-checkout": "^2.6.3",
     "react-to-print": "^2.14.15",
+    "rsuite": "^5.48.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

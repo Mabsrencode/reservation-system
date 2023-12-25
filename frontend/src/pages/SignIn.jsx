@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 import { useNavigate, Link } from 'react-router-dom';
 import {
     Card,
@@ -19,6 +19,7 @@ const SignIn = () => {
     const [loading, setLoading] = useState(false)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [seePassword, setSeePassword] = useState(false)
     const navigate = useNavigate();
     const { setUser } = useUser();
     const handleSignIn = async (e) => {
@@ -41,7 +42,13 @@ const SignIn = () => {
             console.log(error)
         }
     };
-
+    const handleSeePassword = () => {
+        if (!seePassword) {
+            setSeePassword(true);
+        } else if (seePassword) {
+            setSeePassword(false);
+        }
+    }
     return (
         <section className='h-5/6  my-12 dark:bg-gray-900'>
             <Card className="mx-auto w-full max-w-[24rem]">
@@ -63,7 +70,9 @@ const SignIn = () => {
                     <Typography className="-mb-2" variant="h6">
                         Your Password
                     </Typography>
-                    <Input type="password" placeholder="Password" id="password" onChange={(e) => { setPassword(e.target.value) }} className="registration_input pl-6" />
+                    <div className='relative'>
+                        <Input type={seePassword ? "text" : "password"} placeholder="Password" id="password" onChange={(e) => { setPassword(e.target.value) }} className="registration_input pl-6" /> {seePassword ? <FaRegEye onClick={handleSeePassword} className='absolute right-[6px] top-[10px] text-[20px] cursor-pointer' /> : <FaRegEyeSlash onClick={handleSeePassword} className='absolute right-[6px] top-[10px] text-[20px] cursor-pointer' />}
+                    </div>
                     <div className="-ml-2.5 -mt-3">
                         <Checkbox label="Remember Me" />
                     </div>

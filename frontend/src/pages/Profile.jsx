@@ -328,7 +328,7 @@ export const MyBookingsTab = () => {
 };
 
 export const SettingsTab = () => {
-    const { user, setUser } = useUser();
+    const { user } = useUser();
     const userId = user.data._id
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
@@ -350,10 +350,9 @@ export const SettingsTab = () => {
     }
     const handleFullNameUpdate = async () => {
         try {
-            const response = await axios.put(`/api/users/update-fullname/${userId}`, {
+            await axios.put(`/api/users/update-fullname/${userId}`, {
                 newFullName: fullName,
             });
-            setUser(response.data);
             setIsEditingName(false);
         } catch (error) {
             console.error('Error updating full name:', error);
@@ -369,10 +368,9 @@ export const SettingsTab = () => {
 
     const handleEmailUpdate = async () => {
         try {
-            const response = await axios.put(`/api/users/update-email/${userId}`, {
+            await axios.put(`/api/users/update-email/${userId}`, {
                 newEmail: email,
             });
-            setUser(response.data);
             setIsEditingEmail(false);
         } catch (error) {
             console.error('Error updating email:', error);
@@ -387,10 +385,9 @@ export const SettingsTab = () => {
     }
     const handlePhoneNumberUpdate = async () => {
         try {
-            const response = await axios.put(`/api/users/update-phonenumber/${userId}`, {
+            await axios.put(`/api/users/update-phonenumber/${userId}`, {
                 newPhoneNumber: phoneNumber,
             });
-            setUser(response.data);
             setIsEditingNumber(false);
         } catch (error) {
             console.error('Error updating phone number:', error);

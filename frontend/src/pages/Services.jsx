@@ -3,6 +3,7 @@ import axios from "axios";
 import ServicesCards from "../components/services-cards/ServicesCards";
 import PricesCard from "../components/prices-cards/PricesCard";
 import CarwashPackage from "../components/carwash/CarwashPackage";
+import { Typography } from "@material-tailwind/react";
 import { useUser } from "../context/userContext";
 const Services = () => {
     const { user } = useUser()
@@ -50,8 +51,16 @@ const Services = () => {
     return (
         <section className="mt-24">
             {user ? <>
+                <Typography variant="h1" color="white" className="mb-2 text-center text-7xl  text-orange-500">
+                    AUTO DETAILING
+                </Typography>
                 <PricesCard services={services} loading={loading} />
                 <br />
+                <hr className="mt-12" />
+                <br />
+                <Typography variant="h1" color="white" className="my-24 text-center text-7xl  text-orange-500">
+                    Others
+                </Typography>
                 <CarwashPackage className="mt-2" carwash={carwash} loading={loadingCarwash} />
             </> : <></>}
 

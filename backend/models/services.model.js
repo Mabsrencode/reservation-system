@@ -22,6 +22,14 @@ const servicesSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    imageUrl: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
     currentBookings: [],
   },
   { timestamps: { type: String } }

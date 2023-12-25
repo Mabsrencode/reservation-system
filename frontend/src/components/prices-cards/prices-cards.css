@@ -28,3 +28,25 @@ tbody tr td {
 tbody tr {
   height: 30px;
 }
+.card {
+  border: 2px solid var(--primary-color);
+  background-color: var(--secondary-color);
+}
+.card:hover .image-card {
+  margin-top: -30px;
+  transition: 0.5s;
+  filter: none;
+}
+.card:hover .card-details {
+  transition: 0.5s;
+  height: auto;
+  overflow: visible;
+}
+.image-card {
+  box-shadow: none;
+  filter: grayscale(100%);
+}
+.card-details {
+  height: 0;
+  overflow: hidden;
+}

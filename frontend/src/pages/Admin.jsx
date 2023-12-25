@@ -53,7 +53,7 @@ const Admin = () => {
         }
     };
     return (
-        <section className="px-1 my-12 md:px-20">
+        <section className="px-1 my-12 md:px-2">
             <div className="mx-auto">
                 <Tabs id="custom-animation" value="bookings">
                     <TabsHeader className="bg-orange-500">
@@ -304,7 +304,6 @@ export const Bookings = () => {
                         </tbody>
                     </table >
                 </div >
-
             )}
         </section>
     )
@@ -314,12 +313,13 @@ export const Services = () => {
     const [loadingCarwash, setLoadingCarwash] = useState(false);
     const [services, setServices] = useState([]);
     const [carwash, setCarwash] = useState([]);
-    console.log(services)
     const [title, setTitle] = useState("");
     const [small, setSmall] = useState(Number);
     const [medium, setMedium] = useState(Number);
     const [large, setLarge] = useState(Number);
     const [x_large, setXLarge] = useState(Number);
+    const [imageUrl, setImageUrl] = useState("");
+    const [description, setDescription] = useState("");
     const [loadingStates, setLoadingStates] = useState({});
     const [editingServiceId, setEditingServiceId] = useState(null);
     const [error, setError] = useState(false);
@@ -331,6 +331,8 @@ export const Services = () => {
         medium: "",
         large: "",
         x_large: "",
+        imageUrl: "",
+        description: "",
     });
     const fetchData = async () => {
         try {
@@ -380,8 +382,8 @@ export const Services = () => {
 
     const handleAddService = async (e) => {
         e.preventDefault();
-        const service = { title, small, medium, large, x_large };
-        if (title === "" || small === "" || medium === "" || large === "" || x_large === "") {
+        const service = { title, small, medium, large, x_large, imageUrl, description };
+        if (title === "" || small === "" || medium === "" || large === "" || x_large === "" || imageUrl === "" || description === "") {
             setError(true)
             setErrorMessage("Please fill the following fields.")
         } else {
@@ -396,6 +398,8 @@ export const Services = () => {
                 setMedium("");
                 setLarge("");
                 setXLarge("");
+                setImageUrl("");
+                setDescription("");
                 window.location.reload();
             } catch (error) {
                 setLoading(false);
@@ -452,6 +456,8 @@ export const Services = () => {
                 medium: "",
                 large: "",
                 x_large: "",
+                imageUrl: "",
+                description: "",
             });
         } catch (error) {
             setLoadingStates((prevStates) => ({ ...prevStates, [serviceId]: false }));
@@ -493,22 +499,24 @@ export const Services = () => {
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" className="px-6 py-3">
+                            <th scope="col" className="px-2 py-3">
                                 SERVICE TITLE
                             </th>
-                            <th scope="col" className="px-6 py-3">
+                            <th scope="col" className="px-2 py-3">
                                 SMALL
                             </th>
-                            <th scope="col" className="px-6 py-3">
+                            <th scope="col" className="px-2 py-3">
                                 MEDIUM
                             </th>
-                            <th scope="col" className="px-6 py-3">
+                            <th scope="col" className="px-2 py-3">
                                 LARGE
                             </th>
-                            <th scope="col" className="px-6 py-3">
+                            <th scope="col" className="px-2 py-3">
                                 X-LARGE
                             </th>
-                            <th>ACTION</th>
+                            <th scope="col" className="px-2 py-3">IMAGE</th>
+                            <th scope="col" className="px-2 py-3">DESCRIPTION</th>
+                            <th scope="col" className="px-2 py-3">ACTION</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -517,48 +525,61 @@ export const Services = () => {
                                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={service._id}>
                                     {editingServiceId === service._id ? (
                                         <>
-                                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            <th scope="row" className="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 <Input type="text" placeholder="Enter service Name" value={updateForm.title} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, title: e.target.value }))} />
                                             </th>
-                                            <td className="px-6 py-4">
+                                            <td className="px-2 py-4">
                                                 <Input type="number" placeholder="Small" value={updateForm.small} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, small: e.target.value }))} />
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-2 py-4">
                                                 <Input type="number" placeholder="Medium" value={updateForm.medium} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, medium: e.target.value }))} />
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-2 py-4">
                                                 <Input type="number" placeholder="Large" value={updateForm.large} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, large: e.target.value }))} />
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-2 py-4">
                                                 <Input type="number" placeholder="Extra Large" value={updateForm.x_large} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, x_large: e.target.value }))} />
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-2 py-4">
+                                                <Input type="text" placeholder="Image" value={updateForm.imageUrl} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, imageUrl: e.target.value }))} />
+                                            </td>
+                                            <td className="px-2 py-4">
+                                                <Input type="text" placeholder="Description" value={updateForm.description} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, description: e.target.value }))} />
+                                            </td>
+                                            <td className="px-2 py-4">
                                                 <Button className="mr-2" onClick={() => handleUpdateService(service._id)} disabled={loadingStates[service._id]}>
                                                     {loadingStates[service._id] ? "Processing..." : "Update"}
                                                 </Button>
-                                                <Button onClick={() => { setEditingServiceId(null); setUpdateForm({ title: "", small: "", medium: "", large: "", x_large: "" }); }}>
+                                                <Button onClick={() => { setEditingServiceId(null); setUpdateForm({ title: "", small: "", medium: "", large: "", x_large: "", imageUrl: "", description: "" }); }}>
                                                     Cancel
                                                 </Button>
                                             </td>
                                         </>
                                     ) : (
                                         <>
-                                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            <th scope="row" className="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 {service.title}
                                             </th>
-                                            <td className="px-6 py-4">
+                                            <td className="px-2 py-4">
                                                 {service.small}
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-2 py-4">
                                                 {service.medium}
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-2 py-4">
                                                 {service.large}
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-2 py-4">
                                                 {service.x_large}
                                             </td>
-                                            <td className="px-6 py-4">
+
+                                            <td className="px-2 py-4">
+                                                <h1 className="text-ellipsis overflow-hidden whitespace-nowrap w-[100px]">{service.imageUrl}</h1>
+                                            </td>
+                                            <td className="px-2 py-4">
+                                                <h1 className="text-ellipsis overflow-hidden whitespace-nowrap w-[100px]">{service.description}</h1>
+                                            </td>
+                                            <td className="px-2 py-4">
                                                 <Button className="mr-2" onClick={() => setEditingServiceId(service._id)}>
                                                     Edit
                                                 </Button>
@@ -572,20 +593,26 @@ export const Services = () => {
                             </>
                         ))}
                         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <td className="px-6 py-4">
+                            <td className="px-2 py-4">
                                 <Input type="text" placeholder="TITLE" id="title" name="title" onChange={(e) => { setTitle(e.target.value) }} />
                             </td>
-                            <td className="px-6 py-4">
+                            <td className="px-2 py-4">
                                 <Input type="number" placeholder="SMALL" id="small" name="small" onChange={(e) => { setSmall(e.target.value) }} />
                             </td>
-                            <td className="px-6 py-4">
+                            <td className="px-2 py-4">
                                 <Input type="number" placeholder="MEDIUM" id="medium" name="medium" onChange={(e) => { setMedium(e.target.value) }} />
                             </td>
-                            <td className="px-6 py-4">
+                            <td className="px-2 py-4">
                                 <Input type="number" placeholder="LARGE" id="large" name="large" onChange={(e) => { setLarge(e.target.value) }} />
                             </td>
-                            <td className="px-6 py-4">
+                            <td className="px-2 py-4">
                                 <Input type="number" placeholder="X-LARGE" id="x_large" name="x_large" onChange={(e) => { setXLarge(e.target.value) }} />
+                            </td>
+                            <td className="px-2 py-4">
+                                <Input type="text" placeholder="Image" id="image" name="image" onChange={(e) => { setImageUrl(e.target.value) }} />
+                            </td>
+                            <td className="px-2 py-4">
+                                <Input type="text" placeholder="Description" id="description" name="description" onChange={(e) => { setDescription(e.target.value) }} />
                             </td>
                             <td>
                                 <Button onClick={handleAddService} disabled={loading}>

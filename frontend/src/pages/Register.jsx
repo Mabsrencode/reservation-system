@@ -11,6 +11,7 @@ import {
     Button,
     Typography,
 } from "@material-tailwind/react";
+import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 const Register = () => {
     const [user, setUser] = useState(null)
     const [otp, setOtp] = useState("")
@@ -26,6 +27,7 @@ const Register = () => {
     const [verified, setVerified] = useState();
     const [errorVerifying, setErrorVerifying] = useState(false);
     const [isCheckbox, setIsCheckbox] = useState(false);
+    const [seePassword, setSeePassword] = useState(false)
     const handleCheck = () => {
         setIsCheckbox(!isCheckbox);
     }
@@ -120,7 +122,13 @@ const Register = () => {
             }
         }
     };
-
+    const handleSeePassword = () => {
+        if (!seePassword) {
+            setSeePassword(true);
+        } else if (seePassword) {
+            setSeePassword(false);
+        }
+    }
 
     return (
 
@@ -158,14 +166,16 @@ const Register = () => {
                             <Button className='mt-2' onClick={verifyOtp} disabled={verifyingOtp}>{verifyingOtp ? "Verifying..." : "Verify Otp"}</Button>
                             {<h1 className={`mt-2 ${errorVerifying ? "text-red-900" : "text-green-500"}`} >{sendSuccess}</h1>}
                         </div>
-                        <div id="recaptcha"></div>
+                        <div className='mx-auto' id="recaptcha"></div>
                         <div>
                             <label htmlFor="password">Password</label>
-                            <Input type="password" placeholder="Password" id="password" onChange={(e) => { setPassword(e.target.value) }} className="registration_input pl-6" required />
+                            <div className='relative'>
+                                <Input type={seePassword ? "text" : "password"} placeholder="Password" id="password" onChange={(e) => { setPassword(e.target.value) }} className="registration_input pl-6" />  {seePassword ? <FaRegEye onClick={handleSeePassword} className='absolute right-[6px] top-[10px] text-[20px] cursor-pointer' /> : <FaRegEyeSlash onClick={handleSeePassword} className='absolute right-[6px] top-[10px] text-[20px] cursor-pointer' />}
+                            </div>
                         </div>
                         <div>
                             <label htmlFor="cpassword">Confirm Password</label>
-                            <Input type="password" placeholder="Confirm Password" id="cpassword" onChange={(e) => { setCpassword(e.target.value) }} className="registration_input pl-6" required />
+                            <Input type={seePassword ? "text" : "password"} placeholder="Confirm Password" id="cpassword" onChange={(e) => { setCpassword(e.target.value) }} className="registration_input pl-6" required />
                         </div>
                     </div>
                     <Checkbox onClick={handleCheck}

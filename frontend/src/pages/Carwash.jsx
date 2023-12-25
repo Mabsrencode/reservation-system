@@ -19,6 +19,7 @@ const Carwash = () => {
     const [selectedTime, setSelectedTime] = useState("")
     const [vehiclePrice, setVehiclePrice] = useState();
     const accessToken = process.env.REACT_APP_STRIPE_ACCESS_TOKEN;
+    // eslint-disable-next-line
     const accessTokenSms = process.env.REACT_APP_SEMAPHORE_ACCESS_TOKEN;
     const { _id } = useParams();
     const navigate = useNavigate()
@@ -26,7 +27,9 @@ const Carwash = () => {
     // console.log(service._id);
     // console.log(user.data.name)
     const phone_number = user.data.tel
+    // eslint-disable-next-line
     const phone = phone_number.toString()
+    // eslint-disable-next-line
     const recipient = user.data.name
 
     // const payedService = service.vehiclePrice;
