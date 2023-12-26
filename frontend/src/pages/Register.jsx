@@ -35,6 +35,7 @@ const Register = () => {
     const [errorMessage, setErrorMessage] = useState("")
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
+    const recaptchaContainer = document.getElementById("recaptcha")
     const sendOtp = async () => {
         try {
             setSending(true);
@@ -43,7 +44,7 @@ const Register = () => {
             setUser(confirmation)
             setSendSuccess("Verification Code has been sent successfully.")
             setSending(false)
-
+            recaptchaContainer.style.display = "none"
         } catch (error) {
             setSendSuccess("Too many request. Please try again.");
             console.log(error);

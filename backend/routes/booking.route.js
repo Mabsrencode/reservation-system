@@ -253,8 +253,17 @@ router.post("/send-message-admin", async (req, res) => {
 
 //!carwash
 router.post("/book-carwash", async (req, res) => {
-  const { service, user_id, selectedDate, selectedTime, vehiclePrice, token } =
-    req.body;
+  const {
+    service,
+    user_id,
+    selectedDate,
+    selectedTime,
+    vehiclePrice,
+    token,
+    userEmail,
+    userName,
+    userNumber,
+  } = req.body;
   try {
     const customer = await stripe.customers.create({
       email: token.email,
@@ -280,6 +289,9 @@ router.post("/book-carwash", async (req, res) => {
         service: service.title,
         serviceId: service._id,
         user_id,
+        userEmail,
+        userName,
+        userNumber,
         selectedDate,
         selectedTime,
         vehiclePrice,
