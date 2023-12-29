@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; //useContext
+import React, { useState, useEffect } from 'react'; //useContext
 import axios from 'axios';
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { auth } from "../firebase/setup"
@@ -10,6 +10,7 @@ import {
     Checkbox,
     Button,
     Typography,
+    Progress
 } from "@material-tailwind/react";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 const Register = () => {
@@ -28,6 +29,9 @@ const Register = () => {
     const [errorVerifying, setErrorVerifying] = useState(false);
     const [isCheckbox, setIsCheckbox] = useState(false);
     const [seePassword, setSeePassword] = useState(false)
+    const [progressPassword, setProgressPassword] = useState(Number)
+    const [passwordIndicatorMessage, setPasswordIndicatorMessage] = useState("")
+    const [progressBarColor, setProgressBarColor] = useState("")
     const handleCheck = () => {
         setIsCheckbox(!isCheckbox);
     }
@@ -60,9 +64,10 @@ const Register = () => {
             setVerifyingOtp(true);
             const data = await user.confirm(otp)
             console.log(data)
-            setSendSuccess("Verified.")
+            setSendSuccess("Verified")
             setVerifyingOtp(false)
             setVerified(true)
+            setErrorVerifying(false);
         } catch (error) {
             console.log(error);
             setSendSuccess("Invalid Verification Code");
@@ -98,6 +103,9 @@ const Register = () => {
         } else if (!verified) {
             setError(true);
             setErrorMessage("Invalid Verification Code.");
+        } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[\d])(?=.*[\W_])/.test(password)) {
+            setError(true);
+            setErrorMessage("Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character.");
         } else {
             setError(false);
 
@@ -123,6 +131,40 @@ const Register = () => {
             }
         }
     };
+
+    const passwordFunction = () => {
+        if (password.length >= 20) {
+            setProgressPassword(100);
+            setPasswordIndicatorMessage("Very Good")
+            setProgressBarColor("green");
+        } else if (password.length >= 16) {
+            setProgressPassword(80);
+            setPasswordIndicatorMessage("Good")
+            setProgressBarColor("light-green");
+        }
+        else if (password.length >= 12) {
+            setProgressPassword(60);
+            setPasswordIndicatorMessage("Average")
+            setProgressBarColor("yellow");
+        }
+        else if (password.length >= 8) {
+            setProgressPassword(40);
+            setPasswordIndicatorMessage("Weak")
+            setProgressBarColor("orange");
+        }
+        else if (password.length >= 4) {
+            setProgressPassword(20);
+            setPasswordIndicatorMessage("Bad")
+            setProgressBarColor("red")
+        } else {
+            setProgressPassword(1);
+            setPasswordIndicatorMessage(null)
+            setProgressBarColor("red")
+        }
+    };
+    useEffect(() => {
+        passwordFunction();
+    });
     const handleSeePassword = () => {
         if (!seePassword) {
             setSeePassword(true);
@@ -157,7 +199,6 @@ const Register = () => {
                         </div>
                         <div>
                             <label htmlFor="phone_number">Mobile Number</label>
-
                             <div className='flex items-center gap-4'>
                                 <div className='flex items-center gap-1'><img className='w-[30px]' src={phFlag} alt="ph" /> <h1>+63</h1></div><Input type="tel" placeholder="920*******" id="phone_number" onChange={(e) => { setTel("+63" + e.target.value) }} className="registration_input pl-6 " maxLength={10} required />
                             </div>
@@ -165,18 +206,19 @@ const Register = () => {
                                 <Input type='text' placeholder="Verification Code" id='otp' onChange={(e) => { setOtp(e.target.value) }} /><Button onClick={sendOtp} disabled={sending} className=' w-1/2'>{sending ? "Sending..." : "Send OTP"}</Button>
                             </div>
                             <Button className='mt-2' onClick={verifyOtp} disabled={verifyingOtp}>{verifyingOtp ? "Verifying..." : "Verify Otp"}</Button>
-                            {<h1 className={`mt-2 ${errorVerifying ? "text-red-900" : "text-green-500"}`} >{sendSuccess}</h1>}
+                            {<h1 className={`mt-2 ${sendSuccess ? "text-green-500" : ""} ${errorVerifying ? "text-red-900" : "text-green-500"}`} >{sendSuccess}</h1>}
                         </div>
-                        <div className='mx-auto' id="recaptcha"></div>
+                        <div className={`mx-auto ${sending ? "block" : "hidden"} `} id="recaptcha"></div>
                         <div>
+                            <Progress className='mb-2 progress-bar' color={progressBarColor} value={progressPassword} onChange={passwordFunction} label={passwordIndicatorMessage} />
                             <label htmlFor="password">Password</label>
                             <div className='relative'>
-                                <Input type={seePassword ? "text" : "password"} placeholder="Password" id="password" onChange={(e) => { setPassword(e.target.value) }} className="registration_input pl-6" />  {seePassword ? <FaRegEye onClick={handleSeePassword} className='absolute right-[6px] top-[10px] text-[20px] cursor-pointer' /> : <FaRegEyeSlash onClick={handleSeePassword} className='absolute right-[6px] top-[10px] text-[20px] cursor-pointer' />}
+                                <Input type={seePassword ? "text" : "password"} placeholder="Password" id="password" onChange={(e) => { setPassword(e.target.value) }} className="registration_input pl-6" maxLength={24} required />  {seePassword ? <FaRegEye onClick={handleSeePassword} className='absolute right-[6px] top-[10px] text-[20px] cursor-pointer' /> : <FaRegEyeSlash onClick={handleSeePassword} className='absolute right-[6px] top-[10px] text-[20px] cursor-pointer' />}
                             </div>
                         </div>
                         <div>
                             <label htmlFor="cpassword">Confirm Password</label>
-                            <Input type={seePassword ? "text" : "password"} placeholder="Confirm Password" id="cpassword" onChange={(e) => { setCpassword(e.target.value) }} className="registration_input pl-6" required />
+                            <Input type={seePassword ? "text" : "password"} placeholder="Confirm Password" id="cpassword" onChange={(e) => { setCpassword(e.target.value) }} className="registration_input pl-6" maxLength={24} required />
                         </div>
                     </div>
                     <Checkbox onClick={handleCheck}

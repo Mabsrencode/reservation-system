@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
     Tabs,
     TabsHeader,
@@ -8,7 +8,11 @@ import {
     Tab,
     TabPanel,
     Button,
-    Input
+    Input,
+    Dialog,
+    DialogHeader,
+    DialogBody,
+    DialogFooter,
 } from "@material-tailwind/react";
 import {
     Square3Stack3DIcon,
@@ -328,6 +332,7 @@ export const MyBookingsTab = () => {
 };
 
 export const SettingsTab = () => {
+    const navigate = useNavigate();
     const { user } = useUser();
     const userId = user.data._id
     const [fullName, setFullName] = useState('');
@@ -338,6 +343,10 @@ export const SettingsTab = () => {
     const [isEditingEmail, setIsEditingEmail] = useState(false);
     const [isEditingNumber, setIsEditingNumber] = useState(false);
     const [isEditingPassword, setIsEditingPassword] = useState(false);
+    const [deleteAcctLoading, setDeleteAcctLoading] = useState(false);
+    const [size, setSize] = useState(null);
+
+    const handleOpen = (value) => setSize(value);
     useEffect(() => {
         localStorage.setItem("user", JSON.stringify(user));
     }, [user]);
@@ -413,6 +422,18 @@ export const SettingsTab = () => {
             console.error('Error updating password:', error);
         }
     };
+    const handleDeleteAccount = async () => {
+        try {
+            setDeleteAcctLoading(true);
+            await axios.delete(`/api/users/delete-account/${user.data._id}`);
+            setDeleteAcctLoading(false);
+            localStorage.clear();
+            navigate('/sign-in');
+        } catch (error) {
+            console.error('Error deleting account:', error);
+            setDeleteAcctLoading(false);
+        }
+    };
     return (
         <section>
             <div className="bg-white mt-6 overflow-hidden shadow rounded-lg border">
@@ -454,10 +475,33 @@ export const SettingsTab = () => {
                             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 {isEditingPassword ? <div className="flex gap-2"><Input type="text" id="password" name="password" placeholder="Password" onChange={(e) => { setPassword(e.target.value) }}></Input><Button onClick={handleSavePassword}>SAVE</Button><Button onClick={handleCancelEditPassword}>CANCEL</Button></div> : <Button onClick={handleEditPassword} className="float-right">Edit Password</Button>}
                             </dd>
+                            <Button onClick={() => handleOpen("xs")}>
+                                Delete Account
+                            </Button>
                         </div>
                     </dl>
                 </div>
             </div>
-        </section>
+            <Dialog open={size === "xs"} size={size || "xs"}
+                handler={handleOpen}>
+                <DialogHeader>Are you absolutely sure?</DialogHeader>
+                <DialogBody>
+                    This action cannot be undone. This will permanently delete your account and remove your data from our servers.
+                </DialogBody>
+                <DialogFooter>
+                    <Button
+                        variant="text"
+                        color="red"
+                        onClick={handleOpen}
+                        className="mr-1"
+                    >
+                        <span>Cancel</span>
+                    </Button>
+                    <Button onClick={handleDeleteAccount}>
+                        <span>{deleteAcctLoading ? "Processing" : "Confirm"}</span>
+                    </Button>
+                </DialogFooter>
+            </Dialog>
+        </section >
     );
 };
