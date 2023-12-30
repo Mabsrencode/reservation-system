@@ -119,14 +119,17 @@ const Register = () => {
 
             try {
                 setLoading(true);
+                document.body.style.cursor = "wait";
                 const data = await axios.post("/api/users/register", user);
                 localStorage.setItem("user", JSON.stringify(data));
                 navigate('/sign-in');
             } catch (error) {
                 setErrorMessage("Something went wrong with the server. Please try again.");
                 setError(true);
+                document.body.style.cursor = "default";
                 console.error(error);
             } finally {
+                document.body.style.cursor = "default";
                 setLoading(false);
             }
         }

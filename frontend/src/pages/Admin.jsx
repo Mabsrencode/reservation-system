@@ -164,7 +164,7 @@ export const Bookings = () => {
             setSendNotification(prevStates => ({ ...prevStates, [bookingId]: true }));
             // const response = await axios.post('/api/bookings/send-message-notify', {
             //     apikey: accessTokenSms,
-            //     number: `+63${userNumber}`,
+            //     number: `+${userNumber}`,
             //     message: `Hello ${userName}! You are now able to go from Q-Zone Professional Detailers. Your slot is now available.\n\nThank you!`,
             // });
             setModalMessage(true);

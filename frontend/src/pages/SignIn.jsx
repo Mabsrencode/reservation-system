@@ -31,7 +31,9 @@ const SignIn = () => {
         }
         try {
             setLoading(true)
+            document.body.style.cursor = "wait";
             const data = await axios.post("/api/users/sign-in", user)
+            document.body.style.cursor = "default";
             navigate('/')
             setLoading(false)
             setUser(data);
@@ -39,6 +41,7 @@ const SignIn = () => {
             setLoading(false)
             setError(true)
             setErrorMessage("Invalid Password or Email.")
+            document.body.style.cursor = "default";
             console.log(error)
         }
     };

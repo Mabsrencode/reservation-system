@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from 'axios';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 import {
     Tabs,
     TabsHeader,
@@ -39,6 +39,10 @@ const data = [
 ];
 
 const Profile = () => {
+    const { user } = useUser();
+    if (!user) {
+        return <Navigate to="/sign-in" />
+    }
     const renderTabContent = (tabValue) => {
         switch (tabValue) {
             case "profile":
@@ -344,8 +348,9 @@ export const SettingsTab = () => {
     const [isEditingNumber, setIsEditingNumber] = useState(false);
     const [isEditingPassword, setIsEditingPassword] = useState(false);
     const [deleteAcctLoading, setDeleteAcctLoading] = useState(false);
+    let [count, setCount] = useState(5);
+    const [redirect, setRedirect] = useState(false);
     const [size, setSize] = useState(null);
-
     const handleOpen = (value) => setSize(value);
     useEffect(() => {
         localStorage.setItem("user", JSON.stringify(user));
@@ -359,11 +364,14 @@ export const SettingsTab = () => {
     }
     const handleFullNameUpdate = async () => {
         try {
+            document.body.style.cursor = "wait";
             await axios.put(`/api/users/update-fullname/${userId}`, {
                 newFullName: fullName,
             });
             setIsEditingName(false);
+            document.body.style.cursor = "default";
         } catch (error) {
+            document.body.style.cursor = "default";
             console.error('Error updating full name:', error);
         }
     };
@@ -377,11 +385,14 @@ export const SettingsTab = () => {
 
     const handleEmailUpdate = async () => {
         try {
+            document.body.style.cursor = "wait";
             await axios.put(`/api/users/update-email/${userId}`, {
                 newEmail: email,
             });
             setIsEditingEmail(false);
+            document.body.style.cursor = "default";
         } catch (error) {
+            document.body.style.cursor = "default";
             console.error('Error updating email:', error);
         }
     };
@@ -394,11 +405,14 @@ export const SettingsTab = () => {
     }
     const handlePhoneNumberUpdate = async () => {
         try {
+            document.body.style.cursor = "wait";
             await axios.put(`/api/users/update-phonenumber/${userId}`, {
                 newPhoneNumber: phoneNumber,
             });
             setIsEditingNumber(false);
+            document.body.style.cursor = "default";
         } catch (error) {
+            document.body.style.cursor = "default";
             console.error('Error updating phone number:', error);
         }
     };
@@ -414,24 +428,46 @@ export const SettingsTab = () => {
 
     const handleSavePassword = async () => {
         try {
+            document.body.style.cursor = "wait";
             await axios.put(`/api/users/update-password/${userId}`, {
                 newPassword: password,
             });
             setIsEditingPassword(false);
+            document.body.style.cursor = "default";
         } catch (error) {
+            document.body.style.cursor = "default";
             console.error('Error updating password:', error);
         }
     };
     const handleDeleteAccount = async () => {
+
         try {
             setDeleteAcctLoading(true);
+            document.body.style.cursor = "wait";
             await axios.delete(`/api/users/delete-account/${user.data._id}`);
             setDeleteAcctLoading(false);
-            localStorage.clear();
-            navigate('/sign-in');
+            document.body.style.cursor = "default";
+            setRedirect(true);
+            setTimeout(() => {
+                let currentCount = count;
+                const interval = setInterval(() => {
+                    currentCount = currentCount - 1;
+                    setCount(currentCount);
+                    if (currentCount === 0) {
+                        clearInterval(interval);
+                        if (currentCount === 0) {
+                            navigate('/sign-in');
+                            window.location.reload();
+                            localStorage.clear();
+                        }
+                    }
+                }, 1000);
+            }, 3000);
         } catch (error) {
+            document.body.style.cursor = "default";
             console.error('Error deleting account:', error);
             setDeleteAcctLoading(false);
+            setRedirect(false);
         }
     };
     return (
@@ -475,7 +511,7 @@ export const SettingsTab = () => {
                             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 {isEditingPassword ? <div className="flex gap-2"><Input type="text" id="password" name="password" placeholder="Password" onChange={(e) => { setPassword(e.target.value) }}></Input><Button onClick={handleSavePassword}>SAVE</Button><Button onClick={handleCancelEditPassword}>CANCEL</Button></div> : <Button onClick={handleEditPassword} className="float-right">Edit Password</Button>}
                             </dd>
-                            <Button onClick={() => handleOpen("xs")}>
+                            <Button disabled={user.data.isAdmin} onClick={() => handleOpen("xs")}>
                                 Delete Account
                             </Button>
                         </div>
@@ -497,8 +533,8 @@ export const SettingsTab = () => {
                     >
                         <span>Cancel</span>
                     </Button>
-                    <Button onClick={handleDeleteAccount}>
-                        <span>{deleteAcctLoading ? "Processing" : "Confirm"}</span>
+                    <Button disabled={redirect} onClick={handleDeleteAccount}>
+                        {redirect ? <span>Redirect in <span className="rounded-full border-2 border-orange-500 text-white px-1">{count}</span></span> : <span>{deleteAcctLoading ? "Processing..." : "Confirm"}</span>}
                     </Button>
                 </DialogFooter>
             </Dialog>

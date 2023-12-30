@@ -66,7 +66,7 @@ const Booking = () => {
         } else {
             try {
                 setLoading(true);
-
+                document.body.style.cursor = "wait";
                 const result = await axios.post('/api/bookings/book-service', bookingDetails)
                 console.log(result)
                 // eslint-disable-next-line
@@ -88,10 +88,12 @@ const Booking = () => {
                 console.log(result)
                 setLoading(false);
                 setSuccess(true);
+                document.body.style.cursor = "default";
                 setTimeout(() => {
                     navigate("/profile")
                 }, 2000)
             } catch (error) {
+                document.body.style.cursor = "default";
                 setLoading(false);
                 console.log(error)
             }

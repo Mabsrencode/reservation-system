@@ -77,6 +77,7 @@ const Carwash = () => {
         } else {
             try {
                 setLoading(true);
+                document.body.style.cursor = "wait";
                 const result = await axios.post('/api/bookings/book-carwash', bookingDetails)
                 // eslint-disable-next-line
                 // const response = await axios.post('/api/bookings/send-message', {
@@ -95,9 +96,11 @@ const Carwash = () => {
                 console.log(result)
                 setLoading(false);
                 setSuccess(true);
+                document.body.style.cursor = "default";
                 navigate("/profile")
             } catch (error) {
                 setLoading(false);
+                document.body.style.cursor = "default";
                 console.log(error)
             }
         }
