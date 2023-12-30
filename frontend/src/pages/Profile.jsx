@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import "../styles/profile.css"
 import axios from 'axios';
 import { Link, useNavigate, Navigate } from "react-router-dom";
 import {
@@ -159,6 +160,7 @@ export const MyBookingsTab = () => {
     const cancelBooking = async (bookingId, serviceId) => {
         try {
             setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: true }));
+            document.body.style.cursor = "wait";
             const result = (await axios.post("/api/bookings/cancel-booking", { bookingId, serviceId })).data;
             console.log(result)
             setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: false }));
@@ -167,21 +169,26 @@ export const MyBookingsTab = () => {
                     booking._id === bookingId ? { ...booking, status: 'CANCELLED' } : booking
                 )
             );
+            document.body.style.cursor = "default";
         } catch (error) {
             setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: false }));
             console.log(error);
+            document.body.style.cursor = "default";
         }
     };
     //delete
     const handleDelete = async (bookingId) => {
         try {
             setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: true }));
+            document.body.style.cursor = "wait";
             const result = await axios.post("/api/bookings/delete-booking", { bookingId });
             console.log(result);
             setBookings((prevBookings) => prevBookings.filter((booking) => booking._id !== bookingId));
+            document.body.style.cursor = "default";
         } catch (error) {
             setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: false }));
             console.log(error);
+            document.body.style.cursor = "default";
         }
     }
 
@@ -338,7 +345,7 @@ export const MyBookingsTab = () => {
 export const SettingsTab = () => {
     const navigate = useNavigate();
     const { user } = useUser();
-    const userId = user.data._id
+    const userId = user.data._id;
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -348,105 +355,65 @@ export const SettingsTab = () => {
     const [isEditingNumber, setIsEditingNumber] = useState(false);
     const [isEditingPassword, setIsEditingPassword] = useState(false);
     const [deleteAcctLoading, setDeleteAcctLoading] = useState(false);
-    let [count, setCount] = useState(5);
+    const [count, setCount] = useState(5);
+    const [countProfile, setCountProfile] = useState(5);
     const [redirect, setRedirect] = useState(false);
+    const [redirectProfile, setRedirectProfile] = useState(false);
     const [size, setSize] = useState(null);
+    const [openModal, setOpenModal] = useState(false);
     const handleOpen = (value) => setSize(value);
     useEffect(() => {
         localStorage.setItem("user", JSON.stringify(user));
     }, [user]);
-    //name 
-    const handleEditName = () => {
-        setIsEditingName(true);
-    };
-    const handleCancelEditName = () => {
-        setIsEditingName(false)
-    }
-    const handleFullNameUpdate = async () => {
-        try {
-            document.body.style.cursor = "wait";
-            await axios.put(`/api/users/update-fullname/${userId}`, {
-                newFullName: fullName,
-            });
-            setIsEditingName(false);
-            document.body.style.cursor = "default";
-        } catch (error) {
-            document.body.style.cursor = "default";
-            console.error('Error updating full name:', error);
-        }
-    };
-    //email
-    const handleEditEmail = () => {
-        setIsEditingEmail(true)
-    }
-    const handleCancelEditEmail = () => {
-        setIsEditingEmail(false)
-    }
-
-    const handleEmailUpdate = async () => {
-        try {
-            document.body.style.cursor = "wait";
-            await axios.put(`/api/users/update-email/${userId}`, {
-                newEmail: email,
-            });
-            setIsEditingEmail(false);
-            document.body.style.cursor = "default";
-        } catch (error) {
-            document.body.style.cursor = "default";
-            console.error('Error updating email:', error);
-        }
-    };
-    //number
-    const handleEditNumber = () => {
-        setIsEditingNumber(true)
-    }
-    const handleCancelEditNumber = () => {
-        setIsEditingNumber(false)
-    }
-    const handlePhoneNumberUpdate = async () => {
-        try {
-            document.body.style.cursor = "wait";
-            await axios.put(`/api/users/update-phonenumber/${userId}`, {
-                newPhoneNumber: phoneNumber,
-            });
-            setIsEditingNumber(false);
-            document.body.style.cursor = "default";
-        } catch (error) {
-            document.body.style.cursor = "default";
-            console.error('Error updating phone number:', error);
-        }
-    };
-    //password
-    const handleEditPassword = () => {
-        setIsEditingPassword(true);
+    const handleEdit = (setter, isEditingSetter) => {
+        setter(true);
+        isEditingSetter(true);
     };
 
-    const handleCancelEditPassword = () => {
-        setIsEditingPassword(false);
-
+    const handleCancelEdit = (setter, isEditingSetter) => {
+        setter('');
+        isEditingSetter(false);
     };
 
-    const handleSavePassword = async () => {
+    const handleUpdate = async (apiEndpoint, data, isEditingSetter) => {
         try {
-            document.body.style.cursor = "wait";
-            await axios.put(`/api/users/update-password/${userId}`, {
-                newPassword: password,
-            });
-            setIsEditingPassword(false);
-            document.body.style.cursor = "default";
+            document.body.style.cursor = 'wait';
+            await axios.put(apiEndpoint, data);
+            isEditingSetter(false);
+            setRedirectProfile(true);
+            setOpenModal(true);
+            setTimeout(() => {
+                let currentCount = countProfile;
+                const interval = setInterval(() => {
+                    currentCount = currentCount - 1;
+                    setCountProfile(currentCount);
+                    if (currentCount === 0) {
+                        clearInterval(interval);
+                        if (currentCount === 0) {
+                            localStorage.clear();
+                            navigate('/sign-in');
+                            window.location.reload();
+                            document.body.style.cursor = 'default';
+                            setRedirectProfile(false);
+                            setOpenModal(false);
+                        }
+                    }
+                }, 1000);
+            }, 3000);
         } catch (error) {
-            document.body.style.cursor = "default";
-            console.error('Error updating password:', error);
+            document.body.style.cursor = 'default';
+            console.error(`Error updating: ${apiEndpoint}`, error);
+            setRedirectProfile(false);
+            setOpenModal(false);
         }
     };
+    //!not this
     const handleDeleteAccount = async () => {
-
         try {
             setDeleteAcctLoading(true);
             document.body.style.cursor = "wait";
             await axios.delete(`/api/users/delete-account/${user.data._id}`);
             setDeleteAcctLoading(false);
-            document.body.style.cursor = "default";
             setRedirect(true);
             setTimeout(() => {
                 let currentCount = count;
@@ -459,6 +426,7 @@ export const SettingsTab = () => {
                             navigate('/sign-in');
                             window.location.reload();
                             localStorage.clear();
+                            document.body.style.cursor = "default";
                         }
                     }
                 }, 1000);
@@ -485,7 +453,21 @@ export const SettingsTab = () => {
                                 Full name
                             </dt>
                             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                {isEditingName ? <div className="flex gap-2"><Input type="text" id="fullName" name="fullName" placeholder="Full Name" onChange={(e) => { setFullName(e.target.value) }}></Input><Button onClick={handleFullNameUpdate}>SAVE</Button><Button onClick={handleCancelEditName}>CANCEL</Button></div> : <Button onClick={handleEditName} className="float-right">EDIT</Button>}
+                                {isEditingName ? (
+                                    <div className="flex gap-2">
+                                        <Input
+                                            type="text"
+                                            id="fullName"
+                                            name="fullName"
+                                            placeholder="Full Name"
+                                            onChange={(e) => setFullName(e.target.value)}
+                                        ></Input>
+                                        <Button onClick={() => handleUpdate(`/api/users/update-fullname/${userId}`, { newFullName: fullName }, setIsEditingName)}>SAVE</Button>
+                                        <Button onClick={() => handleCancelEdit(setFullName, setIsEditingName)}>CANCEL</Button>
+                                    </div>
+                                ) : (
+                                    <Button onClick={() => handleEdit(setFullName, setIsEditingName)} className="float-right">EDIT</Button>
+                                )}
                             </dd>
                         </div>
                         <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -493,7 +475,21 @@ export const SettingsTab = () => {
                                 Email address
                             </dt>
                             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                {isEditingEmail ? <div className="flex gap-2"><Input type="email" id="email" name="email" placeholder="Email" onChange={(e) => { setEmail(e.target.value) }}></Input><Button onClick={handleEmailUpdate}>SAVE</Button><Button onClick={handleCancelEditEmail}>CANCEL</Button></div> : <Button onClick={handleEditEmail} className="float-right">Edit</Button>}
+                                {isEditingEmail ? (
+                                    <div className="flex gap-2">
+                                        <Input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            placeholder="Email"
+                                            onChange={(e) => setEmail(e.target.value)}
+                                        ></Input>
+                                        <Button onClick={() => handleUpdate(`/api/users/update-email/${userId}`, { newEmail: email }, setIsEditingEmail)}>SAVE</Button>
+                                        <Button onClick={() => handleCancelEdit(setEmail, setIsEditingEmail)}>CANCEL</Button>
+                                    </div>
+                                ) : (
+                                    <Button onClick={() => handleEdit(setEmail, setIsEditingEmail)} className="float-right">EDIT</Button>
+                                )}
                             </dd>
                         </div>
                         <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -501,7 +497,21 @@ export const SettingsTab = () => {
                                 Mobile Number
                             </dt>
                             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                {isEditingNumber ? <div className="flex gap-2"><Input type="tel" id="tel" name="tel" placeholder="Telephone Number" onChange={(e) => { setPhoneNumber("+63" + e.target.value) }}></Input><Button onClick={handlePhoneNumberUpdate}>SAVE</Button><Button onClick={handleCancelEditNumber}>CANCEL</Button></div> : <Button onClick={handleEditNumber} className="float-right">Edit</Button>}
+                                {isEditingNumber ? (
+                                    <div className="flex gap-2">
+                                        <Input
+                                            type="tel"
+                                            id="tel"
+                                            name="tel"
+                                            placeholder="920*******"
+                                            onChange={(e) => setPhoneNumber("+63" + e.target.value)}
+                                            maxLength={10}></Input>
+                                        <Button onClick={() => handleUpdate(`/api/users/update-phonenumber/${userId}`, { newPhoneNumber: phoneNumber }, setIsEditingNumber)}>SAVE</Button>
+                                        <Button onClick={() => handleCancelEdit(setPhoneNumber, setIsEditingNumber)}>CANCEL</Button>
+                                    </div>
+                                ) : (
+                                    <Button onClick={() => handleEdit(setPhoneNumber, setIsEditingNumber)} className="float-right">EDIT</Button>
+                                )}
                             </dd>
                         </div>
                         <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -509,7 +519,21 @@ export const SettingsTab = () => {
                                 Password
                             </dt>
                             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                {isEditingPassword ? <div className="flex gap-2"><Input type="text" id="password" name="password" placeholder="Password" onChange={(e) => { setPassword(e.target.value) }}></Input><Button onClick={handleSavePassword}>SAVE</Button><Button onClick={handleCancelEditPassword}>CANCEL</Button></div> : <Button onClick={handleEditPassword} className="float-right">Edit Password</Button>}
+                                {isEditingPassword ? (
+                                    <div className="flex gap-2">
+                                        <Input
+                                            type="password"
+                                            id="password"
+                                            name="password"
+                                            placeholder="Password"
+                                            onChange={(e) => setPassword(e.target.value)}
+                                        ></Input>
+                                        <Button onClick={() => handleUpdate(`/api/users/update-password/${userId}`, { newPassword: password }, setIsEditingPassword)}>SAVE</Button>
+                                        <Button onClick={() => handleCancelEdit(setPassword, setIsEditingPassword)}>CANCEL</Button>
+                                    </div>
+                                ) : (
+                                    <Button onClick={() => handleEdit(setPassword, setIsEditingPassword)} className="float-right">EDIT</Button>
+                                )}
                             </dd>
                             <Button disabled={user.data.isAdmin} onClick={() => handleOpen("xs")}>
                                 Delete Account
@@ -538,6 +562,14 @@ export const SettingsTab = () => {
                     </Button>
                 </DialogFooter>
             </Dialog>
+            {redirectProfile ? <>
+                <Dialog open={openModal} size={"xs"}
+                >
+                    <DialogBody className="text-center text-black">
+                        <span>Redirecting in <span className="rounded-full border-2 border-orange-500 px-2 py-1">{countProfile}</span></span>
+                    </DialogBody>
+                </Dialog>
+            </> : <></>}
         </section >
     );
 };

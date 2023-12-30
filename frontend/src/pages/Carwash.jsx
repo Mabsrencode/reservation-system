@@ -113,13 +113,13 @@ const Carwash = () => {
                 <Typography color='orange' as="h1" className='text-3xl text-center capitalize my-8 font-bold'>
                     Price
                 </Typography>
-                <table>
+                <table className='text-center'>
                     <thead>
                         <tr>
-                            <th>SMALL</th>
-                            <th>MEDIUM</th>
-                            <th>LARGE</th>
-                            <th>X-LARGE</th>
+                            <th className='text-center'>SMALL</th>
+                            <th className='text-center'>MEDIUM</th>
+                            <th className='text-center'>LARGE</th>
+                            <th className='text-center'>X-LARGE</th>
                         </tr>
                     </thead>
                     <tbody className='mt-20'>

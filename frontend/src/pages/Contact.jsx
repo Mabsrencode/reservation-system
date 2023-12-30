@@ -19,6 +19,7 @@ const Contact = () => {
 
         try {
             setLoading(true);
+            document.body.style.cursor = "wait";
             const response = await axios.post('/api/contact/send-email', {
                 email,
                 subject,
@@ -26,9 +27,11 @@ const Contact = () => {
             });
             setLoading(false);
             console.log(response.data);
+            document.body.style.cursor = "default";
         } catch (error) {
             setLoading(true);
             console.error('Error sending email:', error.response.data);
+            document.body.style.cursor = "default";
         }
     };
     return (
