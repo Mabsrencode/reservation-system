@@ -8,6 +8,8 @@ const Contact = () => {
     const [email, setEmail] = useState('');
     const [subject, setSubject] = useState('');
     const [message, setMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState(false);
+    const [messageStatus, setMessageStatus] = useState('');
     const { user } = useUser();
     if (!user) {
         return <Navigate to="/sign-in" />
@@ -25,13 +27,17 @@ const Contact = () => {
                 subject,
                 message,
             });
+            setMessageStatus("Your email sent successfully.")
             setLoading(false);
+            setErrorMessage(true)
             console.log(response.data);
             document.body.style.cursor = "default";
         } catch (error) {
             setLoading(true);
+            setMessageStatus("Something went wrong please try again later");
             console.error('Error sending email:', error.response.data);
             document.body.style.cursor = "default";
+            setErrorMessage(true);
         }
     };
     return (
@@ -63,6 +69,7 @@ const Contact = () => {
                             </>
                         ) : "Send Message"}
                     </Button>
+                    {errorMessage ? <span className='ml-2 mt-2 text-green-500'>{messageStatus}</span> : <></>}
                 </div>
             </section>
         </>
