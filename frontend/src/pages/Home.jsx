@@ -90,13 +90,13 @@ const Home = () => {
             </section>
             <section>
                 <div className='relative'>
-                    <video className="w-full object-cover" autoPlay muted loop>
+                    <video className="w-full h-[300px] sm:h-[750px] object-cover" autoPlay muted loop>
                         <source src={VideoBanner1} type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
-                    <div className='video-banner-container rounded-lg absolute w-1/4 p-4 border-2 border-orange-500'>
-                        <h1 className='text-2xl font-extrabold tracking-tight text-orange-500 uppercase'>Auto Detailing Services</h1>
-                        <p className='mt-4 text-justify text-gray-500'>Q-Zone makes your car detailing experience better for your vehicle and the environment by championing the newest technology and services in the industry.</p>
+                    <div className='video-banner-container rounded-lg absolute w-fit sm:w-1/4 p-4 border-2 border-orange-500'>
+                        <h1 className='text-lg sm:text-2xl font-extrabold tracking-tight text-orange-500 uppercase'>Auto Detailing Services</h1>
+                        <p className='mt-4 text-xs sm:text-base text-justify text-gray-500'>Q-Zone makes your car detailing experience better for your vehicle and the environment by championing the newest technology and services in the industry.</p>
                         <Link to={"/services"}>
                             <Button className='mt-4'>Our Services</Button></Link>
                     </div>

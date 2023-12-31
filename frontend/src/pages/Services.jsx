@@ -51,14 +51,14 @@ const Services = () => {
     return (
         <section className="mt-24">
             {user ? <>
-                <Typography variant="h1" color="white" className="mb-2 text-center text-7xl  text-orange-500">
+                <Typography variant="h1" color="white" className="mb-2 text-center text-7xl  text-orange-500 text-4xl sm:text-7xl">
                     AUTO DETAILING
                 </Typography>
                 <PricesCard services={services} loading={loading} />
                 <br />
                 <hr className="mt-12" />
                 <br />
-                <Typography variant="h1" color="white" className="my-24 text-center text-7xl  text-orange-500">
+                <Typography variant="h1" color="white" className="my-24 text-center text-4xl  text-orange-500 sm:text-7xl my-12">
                     Others
                 </Typography>
                 <CarwashPackage className="mt-2" carwash={carwash} loading={loadingCarwash} />

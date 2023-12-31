@@ -107,10 +107,10 @@ const Carwash = () => {
     };
     return (
         <section className='mb-20'>
-            <h1 className='text-6xl mt-20 md:text-7xl font-bold mb-20 text-center'>Booking details</h1>
-            <div className='booking-card mx-auto w-1/2 border-2 border-orange-500 py-5 px-10 rounded-lg'>
-                <h1 className='text-2xl mb-4 font-bold'>{service.title}</h1>
-                <Typography color='orange' as="h1" className='text-3xl text-center capitalize my-8 font-bold'>
+            <h1 className='text-4xl mt-20 md:text-7xl font-bold mb-20 text-center'>Booking details</h1>
+            <div className='booking-card mx-auto w-[320px] border-2 border-orange-500 py-5 px-2 rounded-lg sm:w-1/2 sm:px-10'>
+                <h1 className='text-2xl mb-4 font-bold whitespace-nowrap text-center sm:text-left'>{service.title}</h1>
+                <Typography color='orange' as="h1" className='text-center capitalize my-8 font-bold text-xl sm:text-3xl'>
                     Price
                 </Typography>
                 <table className='text-center'>
@@ -119,7 +119,7 @@ const Carwash = () => {
                             <th className='text-center'>SMALL</th>
                             <th className='text-center'>MEDIUM</th>
                             <th className='text-center'>LARGE</th>
-                            <th className='text-center'>X-LARGE</th>
+                            <th className='text-center whitespace-nowrap'>X-LARGE</th>
                         </tr>
                     </thead>
                     <tbody className='mt-20'>
@@ -132,24 +132,24 @@ const Carwash = () => {
                         </tr>
                     </tbody>
                 </table>
-                <Typography color='orange' as="h1" className='text-3xl font-bold text-center capitalize my-8'>
+                <Typography color='orange' as="h1" className='text-3xl font-bold text-center capitalize my-8 text-xl sm:text-3xl'>
                     Select your vehicle type
                 </Typography>
-                <div className="flex justify-center items-center gap-8 mb-16">
+                <div className="flex justify-center items-center gap-2 sm:gap-8 mb-16">
                     <div>
-                        <label htmlFor="small-car" className='relative'> <img className={`car-image rounded-full p-2 h-[150px] w-[150px] cursor-pointer ${vehiclePrice === service.small ? 'selected' : ''}`} src={smallCar} alt="car-size" /><h1 className='size-card-title text-black cursor-pointer'>SMALL</h1></label>
+                        <label htmlFor="small-car" className='relative'> <img className={`car-image rounded-full p-2 h-[60px] sm:h-[150px] w-[60px] sm:w-[150px] cursor-pointer ${vehiclePrice === service.small ? 'selected' : ''}`} src={smallCar} alt="car-size" /><h1 className='size-card-title text-black cursor-pointer text-xs sm:text-lg'>SMALL</h1></label>
                         <input type='radio' name='size' id='small-car' className='radio-size appearance-none' value={service.small} onChange={() => setVehiclePrice(service.small)}></input>
                     </div>
                     <div>
-                        <label htmlFor="medium-car" className='relative'><img className={`car-image rounded-full p-2 h-[150px] w-[150px] cursor-pointer ${vehiclePrice === service.medium ? 'selected' : ''}`} src={mediumCar} alt="car-size" /><h1 className='size-card-title text-black cursor-pointer'>MEDIUM</h1></label>
+                        <label htmlFor="medium-car" className='relative'><img className={`car-image rounded-full p-2 h-[60px] sm:h-[150px] w-[60px] sm:w-[150px] cursor-pointer ${vehiclePrice === service.medium ? 'selected' : ''}`} src={mediumCar} alt="car-size" /><h1 className='size-card-title text-black cursor-pointer text-xs sm:text-lg'>MEDIUM</h1></label>
                         <input type='radio' name='size' id='medium-car' className='radio-size appearance-none' value={service.medium} onChange={() => setVehiclePrice(service.medium)}></input>
                     </div>
                     <div>
-                        <label htmlFor="large-car" className='relative'><img className={`car-image rounded-full p-2 h-[150px] w-[150px] cursor-pointer ${vehiclePrice === service.large ? 'selected' : ''}`} src={largeCar} alt="car-size" /><h1 className='size-card-title text-black cursor-pointer'>LARGE</h1></label>
+                        <label htmlFor="large-car" className='relative'><img className={`car-image rounded-full p-2 h-[60px] sm:h-[150px] w-[60px] sm:w-[150px] cursor-pointer ${vehiclePrice === service.large ? 'selected' : ''}`} src={largeCar} alt="car-size" /><h1 className='size-card-title text-black cursor-pointer text-xs sm:text-lg'>LARGE</h1></label>
                         <input type='radio' name='size' id='large-car' className='radio-size appearance-none' value={service.large} onChange={() => setVehiclePrice(service.large)}></input>
                     </div>
                     <div>
-                        <label htmlFor="x-large-car" className='relative'><img className={`car-image rounded-full p-2 h-[150px] w-[150px] cursor-pointer ${vehiclePrice === service.x_large ? 'selected' : ''}`} src={x_largeCar} alt="car-size" /><h1 className='size-card-title text-black cursor-pointer'>XLARGE</h1></label>
+                        <label htmlFor="x-large-car" className='relative'><img className={`car-image rounded-full p-2 h-[60px] sm:h-[150px] w-[60px] sm:w-[150px] cursor-pointer ${vehiclePrice === service.x_large ? 'selected' : ''}`} src={x_largeCar} alt="car-size" /><h1 className='size-card-title text-black cursor-pointer text-xs sm:text-lg'>XLARGE</h1></label>
                         <input type='radio' name='size' id='x-large-car' className='radio-size appearance-none' value={service.x_large} onChange={() => setVehiclePrice(service.x_large)}></input>
                     </div>
                 </div>

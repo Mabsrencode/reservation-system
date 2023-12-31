@@ -35,3 +35,9 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   margin-top: -40px;
   font-weight: 700;
 }
+@media screen and (max-width: 640px) {
+  .size-card-title {
+    margin-top: 10px;
+    color: white;
+  }
+}

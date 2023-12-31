@@ -32,13 +32,10 @@ const Accordions = () => {
     return (
         <section className="mx-2 sm:mx-24">
             <div className="text-center max-w-xl mx-auto">
-                <h1 className="mt-20 text-6xl md:text-7xl font-bold mb-5 text-white-600">
+                <h1 className="mt-20 text-3xl sm:text-4xl md:text-7xl font-bold mb-5 text-white-600">
                     Frequently Ask<br />
                     Questions.
                 </h1>
-                {/* <h3 className="text-xl mb-5 font-light">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                </h3> */}
                 <div className="text-center mb-10">
                     <span className="inline-block w-1 h-1 rounded-full bg-orange-500 ml-1"></span>
                     <span className="inline-block w-3 h-1 rounded-full bg-orange-500 ml-1"></span>

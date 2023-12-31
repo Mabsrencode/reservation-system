@@ -18,7 +18,7 @@ const PricesCard = ({ services, loading }) => {
             </> : <>
                 <div className="flex flex-wrap justify-center items-center gap-5 rounded-lg mt-24">
                     {services.map((service) => (
-                        <Card className="card mt-6 w-96" key={service._id}>
+                        <Card className="card mt-6 w-96 mx-4" key={service._id}>
                             <CardHeader color="blue-gray" className="relative h-36 mt-4 image-card">
                                 <img
                                     src={service.imageUrl}
