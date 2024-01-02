@@ -29,7 +29,6 @@ const Booking = () => {
     const navigate = useNavigate()
     const phone_number = user.data.tel
     const phone = phone_number.toString()
-    const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
     // eslint-disable-next-line
     const recipient = user.data.name
     console.log(phone)
@@ -85,9 +84,7 @@ const Booking = () => {
                 // });
 
                 console.log(result)
-                setTimeout(() => {
-                    setLoading(false);
-                }, oneDayInMilliseconds)
+                setLoading(false);
                 setSuccess(true);
                 document.body.style.cursor = "default";
                 setTimeout(() => {
