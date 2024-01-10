@@ -42,7 +42,7 @@ const Carwash = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = (await axios.post(`https://q-zone-api.onrender.com/api/carwash/book/${_id}`)).data;
+                const data = (await axios.post(`https://attractive-pink-shrimp.cyclic.app/api/carwash/book/${_id}`)).data;
                 setService(data);
                 // console.log(data);
             } catch (error) {
@@ -78,16 +78,16 @@ const Carwash = () => {
             try {
                 setLoading(true);
                 document.body.style.cursor = "wait";
-                const result = await axios.post('https://q-zone-api.onrender.com/api/bookings/book-carwash', bookingDetails)
+                const result = await axios.post('https://attractive-pink-shrimp.cyclic.app/api/bookings/book-carwash', bookingDetails)
                 // eslint-disable-next-line
-                // const response = await axios.post('https://q-zone-api.onrender.com/api/bookings/send-message', {
+                // const response = await axios.post('https://attractive-pink-shrimp.cyclic.app/api/bookings/send-message', {
                 //     apikey: accessTokenSms,
                 //     number: `+${phone}`,
                 //     message: `Hello ${recipient}! You are now Successfully Booked from Q-Zone Professional Detailers. Thank you for booking on us.\n\nAnd your payment of P${vehiclePrice * 0.20}.00 has been successfully processed on ${currentDate}.`,
                 // });
                 // console.log(response);
                 // eslint-disable-next-line
-                // const responseAdmin = await axios.post('https://q-zone-api.onrender.com/api/bookings/send-message-admin', {
+                // const responseAdmin = await axios.post('https://attractive-pink-shrimp.cyclic.app/api/bookings/send-message-admin', {
                 //     apikey: accessTokenSms,
                 //     number: `+639205746697`,
                 //     message: `[Q-ZONE ONLINE]\n\n ${recipient} has successfully booked at ${selectedDate} ${selectedTime}. \n\nWith successfully paid of P${vehiclePrice * 0.20}.00.`,
@@ -137,19 +137,19 @@ const Carwash = () => {
                 </Typography>
                 <div className="flex justify-center items-center gap-2 sm:gap-8 mb-16">
                     <div>
-                        <label htmlFor="small-car" className='relative'> <img className={`car-image rounded-full p-2 h-[60px] sm:h-[150px] w-[60px] sm:w-[150px] cursor-pointer ${vehiclePrice === service.small ? 'selected' : ''}`} src={smallCar} alt="car-size" /><h1 className='size-card-title text-black cursor-pointer text-xs sm:text-lg'>SMALL</h1></label>
+                        <label htmlFor="small-car" className='relative'> <img className={`car-image rounded-full p-2 h-[60px] sm:h-[150px] w-[60px] sm:w-[150px] cursor-pointer ${vehiclePrice === service.small ? 'selected' : ''}`} src={smallCar} alt="car-size" /><h1 className='size-card-title text-black cursor-pointer text-xs sm:text-lg'>SEDAN</h1></label>
                         <input type='radio' name='size' id='small-car' className='radio-size appearance-none' value={service.small} onChange={() => setVehiclePrice(service.small)}></input>
                     </div>
                     <div>
-                        <label htmlFor="medium-car" className='relative'><img className={`car-image rounded-full p-2 h-[60px] sm:h-[150px] w-[60px] sm:w-[150px] cursor-pointer ${vehiclePrice === service.medium ? 'selected' : ''}`} src={mediumCar} alt="car-size" /><h1 className='size-card-title text-black cursor-pointer text-xs sm:text-lg'>MEDIUM</h1></label>
+                        <label htmlFor="medium-car" className='relative'><img className={`car-image rounded-full p-2 h-[60px] sm:h-[150px] w-[60px] sm:w-[150px] cursor-pointer ${vehiclePrice === service.medium ? 'selected' : ''}`} src={mediumCar} alt="car-size" /><h1 className='size-card-title text-black cursor-pointer text-xs sm:text-lg'>S SUV</h1></label>
                         <input type='radio' name='size' id='medium-car' className='radio-size appearance-none' value={service.medium} onChange={() => setVehiclePrice(service.medium)}></input>
                     </div>
                     <div>
-                        <label htmlFor="large-car" className='relative'><img className={`car-image rounded-full p-2 h-[60px] sm:h-[150px] w-[60px] sm:w-[150px] cursor-pointer ${vehiclePrice === service.large ? 'selected' : ''}`} src={largeCar} alt="car-size" /><h1 className='size-card-title text-black cursor-pointer text-xs sm:text-lg'>LARGE</h1></label>
+                        <label htmlFor="large-car" className='relative'><img className={`car-image rounded-full p-2 h-[60px] sm:h-[150px] w-[60px] sm:w-[150px] cursor-pointer ${vehiclePrice === service.large ? 'selected' : ''}`} src={largeCar} alt="car-size" /><h1 className='size-card-title text-black cursor-pointer text-xs sm:text-lg'>L SUV</h1></label>
                         <input type='radio' name='size' id='large-car' className='radio-size appearance-none' value={service.large} onChange={() => setVehiclePrice(service.large)}></input>
                     </div>
                     <div>
-                        <label htmlFor="x-large-car" className='relative'><img className={`car-image rounded-full p-2 h-[60px] sm:h-[150px] w-[60px] sm:w-[150px] cursor-pointer ${vehiclePrice === service.x_large ? 'selected' : ''}`} src={x_largeCar} alt="car-size" /><h1 className='size-card-title text-black cursor-pointer text-xs sm:text-lg'>XLARGE</h1></label>
+                        <label htmlFor="x-large-car" className='relative'><img className={`car-image rounded-full p-2 h-[60px] sm:h-[150px] w-[60px] sm:w-[150px] cursor-pointer ${vehiclePrice === service.x_large ? 'selected' : ''}`} src={x_largeCar} alt="car-size" /><h1 className='size-card-title text-black cursor-pointer text-xs sm:text-lg'>VAN</h1></label>
                         <input type='radio' name='size' id='x-large-car' className='radio-size appearance-none' value={service.x_large} onChange={() => setVehiclePrice(service.x_large)}></input>
                     </div>
                 </div>

@@ -105,7 +105,7 @@ export const Bookings = () => {
     const fetchData = async () => {
         try {
             setLoading(true);
-            const data = (await axios.get("https://q-zone-api.onrender.com/api/bookings/all-bookings")).data;
+            const data = (await axios.get("https://attractive-pink-shrimp.cyclic.app/api/bookings/all-bookings")).data;
             setBookings(data);
             console.log(data)
             const bookingCount = data.filter(booking => booking.status === 'booked').length;
@@ -139,7 +139,7 @@ export const Bookings = () => {
     const handleUpdateDone = async (bookingId) => {
         try {
             setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: true }));
-            await axios.post("https://q-zone-api.onrender.com/api/bookings/update-done", { bookingId });
+            await axios.post("https://attractive-pink-shrimp.cyclic.app/api/bookings/update-done", { bookingId });
             fetchData();
             setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: false }));
         } catch (error) {
@@ -151,7 +151,7 @@ export const Bookings = () => {
     const handleUpdateOngoing = async (bookingId) => {
         try {
             setLoadingStatesBoneFire(prevStates => ({ ...prevStates, [bookingId]: true }));
-            await axios.post("https://q-zone-api.onrender.com/api/bookings/update-ongoing", { bookingId });
+            await axios.post("https://attractive-pink-shrimp.cyclic.app/api/bookings/update-ongoing", { bookingId });
             fetchData();
             setLoadingStatesBoneFire(prevStates => ({ ...prevStates, [bookingId]: false }));
         } catch (error) {
@@ -162,7 +162,7 @@ export const Bookings = () => {
     const handleUpdateMessage = async (userNumber, userName, bookingId) => {
         try {
             setSendNotification(prevStates => ({ ...prevStates, [bookingId]: true }));
-            // const response = await axios.post('https://q-zone-api.onrender.com/api/bookings/send-message-notify', {
+            // const response = await axios.post('https://attractive-pink-shrimp.cyclic.app/api/bookings/send-message-notify', {
             //     apikey: accessTokenSms,
             //     number: `+${userNumber}`,
             //     message: `Hello ${userName}! You are now able to go from Q-Zone Professional Detailers. Your slot is now available.\n\nThank you!`,
@@ -337,7 +337,7 @@ export const Services = () => {
     const fetchData = async () => {
         try {
             setLoading(true);
-            const data = (await axios.get("https://q-zone-api.onrender.com/api/services/auto-detailing")).data;
+            const data = (await axios.get("https://attractive-pink-shrimp.cyclic.app/api/services/auto-detailing")).data;
             setServices(data);
         } catch (error) {
             console.log(error);
@@ -353,7 +353,7 @@ export const Services = () => {
     const fetchDataCarwash = async () => {
         try {
             setLoading(true);
-            const data = (await axios.get("https://q-zone-api.onrender.com/api/services/carwash-package")).data;
+            const data = (await axios.get("https://attractive-pink-shrimp.cyclic.app/api/services/carwash-package")).data;
             setCarwash(data);
         } catch (error) {
             console.log(error);
@@ -369,7 +369,7 @@ export const Services = () => {
     const handleDeleteService = async (serviceId) => {
         try {
             setLoadingStates(prevStates => ({ ...prevStates, [serviceId]: true }));
-            const result = await axios.post("https://q-zone-api.onrender.com/api/delete-service", { serviceId });
+            const result = await axios.post("https://attractive-pink-shrimp.cyclic.app/api/delete-service", { serviceId });
             console.log(result);
             setLoadingStates(prevStates => ({ ...prevStates, [serviceId]: false }));
             setServices((prevServices) => prevServices.filter((service) => service._id !== serviceId));
@@ -390,7 +390,7 @@ export const Services = () => {
             try {
                 setError(false)
                 setLoading(true);
-                const response = await axios.post("https://q-zone-api.onrender.com/api/add-services", service);
+                const response = await axios.post("https://attractive-pink-shrimp.cyclic.app/api/add-services", service);
                 setServices(prevServices => [...prevServices, response.data]);
                 setLoading(false);
                 setTitle("");
@@ -418,7 +418,7 @@ export const Services = () => {
         setError(false);
         try {
             setLoadingCarwash(true);
-            const response = await axios.post("https://q-zone-api.onrender.com/api/add-services/carwash", carwash);
+            const response = await axios.post("https://attractive-pink-shrimp.cyclic.app/api/add-services/carwash", carwash);
             setCarwash(prevServices => [...prevServices, response.data]);
             setLoadingCarwash(false);
             setTitle("");
@@ -438,7 +438,7 @@ export const Services = () => {
     const handleUpdateService = async (serviceId) => {
         try {
             setLoadingStates((prevStates) => ({ ...prevStates, [serviceId]: true }));
-            const response = await axios.post("https://q-zone-api.onrender.com/api/update-service", {
+            const response = await axios.post("https://attractive-pink-shrimp.cyclic.app/api/update-service", {
                 serviceId,
                 updatedServiceData: updateForm,
             });
@@ -468,7 +468,7 @@ export const Services = () => {
     const handleUpdateServiceCarwash = async (serviceId) => {
         try {
             setLoadingStates((prevStates) => ({ ...prevStates, [serviceId]: true }));
-            const response = await axios.post("https://q-zone-api.onrender.com/api/update-service/carwash", {
+            const response = await axios.post("https://attractive-pink-shrimp.cyclic.app/api/update-service/carwash", {
                 serviceId,
                 updatedServiceData: updateForm,
             });
@@ -754,7 +754,7 @@ export const Users = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = (await axios.get("https://q-zone-api.onrender.com/api/users/all-users")).data;
+                const data = (await axios.get("https://attractive-pink-shrimp.cyclic.app/api/users/all-users")).data;
                 setUsers(data);
             } catch (error) {
                 console.log(error);
