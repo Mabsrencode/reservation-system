@@ -103,9 +103,6 @@ const Booking = () => {
                         }
                     }, 1000);
                 });
-                // setTimeout(() => {
-                //     navigate("/profile")
-                // }, 2000)
             } catch (error) {
                 setRedirect(false)
                 document.body.style.cursor = "default";
