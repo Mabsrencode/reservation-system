@@ -9,7 +9,7 @@ import {
 const SkeletonPriceCard = () => {
     return (
         <div className="flex flex-wrap justify-center items-center gap-5 rounded-lg mt-24">
-            <Card className="card mt-6 w-96">
+            <Card className="card mt-6 w-96 mx-4">
                 <CardHeader color="blue-gray" className="relative h-36 mt-4 image-card animate-pulse">
 
                 </CardHeader>
@@ -22,7 +22,7 @@ const SkeletonPriceCard = () => {
                     <div className='w-[120px] h-[40px] animate-pulse bg-gray-500 rounded-lg'></div>
                 </CardFooter>
             </Card>
-            <Card className="card mt-6 w-96">
+            <Card className="card mt-6 w-96 mx-4">
                 <CardHeader color="blue-gray" className="relative h-36 mt-4 image-card animate-pulse">
 
                 </CardHeader>
@@ -35,7 +35,7 @@ const SkeletonPriceCard = () => {
                     <div className='w-[120px] h-[35px] animate-pulse bg-gray-500 rounded-lg'></div>
                 </CardFooter>
             </Card>
-            <Card className="card mt-6 w-96">
+            <Card className="card mt-6 w-96 mx-4">
                 <CardHeader color="blue-gray" className="relative h-36 mt-4 image-card animate-pulse">
 
                 </CardHeader>
@@ -48,7 +48,7 @@ const SkeletonPriceCard = () => {
                     <div className='w-[120px] h-[35px] animate-pulse bg-gray-500 rounded-lg'></div>
                 </CardFooter>
             </Card>
-            <Card className="card mt-6 w-96">
+            <Card className="card mt-6 w-96 mx-4">
                 <CardHeader color="blue-gray" className="relative h-36 mt-4 image-card animate-pulse">
 
                 </CardHeader>
@@ -61,7 +61,7 @@ const SkeletonPriceCard = () => {
                     <div className='w-[120px] h-[35px] animate-pulse bg-gray-500 rounded-lg'></div>
                 </CardFooter>
             </Card>
-            <Card className="card mt-6 w-96">
+            <Card className="card mt-6 w-96 mx-4">
                 <CardHeader color="blue-gray" className="relative h-36 mt-4 image-card animate-pulse">
 
                 </CardHeader>
@@ -74,7 +74,7 @@ const SkeletonPriceCard = () => {
                     <div className='w-[120px] h-[35px] animate-pulse bg-gray-500 rounded-lg'></div>
                 </CardFooter>
             </Card>
-            <Card className="card mt-6 w-96">
+            <Card className="card mt-6 w-96 mx-4">
                 <CardHeader color="blue-gray" className="relative h-36 mt-4 image-card animate-pulse">
 
                 </CardHeader>
@@ -87,7 +87,7 @@ const SkeletonPriceCard = () => {
                     <div className='w-[120px] h-[35px] animate-pulse bg-gray-500 rounded-lg'></div>
                 </CardFooter>
             </Card>
-            <Card className="card mt-6 w-96">
+            <Card className="card mt-6 w-96 mx-4">
                 <CardHeader color="blue-gray" className="relative h-36 mt-4 image-card animate-pulse">
 
                 </CardHeader>
