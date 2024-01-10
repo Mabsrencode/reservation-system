@@ -399,7 +399,7 @@ export const SettingsTab = () => {
                         }
                     }
                 }, 1000);
-            }, 3000);
+            });
         } catch (error) {
             document.body.style.cursor = 'default';
             console.error(`Error updating: ${apiEndpoint}`, error);
@@ -430,7 +430,7 @@ export const SettingsTab = () => {
                         }
                     }
                 }, 1000);
-            }, 3000);
+            });
         } catch (error) {
             document.body.style.cursor = "default";
             console.error('Error deleting account:', error);
@@ -566,7 +566,7 @@ export const SettingsTab = () => {
                 <Dialog open={openModal} size={"xs"}
                 >
                     <DialogBody className="text-center text-black">
-                        <span>Redirecting in <span className="rounded-full border-2 border-orange-500 px-2 py-1">{countProfile}</span></span>
+                        <span>Redirect in <span className="rounded-full border-2 border-orange-500 px-2 py-1">{countProfile}</span></span>
                     </DialogBody>
                 </Dialog>
             </> : <></>}

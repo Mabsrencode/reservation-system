@@ -787,7 +787,7 @@ export const Users = () => {
                     </thead>
                     <tbody>
                         {users.map((user) => (
-                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={user._id}>
+                            user.isAdmin ? <></> : <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={user._id}>
                                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {user._id}
                                 </th>
