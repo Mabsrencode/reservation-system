@@ -41,6 +41,7 @@ const Register = () => {
     const navigate = useNavigate();
     const recaptchaContainer = document.getElementById("recaptcha")
     const sendOtp = async () => {
+//!set validation when number is null
         try {
             setSending(true);
             const recaptcha = new RecaptchaVerifier(auth, "recaptcha", {});
