@@ -37,7 +37,7 @@ const Booking = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = (await axios.post(`https://attractive-pink-shrimp.cyclic.app/api/auto-detailing/book/${_id}`)).data;
+                const data = (await axios.post(`https://q-zone-api.onrender.com/api/auto-detailing/book/${_id}`)).data;
                 setService(data);
                 // console.log(data);
             } catch (error) {
@@ -69,17 +69,17 @@ const Booking = () => {
             try {
                 setLoading(true);
                 document.body.style.cursor = "wait";
-                const result = await axios.post('https://attractive-pink-shrimp.cyclic.app/api/bookings/book-service', bookingDetails)
+                const result = await axios.post('https://q-zone-api.onrender.com/api/bookings/book-service', bookingDetails)
                 console.log(result)
                 // eslint-disable-next-line
-                // const response = await axios.post('https://attractive-pink-shrimp.cyclic.app/api/bookings/send-message', {
+                // const response = await axios.post('https://q-zone-api.onrender.com/api/bookings/send-message', {
                 //     apikey: accessTokenSms,
                 //     number: `+${phone}`,
                 //     message: `Hello ${recipient}! You are now Successfully Booked from Q-Zone Professional Detailers. Thank you for booking on us.\n\nAnd your payment of P${vehiclePrice * 0.20}.00 has been successfully processed on ${currentDate}.`,
                 // });
 
                 // eslint-disable-next-line
-                // const responseAdmin = await axios.post('https://attractive-pink-shrimp.cyclic.app/api/bookings/send-message-admin', {
+                // const responseAdmin = await axios.post('https://q-zone-api.onrender.com/api/bookings/send-message-admin', {
                 //     apikey: accessTokenSms,
                 //     number: `+639205746697`,
                 //     message: `[Q-ZONE ONLINE]\n\n ${recipient} has successfully booked at ${selectedDate} ${selectedTime}. \n\nWith successfully paid of P${vehiclePrice * 0.20}.00.`,

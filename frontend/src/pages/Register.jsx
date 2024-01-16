@@ -122,7 +122,7 @@ const Register = () => {
             try {
                 setLoading(true);
                 document.body.style.cursor = "wait";
-                const data = await axios.post("https://attractive-pink-shrimp.cyclic.app/api/users/register", user);
+                const data = await axios.post("https://q-zone-api.onrender.com/api/users/register", user);
                 localStorage.setItem("user", JSON.stringify(data));
                 navigate('/sign-in');
             } catch (error) {
