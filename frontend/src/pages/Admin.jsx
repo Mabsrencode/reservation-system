@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { Navigate } from "react-router-dom";
+import usePageMetadata from "../hooks/usePageMetaData";
 import {
     Tabs,
     TabsHeader,
@@ -35,11 +36,13 @@ const data = [
 ];
 
 const Admin = () => {
+    usePageMetadata('Admin Page', 'This is the description for the Admin page.');
     const { user } = useUser();
     const isAdmin = user && user.data.isAdmin;
     if (!isAdmin) {
         return <Navigate to="/*" />;
     }
+
     const renderTabContent = (tabValue) => {
         switch (tabValue) {
             case "bookings":

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import usePageMetadata from '../hooks/usePageMetaData';
 import axios from 'axios';
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 import { useNavigate, Link } from 'react-router-dom';
@@ -14,6 +15,7 @@ import {
 import { useUser } from '../context/userContext';
 
 const SignIn = () => {
+    usePageMetadata('Sign-In Page', 'This is the description for the Sign-In page.');
     const [error, setError] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
     const [loading, setLoading] = useState(false)

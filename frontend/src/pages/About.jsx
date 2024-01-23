@@ -1,6 +1,7 @@
 import React from 'react'
-
+import usePageMetadata from '../hooks/usePageMetaData'
 const About = () => {
+    usePageMetadata('About Page', 'This is the description for the About page.');
     return (
         <section className='my-6 sm:my-12'>
             <h1 className='text-3xl mt-20 md:text-7xl font-bold mb-20 text-center'>Welcome to Q-Zone</h1>

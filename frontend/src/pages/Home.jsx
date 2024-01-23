@@ -1,4 +1,5 @@
 import React from 'react'
+import usePageMetadata from '../hooks/usePageMetaData';
 import { Link } from "react-router-dom";
 import { Button, Carousel } from "@material-tailwind/react";
 import Banner1 from "../assets/banner/banner1.jpg";
@@ -12,6 +13,7 @@ import Services from '../components/services/Services';
 import { useUser } from '../context/userContext';
 const Home = () => {
     const { user } = useUser();
+    usePageMetadata('Q-Zone Professional Detailers', 'This is the description for the Home page.');
     return (
         <>
             <section className='hero'>

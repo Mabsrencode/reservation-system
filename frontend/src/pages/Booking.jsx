@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import usePageMetadata from '../hooks/usePageMetaData';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "../styles/booking.css"
@@ -11,6 +12,7 @@ import { Button, Input, Typography } from '@material-tailwind/react'; //, Input
 import { Calendar } from 'rsuite';
 import { useUser } from '../context/userContext';
 const Booking = () => {
+    usePageMetadata('Booking Page', 'This is the description for the Booking page.');
     const { user } = useUser();
     const [service, setService] = useState([]);
     const [loading, setLoading] = useState(false);

@@ -1,7 +1,9 @@
 import React from 'react'
+import usePageMetadata from '../hooks/usePageMetaData';
 import { Link } from 'react-router-dom';
 import { Button } from '@material-tailwind/react';
 const NoPage = () => {
+    usePageMetadata('404', 'This is the description for the 404 page.');
     return (
         <main className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
             <div className="text-center">

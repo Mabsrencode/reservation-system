@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import usePageMetadata from "../hooks/usePageMetaData";
 import axios from "axios";
 import ServicesCards from "../components/services-cards/ServicesCards";
 import PricesCard from "../components/prices-cards/PricesCard";
@@ -6,6 +7,7 @@ import CarwashPackage from "../components/carwash/CarwashPackage";
 import { Typography } from "@material-tailwind/react";
 import { useUser } from "../context/userContext";
 const Services = () => {
+    usePageMetadata('Services Page', 'This is the description for the Services page.');
     const { user } = useUser()
     const [services, setServices] = useState([]);
     const [carwash, setCarwash] = useState([]);

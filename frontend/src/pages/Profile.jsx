@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import usePageMetadata from "../hooks/usePageMetaData";
 import "../styles/profile.css"
 import axios from 'axios';
 import { Link, useNavigate, Navigate } from "react-router-dom";
@@ -40,6 +41,7 @@ const data = [
 ];
 
 const Profile = () => {
+    usePageMetadata('Profile Page', 'This is the description for the Profile page.');
     const { user } = useUser();
     if (!user) {
         return <Navigate to="/sign-in" />

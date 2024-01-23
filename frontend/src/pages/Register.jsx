@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'; //useContext
+import usePageMetadata from '../hooks/usePageMetaData';
 import axios from 'axios';
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { auth } from "../firebase/setup"
@@ -14,6 +15,7 @@ import {
 } from "@material-tailwind/react";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 const Register = () => {
+    usePageMetadata('Register Page', 'This is the description for the Register page.');
     const [user, setUser] = useState(null)
     const [otp, setOtp] = useState("")
     const [firstName, setFistName] = useState("")
@@ -41,7 +43,7 @@ const Register = () => {
     const navigate = useNavigate();
     const recaptchaContainer = document.getElementById("recaptcha")
     const sendOtp = async () => {
-//!set validation when number is null
+        //!set validation when number is null
         try {
             setSending(true);
             const recaptcha = new RecaptchaVerifier(auth, "recaptcha", {});

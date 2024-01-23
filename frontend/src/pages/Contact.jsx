@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
+import usePageMetadata from '../hooks/usePageMetaData';
 import { Input, Button } from '@material-tailwind/react'
 import axios from 'axios';
 import { Navigate } from 'react-router-dom';
 import { useUser } from '../context/userContext';
 const Contact = () => {
+    usePageMetadata('Contact Page', 'This is the description for the Contact page.');
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [subject, setSubject] = useState('');
