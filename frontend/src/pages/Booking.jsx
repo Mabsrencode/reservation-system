@@ -12,7 +12,7 @@ import { Button, Input, Typography } from '@material-tailwind/react'; //, Input
 import { Calendar } from 'rsuite';
 import { useUser } from '../context/userContext';
 const Booking = () => {
-    usePageMetadata('Booking Page', 'This is the description for the Booking page.');
+    usePageMetadata('Auto Detailing Page', 'This is the description for the Auto Detailing page.');
     const { user } = useUser();
     const [service, setService] = useState([]);
     const [loading, setLoading] = useState(false);
