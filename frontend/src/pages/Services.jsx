@@ -18,7 +18,7 @@ const Services = () => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const data = (await axios.get("https://q-zone-api.onrender.com/api/services/auto-detailing")).data;
+                const data = (await axios.get("https://maroon-viper-toga.cyclic.app/api/services/auto-detailing")).data;
                 setServices(data);
                 setTimeout(() => {
                     setLoading(false);
@@ -36,7 +36,7 @@ const Services = () => {
         const fetchData = async () => {
             try {
                 setLoadingCarwash(true);
-                const data = (await axios.get("https://q-zone-api.onrender.com/api/services/carwash-package")).data;
+                const data = (await axios.get("https://maroon-viper-toga.cyclic.app/api/services/carwash-package")).data;
                 setCarwash(data);
                 setTimeout(() => {
                     setLoadingCarwash(false);

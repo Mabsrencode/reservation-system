@@ -34,7 +34,7 @@ const SignIn = () => {
         try {
             setLoading(true)
             document.body.style.cursor = "wait";
-            const data = await axios.post("https://q-zone-api.onrender.com/api/users/sign-in", user)
+            const data = await axios.post("https://maroon-viper-toga.cyclic.app/api/users/sign-in", user)
             document.body.style.cursor = "default";
             navigate('/')
             setLoading(false)
