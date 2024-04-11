@@ -65,19 +65,21 @@ const Home = () => {
                                 Trust us to bring out the true brilliance of your vehicle, leaving a lasting impression on every journey.
                             </p>
                             <div className="flex items-center">
-                                {user ? (<Link to="/services">
-                                    <Button className="mr-4 py-2">Book Now</Button>
-                                </Link>) : (<Link to="/register">
-                                    <Button className="mr-4 py-2">Register Now</Button>
-                                </Link>)}
+                                {!user?.data?.isAdmin && <>
+                                    {user ? (<Link to="/services">
+                                        <Button className="mr-4 py-2">Book Now</Button>
+                                    </Link>) : (<Link to="/register">
+                                        <Button className="mr-4 py-2">Register Now</Button>
+                                    </Link>)}
 
-                                <Link
-                                    to="/about"
-                                    aria-label=""
-                                    className="inline-flex items-center font-semibold text-gray-800 transition-colors duration-200 hover:underline"
-                                >
-                                    Learn more
-                                </Link>
+                                    <Link
+                                        to="/about"
+                                        aria-label=""
+                                        className="inline-flex items-center font-semibold text-gray-800 transition-colors duration-200 hover:underline"
+                                    >
+                                        Learn more
+                                    </Link>
+                                </>}
                             </div>
                         </div>
                     </div>
@@ -99,8 +101,8 @@ const Home = () => {
                     <div className='video-banner-container rounded-lg absolute w-fit sm:w-1/4 p-4 border-2 border-orange-500'>
                         <h1 className='text-lg sm:text-2xl font-extrabold tracking-tight text-orange-500 uppercase'>Auto Detailing Services</h1>
                         <p className='mt-4 text-xs sm:text-base text-justify text-gray-500'>Q-Zone makes your car detailing experience better for your vehicle and the environment by championing the newest technology and services in the industry.</p>
-                        <Link to={"/services"}>
-                            <Button className='mt-4'>Our Services</Button></Link>
+                        {!user?.data?.isAdmin && <Link to={"/services"}>
+                            <Button className='mt-4'>Our Services</Button></Link>}
                     </div>
                 </div>
             </section>
