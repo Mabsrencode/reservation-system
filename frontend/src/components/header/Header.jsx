@@ -27,46 +27,48 @@ const Header = () => {
     const navList = (
 
         <ul className="nav-list mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-            <Typography
-                as="li"
-                variant="small"
-                color="white"
-                className="p-1 font-normal hover:text-orange-500 focus:text-orange-500"
-            >
-                <Link to="/" className="flex items-center">
-                    Home
-                </Link>
-            </Typography>
-            <Typography
-                as="li"
-                variant="small"
-                color="white"
-                className="p-1 font-normal hover:text-orange-500 focus:text-orange-500"
-            >
-                <Link to="/services" className="flex items-center">
-                    Services
-                </Link>
-            </Typography>
-            <Typography
-                as="li"
-                variant="small"
-                color="white"
-                className="p-1 font-normal hover:text-orange-500 focus:text-orange-500"
-            >
-                <Link to="/about" className="flex items-center">
-                    About us
-                </Link>
-            </Typography>
-            <Typography
-                as="li"
-                variant="small"
-                color="white"
-                className="p-1 font-normal hover:text-orange-500 focus:text-orange-500"
-            >
-                <Link to="/contact" className="flex items-center">
-                    Contact us
-                </Link>
-            </Typography>
+            {!user?.data?.isAdmin && <>
+                <Typography
+                    as="li"
+                    variant="small"
+                    color="white"
+                    className="p-1 font-normal hover:text-orange-500 focus:text-orange-500"
+                >
+                    <Link to="/" className="flex items-center">
+                        Home
+                    </Link>
+                </Typography>
+                <Typography
+                    as="li"
+                    variant="small"
+                    color="white"
+                    className="p-1 font-normal hover:text-orange-500 focus:text-orange-500"
+                >
+                    <Link to="/services" className="flex items-center">
+                        Services
+                    </Link>
+                </Typography>
+                <Typography
+                    as="li"
+                    variant="small"
+                    color="white"
+                    className="p-1 font-normal hover:text-orange-500 focus:text-orange-500"
+                >
+                    <Link to="/about" className="flex items-center">
+                        About us
+                    </Link>
+                </Typography>
+                <Typography
+                    as="li"
+                    variant="small"
+                    color="white"
+                    className="p-1 font-normal hover:text-orange-500 focus:text-orange-500"
+                >
+                    <Link to="/contact" className="flex items-center">
+                        Contact us
+                    </Link>
+                </Typography>
+            </>}
             {user?.data?.isAdmin ? <Typography
                 as="li"
                 variant="small"
