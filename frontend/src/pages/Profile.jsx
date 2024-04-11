@@ -51,7 +51,12 @@ const Profile = () => {
             case "profile":
                 return <MyProfile />;
             case "myBookings":
-                return <MyBookingsTab />;
+                if (user?.data?.isAdmin) {
+                    return <div>Cannot book admin</div>
+                } else {
+                    return <MyBookingsTab />
+                }
+
             case "settings":
                 return <SettingsTab />;
             default:
