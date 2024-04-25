@@ -28,17 +28,11 @@ const Carwash = () => {
     const [count, setCount] = useState(5);
     const [redirect, setRedirect] = useState(false);
     const accessToken = process.env.REACT_APP_STRIPE_ACCESS_TOKEN;
-    // eslint-disable-next-line
     const accessTokenSms = process.env.REACT_APP_SEMAPHORE_ACCESS_TOKEN;
     const { _id } = useParams();
     const navigate = useNavigate()
-    // console.log(vehiclePrice);
-    // console.log(service._id);
-    // console.log(user.data.name)
     const phone_number = user.data.tel
-    // eslint-disable-next-line
     const phone = phone_number.toString()
-    // eslint-disable-next-line
     const recipient = user.data.name
 
     // const payedService = service.vehiclePrice;
@@ -83,20 +77,17 @@ const Carwash = () => {
                 setLoading(true);
                 document.body.style.cursor = "wait";
                 const result = await axios.post('https://maroon-viper-toga.cyclic.app/api/bookings/book-carwash', bookingDetails)
-                // eslint-disable-next-line
-                // const response = await axios.post('https://maroon-viper-toga.cyclic.app/api/bookings/send-message', {
-                //     apikey: accessTokenSms,
-                //     number: `+${phone}`,
-                //     message: `Hello ${recipient}! You are now Successfully Booked from Q-Zone Professional Detailers. Thank you for booking on us.\n\nAnd your payment of P${vehiclePrice * 0.20}.00 has been successfully processed on ${currentDate}.`,
-                // });
-                // console.log(response);
-                // eslint-disable-next-line
-                // const responseAdmin = await axios.post('https://maroon-viper-toga.cyclic.app/api/bookings/send-message-admin', {
-                //     apikey: accessTokenSms,
-                //     number: `+639205746697`,
-                //     message: `[Q-ZONE ONLINE]\n\n ${recipient} has successfully booked at ${selectedDate} ${selectedTime}. \n\nWith successfully paid of P${vehiclePrice * 0.20}.00.`,
-                // });
-                // console.log(responseAdmin);
+                const response = await axios.post('https://maroon-viper-toga.cyclic.app/api/bookings/send-message', {
+                    apikey: accessTokenSms,
+                    number: `+${phone}`,
+                    message: `Hello ${recipient}! You are now Successfully Booked from Q-Zone Professional Detailers. Thank you for booking on us.\n\nAnd your payment of P${vehiclePrice * 0.20}.00 has been successfully processed on ${currentDate}.`,
+                });
+                const responseAdmin = await axios.post('https://maroon-viper-toga.cyclic.app/api/bookings/send-message-admin', {
+                    apikey: accessTokenSms,
+                    number: `+639205746697`,
+                    message: `[Q-ZONE ONLINE]\n\n ${recipient} has successfully booked at ${selectedDate} ${selectedTime}. \n\nWith successfully paid of P${vehiclePrice * 0.20}.00.`,
+                });
+                console.log(responseAdmin);
                 console.log(result)
                 setLoading(false);
                 setSuccess(true);

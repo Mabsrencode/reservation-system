@@ -28,13 +28,11 @@ const Booking = () => {
     const [redirect, setRedirect] = useState(false);
     const [openPaymentMethod, setOpenPaymentMethod] = useState(false);
     const accessToken = process.env.REACT_APP_STRIPE_ACCESS_TOKEN;
-    // eslint-disable-next-line
     const accessTokenSms = process.env.REACT_APP_SEMAPHORE_ACCESS_TOKEN;
     const { _id } = useParams();
     const navigate = useNavigate()
     const phone_number = user.data.tel
     const phone = phone_number.toString()
-    // eslint-disable-next-line
     const recipient = user.data.name
     console.log(phone)
     const openPaymentModal = () => {
