@@ -33,7 +33,6 @@ const Booking = () => {
     const navigate = useNavigate()
     const phone_number = user.data.tel
     const phone = phone_number.toString()
-    console.log(first)
     const recipient = user.data.name
     console.log(phone)
     const openPaymentModal = () => {
