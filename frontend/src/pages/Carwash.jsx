@@ -196,7 +196,7 @@ const Carwash = () => {
                 </div>
                 <StripeCheckout
                     disabled={selectedTime ? false : true}
-                    amount={vehiclePrice * 100}
+                    amount={vehiclePrice * 100 * 0.20}
                     token={onToken}
                     currency='PHP'
                     stripeKey={accessToken}

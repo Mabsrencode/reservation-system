@@ -300,7 +300,8 @@ export const Bookings = () => {
                                     <td className="px-6 py-4 text-center">
                                         {booking.status === "done" || booking.status === "cancelled" ? <></> : <><Button className="mr-2" onClick={() => { handleUpdateDone(booking._id) }} disabled={booking.status === "booked" || loadingStates[booking._id] ? true : false}>
                                             {loadingStates[booking._id] ? "Processing..." : "UPDATE DONE"}
-                                        </Button><Button className="mr-1" onClick={() => { handleUpdateMessage(booking.userNumber, booking.userName, booking._id) }}>{sendNotification[booking._id] ? "Sending..." : "NOTIFY"}</Button> <Button onClick={() => { handleUpdateOngoing(booking._id) }} disabled={booking.status === "ongoing" ? "disabled" : loadingStatesBoneFire[booking._id]}> {loadingStatesBoneFire[booking._id] ? "Processing..." : "ONGOING"}</Button></>}{booking.status === "done" ? <Button>Generate Receipt</Button> : <></>}
+                                        </Button><Button className="mr-1" onClick={() => { handleUpdateMessage(booking.userNumber, booking.userName, booking._id) }}>{sendNotification[booking._id] ? "Sending..." : "NOTIFY"}</Button> <Button onClick={() => { handleUpdateOngoing(booking._id) }} disabled={booking.status === "ongoing" ? "disabled" : loadingStatesBoneFire[booking._id]}> {loadingStatesBoneFire[booking._id] ? "Processing..." : "ONGOING"}</Button></>}
+                                        {/* {booking.status === "done" ? <Button>Generate Receipt</Button> : <></>} */}
                                     </td>
                                 </tr>
                             ))}
