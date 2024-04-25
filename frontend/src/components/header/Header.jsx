@@ -13,7 +13,7 @@ import Logo from "../logo/Logo";
 import LogoutButton from "../log-out-btn/LogoutButton"
 import { useUser } from '../../context/userContext';
 const Header = () => {
-    // const user = JSON.parse(localStorage.getItem('user')) || null;
+    // const user = JSON.parse(localStorage.getItem('user')) || null;    
     const { user } = useUser();
     const [openNav, setOpenNav] = React.useState(false);
 
