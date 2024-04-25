@@ -76,14 +76,14 @@ const Booking = () => {
                 const result = await axios.post('https://maroon-viper-toga.cyclic.app/api/bookings/book-service', bookingDetails)
                 console.log(result)
 
-                const response = await axios.post('https://maroon-viper-toga.cyclic.app/api/bookings/send-message', {
+                await axios.post('https://maroon-viper-toga.cyclic.app/api/bookings/send-message', {
                     apikey: accessTokenSms,
                     number: `+${phone}`,
                     message: `Hello ${recipient}! You are now Successfully Booked from Q-Zone Professional Detailers. Thank you for booking on us.\n\nAnd your payment of P${vehiclePrice * 0.20}.00 has been successfully processed on ${currentDate}.`,
                 });
 
 
-                const responseAdmin = await axios.post('https://maroon-viper-toga.cyclic.app/api/bookings/send-message-admin', {
+                await axios.post('https://maroon-viper-toga.cyclic.app/api/bookings/send-message-admin', {
                     apikey: accessTokenSms,
                     number: `+639205746697`,
                     message: `[Q-ZONE ONLINE]\n\n ${recipient} has successfully booked at ${selectedDate} ${selectedTime}. \n\nWith successfully paid of P${vehiclePrice * 0.20}.00.`,
