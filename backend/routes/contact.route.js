@@ -48,7 +48,7 @@ router.post("/send-email", (req, res) => {
     Name: ${req.body.name}<br>Phone Number: ${req.body.phone}<br><br>Message: ${req.body.message}`;
 
   const mailOptions = {
-    from: `Mabsrencode Notification <mabsren@mabsrencode.com>`,
+    from: process.env.GMAIL_USER,
     to: process.env.GMAIL_USER,
     subject: `Message from: ${req.body.email}: ${req.body.subject}`,
     html: messageHtml,
