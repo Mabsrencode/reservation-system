@@ -220,7 +220,7 @@ router.post("/send-message", async (req, res) => {
   }
 });
 
-//*sms success booking
+//*sms notify when going to qzone
 router.post("/send-message-notify", async (req, res) => {
   try {
     console.log("Request to Semaphore:", req.body);

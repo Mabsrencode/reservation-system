@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import usePageMetadata from '../hooks/usePageMetaData';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import moment from 'moment';
 import "../styles/booking.css"
 import smallCar from "../assets/car-sizes/sedan.svg"
 import mediumCar from "../assets/car-sizes/suv-small.svg"
@@ -11,6 +12,7 @@ import { Button, Input, Typography } from '@material-tailwind/react'; //, Input
 import { Calendar } from 'rsuite';
 import { useUser } from '../context/userContext';
 import OpenPaymentMethodModal from '../components/paymentMethodModal/OpenPaymentMethodModal';
+import PesoSign from '../components/peso-sign/PesoSign';
 const Booking = () => {
     usePageMetadata('Auto Detailing Page', 'This is the description for the Auto Detailing page.');
     const { user } = useUser();
@@ -41,7 +43,7 @@ const Booking = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = (await axios.post(`https://maroon-viper-toga.cyclic.app/api/auto-detailing/book/${_id}`)).data;
+                const data = (await axios.post(`/api/auto-detailing/book/${_id}`)).data;
                 setService(data);
                 // console.log(data);
             } catch (error) {
@@ -73,21 +75,21 @@ const Booking = () => {
             try {
                 setLoading(true);
                 document.body.style.cursor = "wait";
-                const result = await axios.post('https://maroon-viper-toga.cyclic.app/api/bookings/book-service', bookingDetails)
+                const result = await axios.post('/api/bookings/book-service', bookingDetails)
                 console.log(result)
 
-                await axios.post('https://maroon-viper-toga.cyclic.app/api/bookings/send-message', {
-                    apikey: accessTokenSms,
-                    number: `+${phone}`,
-                    message: `Hello ${recipient}! You are now Successfully Booked from Q-Zone Professional Detailers. Thank you for booking on us.\n\nAnd your payment of P${vehiclePrice * 0.20}.00 has been successfully processed on ${currentDate}.`,
-                });
+                // await axios.post('/api/bookings/send-message', {
+                //     apikey: accessTokenSms,
+                //     number: `+${phone}`,
+                //     message: `[Q-ZONE ONLINE]\n\nHello ${recipient}! You are now Successfully Booked from Q-Zone Professional Detailers. Thank you for booking on us.\n\nAnd your payment of P${vehiclePrice * 0.20}.00 has been successfully processed on ${currentDate}.`,
+                // });
 
 
-                await axios.post('https://maroon-viper-toga.cyclic.app/api/bookings/send-message-admin', {
-                    apikey: accessTokenSms,
-                    number: `+639205746697`,
-                    message: `[Q-ZONE ONLINE]\n\n ${recipient} has successfully booked at ${selectedDate} ${selectedTime}. \n\nWith successfully paid of P${vehiclePrice * 0.20}.00.`,
-                });
+                // await axios.post('/api/bookings/send-message-admin', {
+                //     apikey: accessTokenSms,
+                //     number: `+639205746697`,
+                //     message: `[Q-ZONE ONLINE]\n\n ${recipient} has successfully booked at ${selectedDate} ${selectedTime}. \n\nWith successfully paid of P${vehiclePrice * 0.20}.00.`,
+                // });
 
                 console.log(result)
                 setLoading(false);
@@ -116,9 +118,9 @@ const Booking = () => {
         }
     };
     return (
-        <section className='mb-20'>
+        <section className='mb-20 px-1'>
             <h1 className='text-4xl mt-20 md:text-7xl font-bold mb-20 text-center'>Booking details</h1>
-            <div className='booking-card mx-auto w-[320px] border-2 border-orange-500 py-5 px-2 rounded-lg sm:w-1/2 sm:px-10'>
+            <div className='booking-card w-full border-2 border-orange-500 py-5 px-2 rounded-lg lg:mx-auto lg:w-1/2 sm:px-10'>
                 <h1 className='text-2xl mb-4 font-bold whitespace-nowrap text-center sm:text-left'>{service.title}</h1>
                 <Typography color='orange' as="h1" className=' text-center capitalize my-8 font-bold text-xl sm:text-3xl'>
                     Price
@@ -134,10 +136,10 @@ const Booking = () => {
                     </thead>
                     <tbody className='mt-20'>
                         <tr>
-                            <td className="text-gray-700">{service.small}</td>
-                            <td className="text-gray-700">{service.medium}</td>
-                            <td className="text-gray-700">{service.large}</td>
-                            <td className="text-gray-700">{service.x_large}</td>
+                            <td className="text-gray-700"><PesoSign />{service.small}.00</td>
+                            <td className="text-gray-700"><PesoSign />{service.medium}.00</td>
+                            <td className="text-gray-700"><PesoSign />{service.large}.00</td>
+                            <td className="text-gray-700"><PesoSign />{service.x_large}.00</td>
 
                         </tr>
                     </tbody>
@@ -181,10 +183,11 @@ const Booking = () => {
                     <h1><span className='font-bold text-orange-500'>Name : </span>{user.data.name.toUpperCase()}</h1>
                 </div>
                 <div className="mt-2">
-                    <h1 className='text-md font-bold'>Reservation Date : {selectedDate.toString()} at {selectedTime}</h1>
+                    <h1 className='text-md font-bold'>Reservation Date : {moment(selectedDate).format("MMM Do YY")} at {selectedTime}</h1>
                 </div>
                 <div className='mt-6'>
-                    <h1 className='text-lg font-bold text-orange-500'>Down Payment : P{vehiclePrice ? vehiclePrice * 0.20 : 0}.00</h1>
+                    <h1 className='text-lg font-bold text-orange-500'>Down Payment : <PesoSign />{vehiclePrice ? vehiclePrice * 0.20 : 0}.00</h1>
+                    <span className='text-gray-700 text-sm'>The down payment is from the 20% of the service price.</span>
                 </div>
                 <Button className='mt-2' onClick={openPaymentModal}>Pay Now</Button>
                 {error ? <div className='mt-2 text-red-900'>{errorMessage}</div> : <></>}

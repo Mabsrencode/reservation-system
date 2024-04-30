@@ -125,7 +125,7 @@ const Register = () => {
             try {
                 setLoading(true);
                 document.body.style.cursor = "wait";
-                const data = await axios.post("https://maroon-viper-toga.cyclic.app/api/users/register", user);
+                const data = await axios.post("/api/users/register", user);
                 localStorage.setItem("user", JSON.stringify(data));
                 navigate('/sign-in');
             } catch (error) {

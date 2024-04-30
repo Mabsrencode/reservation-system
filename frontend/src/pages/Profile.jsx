@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import moment from "moment";
 import usePageMetadata from "../hooks/usePageMetaData";
 import "../styles/profile.css"
 import axios from 'axios';
@@ -153,7 +154,7 @@ export const MyBookingsTab = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = (await axios.post("https://maroon-viper-toga.cyclic.app/api/bookings/booking-id", { user_id: user.data._id })).data;
+                const data = (await axios.post("/api/bookings/booking-id", { user_id: user.data._id })).data;
                 setBookings(data);
                 console.log(data)
             } catch (error) {
@@ -168,7 +169,7 @@ export const MyBookingsTab = () => {
         try {
             setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: true }));
             document.body.style.cursor = "wait";
-            const result = (await axios.post("https://maroon-viper-toga.cyclic.app/api/bookings/cancel-booking", { bookingId, serviceId })).data;
+            const result = (await axios.post("/api/bookings/cancel-booking", { bookingId, serviceId })).data;
             console.log(result)
             setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: false }));
             setBookings(prevBookings =>
@@ -188,7 +189,7 @@ export const MyBookingsTab = () => {
         try {
             setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: true }));
             document.body.style.cursor = "wait";
-            const result = await axios.post("https://maroon-viper-toga.cyclic.app/api/bookings/delete-booking", { bookingId });
+            const result = await axios.post("/api/bookings/delete-booking", { bookingId });
             console.log(result);
             setBookings((prevBookings) => prevBookings.filter((booking) => booking._id !== bookingId));
             document.body.style.cursor = "default";
@@ -245,7 +246,7 @@ export const MyBookingsTab = () => {
                                     Reserved Date
                                 </dt>
                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                    {booking.selectedDate}
+                                    {moment(booking.selectedDate).format("MMM Do YY")}
                                 </dd>
                             </div>
                             <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -419,7 +420,7 @@ export const SettingsTab = () => {
         try {
             setDeleteAcctLoading(true);
             document.body.style.cursor = "wait";
-            await axios.delete(`https://maroon-viper-toga.cyclic.app/api/users/delete-account/${user.data._id}`);
+            await axios.delete(`/api/users/delete-account/${user.data._id}`);
             setDeleteAcctLoading(false);
             setRedirect(true);
             setTimeout(() => {
@@ -469,7 +470,7 @@ export const SettingsTab = () => {
                                             placeholder="Full Name"
                                             onChange={(e) => setFullName(e.target.value)}
                                         ></Input>
-                                        <Button onClick={() => handleUpdate(`https://maroon-viper-toga.cyclic.app/api/users/update-fullname/${userId}`, { newFullName: fullName }, setIsEditingName)}>SAVE</Button>
+                                        <Button onClick={() => handleUpdate(`/api/users/update-fullname/${userId}`, { newFullName: fullName }, setIsEditingName)}>SAVE</Button>
                                         <Button onClick={() => handleCancelEdit(setFullName, setIsEditingName)}>CANCEL</Button>
                                     </div>
                                 ) : (
@@ -491,7 +492,7 @@ export const SettingsTab = () => {
                                             placeholder="Email"
                                             onChange={(e) => setEmail(e.target.value)}
                                         ></Input>
-                                        <Button onClick={() => handleUpdate(`https://maroon-viper-toga.cyclic.app/api/users/update-email/${userId}`, { newEmail: email }, setIsEditingEmail)}>SAVE</Button>
+                                        <Button onClick={() => handleUpdate(`/api/users/update-email/${userId}`, { newEmail: email }, setIsEditingEmail)}>SAVE</Button>
                                         <Button onClick={() => handleCancelEdit(setEmail, setIsEditingEmail)}>CANCEL</Button>
                                     </div>
                                 ) : (
@@ -513,7 +514,7 @@ export const SettingsTab = () => {
                                             placeholder="920*******"
                                             onChange={(e) => setPhoneNumber("+63" + e.target.value)}
                                             maxLength={10}></Input>
-                                        <Button onClick={() => handleUpdate(`https://maroon-viper-toga.cyclic.app/api/users/update-phonenumber/${userId}`, { newPhoneNumber: phoneNumber }, setIsEditingNumber)}>SAVE</Button>
+                                        <Button onClick={() => handleUpdate(`/api/users/update-phonenumber/${userId}`, { newPhoneNumber: phoneNumber }, setIsEditingNumber)}>SAVE</Button>
                                         <Button onClick={() => handleCancelEdit(setPhoneNumber, setIsEditingNumber)}>CANCEL</Button>
                                     </div>
                                 ) : (
@@ -535,7 +536,7 @@ export const SettingsTab = () => {
                                             placeholder="Password"
                                             onChange={(e) => setPassword(e.target.value)}
                                         ></Input>
-                                        <Button onClick={() => handleUpdate(`https://maroon-viper-toga.cyclic.app/api/users/update-password/${userId}`, { newPassword: password }, setIsEditingPassword)}>SAVE</Button>
+                                        <Button onClick={() => handleUpdate(`/api/users/update-password/${userId}`, { newPassword: password }, setIsEditingPassword)}>SAVE</Button>
                                         <Button onClick={() => handleCancelEdit(setPassword, setIsEditingPassword)}>CANCEL</Button>
                                     </div>
                                 ) : (

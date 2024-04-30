@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
+import moment from "moment";
 import { Navigate } from "react-router-dom";
 import usePageMetadata from "../hooks/usePageMetaData";
 import {
@@ -16,6 +17,7 @@ import { RiErrorWarningLine } from "react-icons/ri";
 import {
     BookOpenIcon, UserCircleIcon
 } from "@heroicons/react/24/solid";
+import { AiOutlineAudit } from "react-icons/ai";
 import { useUser } from "../context/userContext";
 const data = [
     {
@@ -33,6 +35,12 @@ const data = [
         value: "users",
         icon: UserCircleIcon,
     },
+    {
+        label: "Audit Trails",
+        value: "audit-trails",
+        icon: AiOutlineAudit,
+
+    }
 ];
 
 const Admin = () => {
@@ -51,6 +59,8 @@ const Admin = () => {
                 return <Services />;
             case "users":
                 return <Users />;
+            case "audit-trails":
+                return <AuditTrails />;
             default:
                 return null;
         }
@@ -59,7 +69,7 @@ const Admin = () => {
         <section className="px-1 my-12 md:px-2">
             <div className="mx-auto">
                 <Tabs id="custom-animation" value="bookings">
-                    <TabsHeader className="bg-orange-500">
+                    <TabsHeader className="bg-orange-500 flex flex-wrap md:flex-nowrap">
                         {data.map(({ label, value, icon }) => (
                             <Tab key={value} value={value}>
                                 <div className="flex items-center gap-2">
@@ -108,7 +118,7 @@ export const Bookings = () => {
     const fetchData = async () => {
         try {
             setLoading(true);
-            const data = (await axios.get("https://maroon-viper-toga.cyclic.app/api/bookings/all-bookings")).data;
+            const data = (await axios.get("/api/bookings/all-bookings")).data;
             setBookings(data);
             console.log(data)
             const bookingCount = data.filter(booking => booking.status === 'booked').length;
@@ -134,15 +144,32 @@ export const Bookings = () => {
         const statusOrder = ['booked', 'done', 'cancelled'];
         const indexA = statusOrder.indexOf(a.status);
         const indexB = statusOrder.indexOf(b.status);
-        return indexA - indexB;
+        if (indexA !== indexB) {
+            return indexA - indexB;
+        } else {
+            const dateA = new Date(a.selectedDate);
+            const dateB = new Date(b.selectedDate);
+            const timeA = a.selectedTime;
+            const timeB = b.selectedTime;
+            if (dateA < dateB) return -1;
+            if (dateA > dateB) return 1;
+            if (timeA < timeB) return -1;
+            if (timeA > timeB) return 1;
+            return 0;
+        }
     };
-
     const sortedBookings = [...bookings].sort(sortByStatus);
+    console.log(sortedBookings)
 
-    const handleUpdateDone = async (bookingId) => {
+    const handleUpdateDone = async (userNumber, userName, bookingId) => {
         try {
             setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: true }));
-            await axios.post("https://maroon-viper-toga.cyclic.app/api/bookings/update-done", { bookingId });
+            await axios.post("/api/bookings/update-done", { bookingId });
+            await axios.post('/api/bookings/send-message-notify', {
+                apikey: accessTokenSms,
+                number: `+${userNumber}`,
+                message: `[Q-ZONE ONLINE]\n\nHello ${userName}! Your service is done.\n\nThank you for trusting our services`,
+            });
             fetchData();
             setLoadingStates(prevStates => ({ ...prevStates, [bookingId]: false }));
         } catch (error) {
@@ -151,10 +178,15 @@ export const Bookings = () => {
         }
     };
 
-    const handleUpdateOngoing = async (bookingId) => {
+    const handleUpdateOngoing = async (userNumber, userName, bookingId) => {
         try {
             setLoadingStatesBoneFire(prevStates => ({ ...prevStates, [bookingId]: true }));
-            await axios.post("https://maroon-viper-toga.cyclic.app/api/bookings/update-ongoing", { bookingId });
+            await axios.post("/api/bookings/update-ongoing", { bookingId });
+            await axios.post('/api/bookings/send-message-notify', {
+                apikey: accessTokenSms,
+                number: `+${userNumber}`,
+                message: `[Q-ZONE ONLINE]\n\nHello ${userName}! Your service is now ongoing please wait for the process.\n\nThank you!`,
+            });
             fetchData();
             setLoadingStatesBoneFire(prevStates => ({ ...prevStates, [bookingId]: false }));
         } catch (error) {
@@ -165,11 +197,11 @@ export const Bookings = () => {
     const handleUpdateMessage = async (userNumber, userName, bookingId) => {
         try {
             setSendNotification(prevStates => ({ ...prevStates, [bookingId]: true }));
-            // const response = await axios.post('https://maroon-viper-toga.cyclic.app/api/bookings/send-message-notify', {
-            //     apikey: accessTokenSms,
-            //     number: `+${userNumber}`,
-            //     message: `Hello ${userName}! You are now able to go from Q-Zone Professional Detailers. Your slot is now available.\n\nThank you!`,
-            // });
+            await axios.post('/api/bookings/send-message-notify', {
+                apikey: accessTokenSms,
+                number: `+${userNumber}`,
+                message: `[Q-ZONE ONLINE]\n\nHello ${userName}! You are now able to go from Q-Zone Professional Detailers. Your slot is now available.\n\nThank you!`,
+            });
             setModalMessage(true);
             setTimeout(() => {
                 setModalMessage(false);
@@ -289,7 +321,7 @@ export const Bookings = () => {
                                         {booking.service}
                                     </td>
                                     <td className="px-6 py-4">
-                                        {booking.selectedDate}
+                                        {moment(booking.selectedDate).format("MMM Do YY")}  {moment(booking.selectedDate).startOf('hour').fromNow()}
                                     </td>
                                     <td className="px-6 py-4">
                                         {booking.selectedTime}
@@ -298,10 +330,9 @@ export const Bookings = () => {
                                         {booking.status.toUpperCase()}
                                     </td>
                                     <td className="px-6 py-4 text-center">
-                                        {booking.status === "done" || booking.status === "cancelled" ? <></> : <><Button className="mr-2" onClick={() => { handleUpdateDone(booking._id) }} disabled={booking.status === "booked" || loadingStates[booking._id] ? true : false}>
+                                        {booking.status === "done" || booking.status === "cancelled" ? <></> : <><Button className="mr-2" onClick={() => { handleUpdateDone(booking.userNumber, booking.userName, booking._id) }} disabled={booking.status === "booked" || loadingStates[booking._id] ? true : false}>
                                             {loadingStates[booking._id] ? "Processing..." : "UPDATE DONE"}
-                                        </Button><Button className="mr-1" onClick={() => { handleUpdateMessage(booking.userNumber, booking.userName, booking._id) }}>{sendNotification[booking._id] ? "Sending..." : "NOTIFY"}</Button> <Button onClick={() => { handleUpdateOngoing(booking._id) }} disabled={booking.status === "ongoing" ? "disabled" : loadingStatesBoneFire[booking._id]}> {loadingStatesBoneFire[booking._id] ? "Processing..." : "ONGOING"}</Button></>}
-                                        {/* {booking.status === "done" ? <Button>Generate Receipt</Button> : <></>} */}
+                                        </Button><Button className="mr-1" onClick={() => { handleUpdateMessage(booking.userNumber, booking.userName, booking._id) }}>{sendNotification[booking._id] ? "Sending..." : "NOTIFY"}</Button> <Button onClick={() => { handleUpdateOngoing(booking.userNumber, booking.userName, booking._id) }} disabled={booking.status === "ongoing" ? "disabled" : loadingStatesBoneFire[booking._id]}> {loadingStatesBoneFire[booking._id] ? "Processing..." : "ONGOING"}</Button></>}
                                     </td>
                                 </tr>
                             ))}
@@ -341,7 +372,7 @@ export const Services = () => {
     const fetchData = async () => {
         try {
             setLoading(true);
-            const data = (await axios.get("https://maroon-viper-toga.cyclic.app/api/services/auto-detailing")).data;
+            const data = (await axios.get("/api/services/auto-detailing")).data;
             setServices(data);
         } catch (error) {
             console.log(error);
@@ -357,7 +388,7 @@ export const Services = () => {
     const fetchDataCarwash = async () => {
         try {
             setLoading(true);
-            const data = (await axios.get("https://maroon-viper-toga.cyclic.app/api/services/carwash-package")).data;
+            const data = (await axios.get("/api/services/carwash-package")).data;
             setCarwash(data);
         } catch (error) {
             console.log(error);
@@ -373,7 +404,7 @@ export const Services = () => {
     const handleDeleteService = async (serviceId) => {
         try {
             setLoadingStates(prevStates => ({ ...prevStates, [serviceId]: true }));
-            const result = await axios.post("https://maroon-viper-toga.cyclic.app/api/delete-service", { serviceId });
+            const result = await axios.post("/api/delete-service", { serviceId });
             console.log(result);
             setLoadingStates(prevStates => ({ ...prevStates, [serviceId]: false }));
             setServices((prevServices) => prevServices.filter((service) => service._id !== serviceId));
@@ -394,7 +425,7 @@ export const Services = () => {
             try {
                 setError(false)
                 setLoading(true);
-                const response = await axios.post("https://maroon-viper-toga.cyclic.app/api/add-services", service);
+                const response = await axios.post("/api/add-services", service);
                 setServices(prevServices => [...prevServices, response.data]);
                 setLoading(false);
                 setTitle("");
@@ -422,7 +453,7 @@ export const Services = () => {
         setError(false);
         try {
             setLoadingCarwash(true);
-            const response = await axios.post("https://maroon-viper-toga.cyclic.app/api/add-services/carwash", carwash);
+            const response = await axios.post("/api/add-services/carwash", carwash);
             setCarwash(prevServices => [...prevServices, response.data]);
             setLoadingCarwash(false);
             setTitle("");
@@ -442,7 +473,7 @@ export const Services = () => {
     const handleUpdateService = async (serviceId) => {
         try {
             setLoadingStates((prevStates) => ({ ...prevStates, [serviceId]: true }));
-            const response = await axios.post("https://maroon-viper-toga.cyclic.app/api/update-service", {
+            const response = await axios.post("/api/update-service", {
                 serviceId,
                 updatedServiceData: updateForm,
             });
@@ -472,7 +503,7 @@ export const Services = () => {
     const handleUpdateServiceCarwash = async (serviceId) => {
         try {
             setLoadingStates((prevStates) => ({ ...prevStates, [serviceId]: true }));
-            const response = await axios.post("https://maroon-viper-toga.cyclic.app/api/update-service/carwash", {
+            const response = await axios.post("/api/update-service/carwash", {
                 serviceId,
                 updatedServiceData: updateForm,
             });
@@ -525,76 +556,76 @@ export const Services = () => {
                     </thead>
                     <tbody>
                         {services.map((service) => (
-                            <>
-                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={service._id}>
-                                    {editingServiceId === service._id ? (
-                                        <>
-                                            <th scope="row" className="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                <Input type="text" placeholder="Enter service Name" value={updateForm.title} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, title: e.target.value }))} />
-                                            </th>
-                                            <td className="px-2 py-4">
-                                                <Input type="number" placeholder="Small" value={updateForm.small} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, small: e.target.value }))} />
-                                            </td>
-                                            <td className="px-2 py-4">
-                                                <Input type="number" placeholder="Medium" value={updateForm.medium} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, medium: e.target.value }))} />
-                                            </td>
-                                            <td className="px-2 py-4">
-                                                <Input type="number" placeholder="Large" value={updateForm.large} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, large: e.target.value }))} />
-                                            </td>
-                                            <td className="px-2 py-4">
-                                                <Input type="number" placeholder="Extra Large" value={updateForm.x_large} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, x_large: e.target.value }))} />
-                                            </td>
-                                            <td className="px-2 py-4">
-                                                <Input type="text" placeholder="Image" value={updateForm.imageUrl} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, imageUrl: e.target.value }))} />
-                                            </td>
-                                            <td className="px-2 py-4">
-                                                <Input type="text" placeholder="Description" value={updateForm.description} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, description: e.target.value }))} />
-                                            </td>
-                                            <td className="px-2 py-4">
-                                                <Button className="mr-2" onClick={() => handleUpdateService(service._id)} disabled={loadingStates[service._id]}>
-                                                    {loadingStates[service._id] ? "Processing..." : "Update"}
-                                                </Button>
-                                                <Button onClick={() => { setEditingServiceId(null); setUpdateForm({ title: "", small: "", medium: "", large: "", x_large: "", imageUrl: "", description: "" }); }}>
-                                                    Cancel
-                                                </Button>
-                                            </td>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <th scope="row" className="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                {service.title}
-                                            </th>
-                                            <td className="px-2 py-4">
-                                                {service.small}
-                                            </td>
-                                            <td className="px-2 py-4">
-                                                {service.medium}
-                                            </td>
-                                            <td className="px-2 py-4">
-                                                {service.large}
-                                            </td>
-                                            <td className="px-2 py-4">
-                                                {service.x_large}
-                                            </td>
 
-                                            <td className="px-2 py-4">
-                                                <h1 className="text-ellipsis overflow-hidden whitespace-nowrap w-[100px]">{service.imageUrl}</h1>
-                                            </td>
-                                            <td className="px-2 py-4">
-                                                <h1 className="text-ellipsis overflow-hidden whitespace-nowrap w-[100px]">{service.description}</h1>
-                                            </td>
-                                            <td className="px-2 py-4">
-                                                <Button className="mr-2" onClick={() => setEditingServiceId(service._id)}>
-                                                    Edit
-                                                </Button>
-                                                <Button onClick={() => { handleDeleteService(service._id) }} disabled={loadingStates[service._id]}>
-                                                    {loadingStates[service._id] ? "Processing..." : "Delete"}
-                                                </Button>
-                                            </td>
-                                        </>
-                                    )}
-                                </tr>
-                            </>
+                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={service._id}>
+                                {editingServiceId === service._id ? (
+                                    <>
+                                        <th scope="row" className="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            <Input type="text" placeholder="Enter service Name" value={updateForm.title} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, title: e.target.value }))} />
+                                        </th>
+                                        <td className="px-2 py-4">
+                                            <Input type="number" placeholder="Small" value={updateForm.small} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, small: e.target.value }))} />
+                                        </td>
+                                        <td className="px-2 py-4">
+                                            <Input type="number" placeholder="Medium" value={updateForm.medium} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, medium: e.target.value }))} />
+                                        </td>
+                                        <td className="px-2 py-4">
+                                            <Input type="number" placeholder="Large" value={updateForm.large} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, large: e.target.value }))} />
+                                        </td>
+                                        <td className="px-2 py-4">
+                                            <Input type="number" placeholder="Extra Large" value={updateForm.x_large} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, x_large: e.target.value }))} />
+                                        </td>
+                                        <td className="px-2 py-4">
+                                            <Input type="text" placeholder="Image" value={updateForm.imageUrl} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, imageUrl: e.target.value }))} />
+                                        </td>
+                                        <td className="px-2 py-4">
+                                            <Input type="text" placeholder="Description" value={updateForm.description} onChange={(e) => setUpdateForm((prevForm) => ({ ...prevForm, description: e.target.value }))} />
+                                        </td>
+                                        <td className="px-2 py-4">
+                                            <Button className="mr-2" onClick={() => handleUpdateService(service._id)} disabled={loadingStates[service._id]}>
+                                                {loadingStates[service._id] ? "Processing..." : "Update"}
+                                            </Button>
+                                            <Button onClick={() => { setEditingServiceId(null); setUpdateForm({ title: "", small: "", medium: "", large: "", x_large: "", imageUrl: "", description: "" }); }}>
+                                                Cancel
+                                            </Button>
+                                        </td>
+                                    </>
+                                ) : (
+                                    <>
+                                        <th scope="row" className="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {service.title}
+                                        </th>
+                                        <td className="px-2 py-4">
+                                            {service.small}
+                                        </td>
+                                        <td className="px-2 py-4">
+                                            {service.medium}
+                                        </td>
+                                        <td className="px-2 py-4">
+                                            {service.large}
+                                        </td>
+                                        <td className="px-2 py-4">
+                                            {service.x_large}
+                                        </td>
+
+                                        <td className="px-2 py-4">
+                                            <h1 className="text-ellipsis overflow-hidden whitespace-nowrap w-[100px]">{service.imageUrl}</h1>
+                                        </td>
+                                        <td className="px-2 py-4">
+                                            <h1 className="text-ellipsis overflow-hidden whitespace-nowrap w-[100px]">{service.description}</h1>
+                                        </td>
+                                        <td className="px-2 py-4">
+                                            <Button className="mr-2" onClick={() => setEditingServiceId(service._id)}>
+                                                Edit
+                                            </Button>
+                                            <Button onClick={() => { handleDeleteService(service._id) }} disabled={loadingStates[service._id]}>
+                                                {loadingStates[service._id] ? "Processing..." : "Delete"}
+                                            </Button>
+                                        </td>
+                                    </>
+                                )}
+                            </tr>
+
                         ))}
                         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                             <td className="px-2 py-4">
@@ -758,7 +789,7 @@ export const Users = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = (await axios.get("https://maroon-viper-toga.cyclic.app/api/users/all-users")).data;
+                const data = (await axios.get("/api/users/all-users")).data;
                 setUsers(data);
             } catch (error) {
                 console.log(error);
@@ -809,6 +840,136 @@ export const Users = () => {
                     </tbody>
                 </table>
             </div>
+        </section>
+    )
+}
+
+
+export const AuditTrails = () => {
+    const [weeklyIncome, setWeeklyIncome] = useState([]);
+    const [userBookings, setUserBookings] = useState([]);
+    console.log(userBookings)
+    const fetchWeeklyIncome = async () => {
+        try {
+            const response = await axios.get("/api/bookings/all-bookings");
+            const bookings = response.data.filter(booking => booking.status === 'done');
+
+            const incomeByWeek = {};
+            const bookingsByUser = {};
+            bookings.forEach(booking => {
+                const weekStartDate = moment(booking.createdAt).startOf('week').format('YYYY-MM-DD');
+                if (!incomeByWeek[weekStartDate]) {
+                    incomeByWeek[weekStartDate] = 0;
+                }
+                incomeByWeek[weekStartDate] += booking.vehiclePrice;
+
+                if (!bookingsByUser[booking.user_id]) {
+                    bookingsByUser[booking.user_id] = [];
+                }
+                bookingsByUser[booking.user_id].push({
+                    userName: booking.userName,
+                    servicePrice: booking.vehiclePrice,
+                    service: booking.service,
+                    bookingDate: moment(booking.selectedDate).format('YYYY-MM-DD')
+                });
+            });
+
+            const weeklyIncomeArray = Object.entries(incomeByWeek).map(([weekStartDate, income]) => ({
+                weekStartDate,
+                income
+            }));
+            console.log(weeklyIncomeArray)
+            setWeeklyIncome(weeklyIncomeArray);
+            setUserBookings(bookingsByUser);
+        } catch (error) {
+            console.error("Error fetching weekly income:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchWeeklyIncome();
+    }, []);
+    return (
+        <section>
+            {/* <h2>User Bookings and Income Per Week</h2>
+            <div>
+                {Object.entries(userBookings).map(([userId, bookings]) => (
+                    <div key={userId}>
+                        <h3>{bookings[0].userName}</h3>
+                        <ul>
+                            {bookings.map((booking, index) => (
+                                <li key={index}>
+                                    {booking.bookingDate}, Service Price: ₱{booking.servicePrice.toFixed(2)}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                ))}
+            </div>
+            <h3>Total Weekly Income</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Week Starting Date</th>
+                        <th>Income (PHP)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {weeklyIncome.map(({ weekStartDate, income }) => (
+                        <tr key={weekStartDate}>
+                            <td>{weekStartDate}</td>
+                            <td>{income.toFixed(2)}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <button onClick={() => window.print()}>Print</button> */}
+            <div className="relative overflow-x-auto">
+                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr className="border-t border-b">
+                            <th scope="col" colSpan={3} className="px-6 py-3">
+                                Total Weekly Income
+                            </th>
+                        </tr >
+                        <tr className="border-t border-b">
+                            <th scope="col" className="px-6 py-3">
+                                NAME:
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                BOOKED DATE & SERVICE PRICE
+                            </th>
+                        </tr >
+                    </thead >
+                    <tbody>
+                        {Object.entries(userBookings).map(([userId, bookings]) => (
+                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={userId}>
+                                <th className="px-6 py-4">{bookings[0].userName}</th>
+                                <th className="px-6 py-4">
+                                    {bookings.map((booking, index) => (
+                                        <p key={index}>
+                                            {booking.bookingDate} / Service Price: ₱{booking.servicePrice.toFixed(2)}
+                                        </p>
+                                    ))}
+                                </th>
+                            </tr>
+                        ))}
+                        {weeklyIncome.map(({ weekStartDate, income }) => (
+                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={weekStartDate}>
+                                <td className="px-6 py-4 font-bold text-gray-700">
+                                    Weekly start day: {weekStartDate}
+                                </td>
+                                <td className="px-6 py-4 font-bold text-gray-700">
+                                    Total Income: ₱{income.toFixed(2)}
+                                </td>
+                            </tr>
+                        ))}
+                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <td colSpan={3} className="px-6 py-4"><Button onClick={() => window.print()}>Print</Button></td>
+                        </tr>
+                    </tbody>
+                </table >
+            </div >
         </section>
     )
 }

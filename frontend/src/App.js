@@ -14,6 +14,7 @@ import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
 import Carwash from "./pages/Carwash";
 import ScrollToTopButton from "./components/up-button/ScrollToTopButton";
+import TermsAndCondition from "./pages/TermsAndCondition";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="*" element={<NoPage />} />
+              <Route path="terms&condition" element={<TermsAndCondition />} />
             </Route>
           </Routes>
         </UserProvider>
