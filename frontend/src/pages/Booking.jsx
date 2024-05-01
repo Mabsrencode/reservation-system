@@ -43,7 +43,7 @@ const Booking = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = (await axios.post(`/api/auto-detailing/book/${_id}`)).data;
+                const data = (await axios.post(`https://q-zone-api.onrender.com/api/auto-detailing/book/${_id}`)).data;
                 setService(data);
             } catch (error) {
                 console.log(error);
@@ -74,16 +74,16 @@ const Booking = () => {
             try {
                 setLoading(true);
                 document.body.style.cursor = "wait";
-                await axios.post('/api/bookings/book-service', bookingDetails)
+                await axios.post('https://q-zone-api.onrender.com/api/bookings/book-service', bookingDetails)
 
-                await axios.post('/api/bookings/send-message', {
+                await axios.post('https://q-zone-api.onrender.com/api/bookings/send-message', {
                     apikey: accessTokenSms,
                     number: `+${phone}`,
                     message: `[Q-ZONE ONLINE]\n\nHello ${recipient}! You are now Successfully Booked from Q-Zone Professional Detailers. Thank you for booking on us.\n\nAnd your payment of P${vehiclePrice * 0.20}.00 has been successfully processed on ${currentDate}.`,
                 });
 
 
-                await axios.post('/api/bookings/send-message-admin', {
+                await axios.post('https://q-zone-api.onrender.com/api/bookings/send-message-admin', {
                     apikey: accessTokenSms,
                     number: `+639205746697`,
                     message: `[Q-ZONE ONLINE]\n\n ${recipient} has successfully booked at ${selectedDate} ${selectedTime}. \n\nWith successfully paid of P${vehiclePrice * 0.20}.00.`,

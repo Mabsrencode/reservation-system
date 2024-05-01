@@ -24,7 +24,7 @@ const Contact = () => {
         try {
             setLoading(true);
             document.body.style.cursor = "wait";
-            await axios.post('/api/contact/send-email', {
+            await axios.post('https://q-zone-api.onrender.com/api/contact/send-email', {
                 email,
                 subject,
                 message,
