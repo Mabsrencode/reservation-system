@@ -14,7 +14,11 @@ router.post("/register", async (req, res) => {
 
 router.post("/sign-in", async (req, res) => {
   const { email, password } = req.body;
-
+  if (email === "" || password === "") {
+    return res
+      .status(401)
+      .json({ message: "Please enter all required fields" });
+  }
   try {
     const user = await User.findOne({ email: email, password: password });
     if (user) {

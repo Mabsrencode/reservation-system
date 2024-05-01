@@ -42,7 +42,7 @@ const SignIn = () => {
         } catch (error) {
             setLoading(false)
             setError(true)
-            setErrorMessage("Invalid Password or Email.")
+            setErrorMessage(error.response.data.message || "Invalid Password or Email.")
             document.body.style.cursor = "default";
             console.log(error)
         }
