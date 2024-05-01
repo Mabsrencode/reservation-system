@@ -26,6 +26,7 @@ const Carwash = () => {
     const options = { timeZone: 'Asia/Manila' };
     const [selectedDate, setSelectedDate] = useState(currentDate.toLocaleString('en-US', options).split(',')[0]);
     const [selectedTime, setSelectedTime] = useState("")
+    const meridiem = selectedTime.split(":")[0]
     const [vehiclePrice, setVehiclePrice] = useState();
     const [count, setCount] = useState(5);
     const [redirect, setRedirect] = useState(false);
@@ -79,16 +80,16 @@ const Carwash = () => {
                 setLoading(true);
                 document.body.style.cursor = "wait";
                 const result = await axios.post('/api/bookings/book-carwash', bookingDetails)
-                // await axios.post('/api/bookings/send-message', {
-                //     apikey: accessTokenSms,
-                //     number: `+${phone}`,
-                //     message: `[Q-ZONE ONLINE]\n\nHello ${recipient}! You are now Successfully Booked from Q-Zone Professional Detailers. Thank you for booking on us.\n\nAnd your payment of P${vehiclePrice * 0.20}.00 has been successfully processed on ${currentDate}.`,
-                // });
-                // await axios.post('/api/bookings/send-message-admin', {
-                //     apikey: accessTokenSms,
-                //     number: `+639205746697`,
-                //     message: `[Q-ZONE ONLINE]\n\n ${recipient} has successfully booked at ${selectedDate} ${selectedTime}. \n\nWith successfully paid of P${vehiclePrice * 0.20}.00.`,
-                // });
+                await axios.post('/api/bookings/send-message', {
+                    apikey: accessTokenSms,
+                    number: `+${phone}`,
+                    message: `[Q-ZONE ONLINE]\n\nHello ${recipient}! You are now Successfully Booked from Q-Zone Professional Detailers. Thank you for booking on us.\n\nAnd your payment of P${vehiclePrice * 0.20}.00 has been successfully processed on ${currentDate}.`,
+                });
+                await axios.post('/api/bookings/send-message-admin', {
+                    apikey: accessTokenSms,
+                    number: `+639205746697`,
+                    message: `[Q-ZONE ONLINE]\n\n ${recipient} has successfully booked at ${selectedDate} ${selectedTime}. \n\nWith successfully paid of P${vehiclePrice * 0.20}.00.`,
+                });
                 console.log(result)
                 setLoading(false);
                 setSuccess(true);
@@ -180,7 +181,7 @@ const Carwash = () => {
                     <h1><span className='font-bold text-orange-500'>Name : </span>{user.data.name}</h1>
                 </div>
                 <div className="mt-2">
-                    <h1 className='text-md  font-bold'>Reservation Date : {moment(selectedDate).format("MMM Do YY")} at {selectedTime}</h1>
+                    <h1 className='text-md  font-bold'>Reservation Date : {moment(selectedDate).format("MMM Do YY")} at {selectedTime} {meridiem > 11 ? "PM" : "AM"}</h1>
 
                 </div>
                 <div className='mt-6'>

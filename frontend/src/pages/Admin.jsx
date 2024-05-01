@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from 'axios';
 import moment from "moment";
 import { Navigate } from "react-router-dom";
@@ -113,7 +113,6 @@ export const Bookings = () => {
     const [doneCount, setDoneCount] = useState(0);
     const [sendNotification, setSendNotification] = useState({});
     const [modalMessage, setModalMessage] = useState(false);
-    // eslint-disable-next-line
     const accessTokenSms = process.env.REACT_APP_SEMAPHORE_ACCESS_TOKEN;
     const fetchData = async () => {
         try {
@@ -324,7 +323,7 @@ export const Bookings = () => {
                                         {moment(booking.selectedDate).format("MMM Do YY")}  {moment(booking.selectedDate).startOf('hour').fromNow()}
                                     </td>
                                     <td className="px-6 py-4">
-                                        {booking.selectedTime}
+                                        {booking.selectedTime} {booking.selectedTime.split(":")[0] > 11 ? "PM" : "AM"}
                                     </td>
                                     <td className={`px-6 py-4 ${booking.status === "ongoing" ? "text-yellow-700" : ""} ${booking.status === "booked" || booking.status === "done" ? "text-green-500" : "text-red-500"} `}>
                                         {booking.status.toUpperCase()}
@@ -848,7 +847,7 @@ export const Users = () => {
 export const AuditTrails = () => {
     const [weeklyIncome, setWeeklyIncome] = useState([]);
     const [userBookings, setUserBookings] = useState([]);
-    console.log(userBookings)
+    const printRef = useRef();
     const fetchWeeklyIncome = async () => {
         try {
             const response = await axios.get("/api/bookings/all-bookings");
@@ -889,42 +888,19 @@ export const AuditTrails = () => {
     useEffect(() => {
         fetchWeeklyIncome();
     }, []);
+    const generateReceipt = () => {
+        const printContent = document.getElementById("print-element").innerHTML;
+        const originalContent = document.body.innerHTML;
+
+        document.body.innerHTML = printContent;
+
+        window.print();
+
+        document.body.innerHTML = originalContent;
+    }
     return (
         <section>
-            {/* <h2>User Bookings and Income Per Week</h2>
-            <div>
-                {Object.entries(userBookings).map(([userId, bookings]) => (
-                    <div key={userId}>
-                        <h3>{bookings[0].userName}</h3>
-                        <ul>
-                            {bookings.map((booking, index) => (
-                                <li key={index}>
-                                    {booking.bookingDate}, Service Price: ₱{booking.servicePrice.toFixed(2)}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                ))}
-            </div>
-            <h3>Total Weekly Income</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Week Starting Date</th>
-                        <th>Income (PHP)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {weeklyIncome.map(({ weekStartDate, income }) => (
-                        <tr key={weekStartDate}>
-                            <td>{weekStartDate}</td>
-                            <td>{income.toFixed(2)}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <button onClick={() => window.print()}>Print</button> */}
-            <div className="relative overflow-x-auto">
+            <div ref={printRef} id="print-element" className="relative overflow-x-auto">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr className="border-t border-b">
@@ -964,12 +940,13 @@ export const AuditTrails = () => {
                                 </td>
                             </tr>
                         ))}
-                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <td colSpan={3} className="px-6 py-4"><Button onClick={() => window.print()}>Print</Button></td>
-                        </tr>
+
                     </tbody>
                 </table >
             </div >
+            <div className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <div colSpan={3} className="px-6 py-4"><Button onClick={generateReceipt}>Print</Button></div>
+            </div>
         </section>
     )
 }
