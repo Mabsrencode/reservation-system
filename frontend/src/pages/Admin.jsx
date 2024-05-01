@@ -119,7 +119,6 @@ export const Bookings = () => {
             setLoading(true);
             const data = (await axios.get("/api/bookings/all-bookings")).data;
             setBookings(data);
-            console.log(data)
             const bookingCount = data.filter(booking => booking.status === 'booked').length;
             const cancelledCount = data.filter(booking => booking.status === 'cancelled').length;
             const ongoingCount = data.filter(booking => booking.status === 'ongoing').length;
@@ -158,7 +157,6 @@ export const Bookings = () => {
         }
     };
     const sortedBookings = [...bookings].sort(sortByStatus);
-    console.log(sortedBookings)
 
     const handleUpdateDone = async (userNumber, userName, bookingId) => {
         try {
@@ -403,8 +401,7 @@ export const Services = () => {
     const handleDeleteService = async (serviceId) => {
         try {
             setLoadingStates(prevStates => ({ ...prevStates, [serviceId]: true }));
-            const result = await axios.post("/api/delete-service", { serviceId });
-            console.log(result);
+            await axios.post("/api/delete-service", { serviceId });
             setLoadingStates(prevStates => ({ ...prevStates, [serviceId]: false }));
             setServices((prevServices) => prevServices.filter((service) => service._id !== serviceId));
             setCarwash((prevServices) => prevServices.filter((service) => service._id !== serviceId));
@@ -877,7 +874,6 @@ export const AuditTrails = () => {
                 weekStartDate,
                 income
             }));
-            console.log(weeklyIncomeArray)
             setWeeklyIncome(weeklyIncomeArray);
             setUserBookings(bookingsByUser);
         } catch (error) {

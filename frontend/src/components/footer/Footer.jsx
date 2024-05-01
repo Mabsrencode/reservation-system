@@ -65,7 +65,7 @@ const Footer = () => {
             <Typography variant="small"
                 className="text-center font-normal">
                 &copy; {date} Q-ZONE
-                <span> Km 75 MacArthur Hwy, Sindaran, San Fernando, 2000 Pampanga</span>
+                <span> Km 75 MacArthur Hwy, Sindalan, San Fernando, 2000 Pampanga</span>
             </Typography>
         </footer>
     )

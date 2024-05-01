@@ -13,7 +13,6 @@ const Services = () => {
     const [carwash, setCarwash] = useState([]);
     const [loading, setLoading] = useState();
     const [loadingCarwash, setLoadingCarwash] = useState();
-    console.log(carwash)
     useEffect(() => {
         const fetchData = async () => {
             try {

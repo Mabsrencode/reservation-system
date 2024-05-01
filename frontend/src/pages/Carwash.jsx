@@ -37,15 +37,11 @@ const Carwash = () => {
     const phone_number = user.data.tel
     const phone = phone_number.toString()
     const recipient = user.data.name
-
-    // const payedService = service.vehiclePrice;
-    // console.log(payedService)
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const data = (await axios.post(`/api/carwash/book/${_id}`)).data;
                 setService(data);
-                // console.log(data);
             } catch (error) {
                 console.log(error);
             }
@@ -79,7 +75,7 @@ const Carwash = () => {
             try {
                 setLoading(true);
                 document.body.style.cursor = "wait";
-                const result = await axios.post('/api/bookings/book-carwash', bookingDetails)
+                await axios.post('/api/bookings/book-carwash', bookingDetails)
                 await axios.post('/api/bookings/send-message', {
                     apikey: accessTokenSms,
                     number: `+${phone}`,
@@ -90,7 +86,6 @@ const Carwash = () => {
                     number: `+639205746697`,
                     message: `[Q-ZONE ONLINE]\n\n ${recipient} has successfully booked at ${selectedDate} ${selectedTime}. \n\nWith successfully paid of P${vehiclePrice * 0.20}.00.`,
                 });
-                console.log(result)
                 setLoading(false);
                 setSuccess(true);
                 document.body.style.cursor = "default";

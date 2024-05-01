@@ -24,7 +24,7 @@ const Contact = () => {
         try {
             setLoading(true);
             document.body.style.cursor = "wait";
-            const response = await axios.post('/api/contact/send-email', {
+            await axios.post('/api/contact/send-email', {
                 email,
                 subject,
                 message,
@@ -32,7 +32,6 @@ const Contact = () => {
             setMessageStatus("Your email sent successfully.")
             setLoading(false);
             setErrorMessage(true)
-            console.log(response.data);
             document.body.style.cursor = "default";
         } catch (error) {
             setLoading(true);

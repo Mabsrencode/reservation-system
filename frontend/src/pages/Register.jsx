@@ -47,9 +47,7 @@ const Register = () => {
         try {
             setSending(true);
             const recaptcha = new RecaptchaVerifier(auth, "recaptcha", {});
-            console.log(recaptcha)
             const confirmation = await signInWithPhoneNumber(auth, tel, recaptcha)
-            console.log(confirmation)
             setUser(confirmation)
             setSendSuccess("Verification Code has been sent successfully.")
             setSending(false)
@@ -67,8 +65,7 @@ const Register = () => {
         try {
             setSendSuccess("")
             setVerifyingOtp(true);
-            const data = await user.confirm(otp)
-            console.log(data)
+            await user.confirm(otp)
             setSendSuccess("Verified")
             setVerifyingOtp(false)
             setVerified(true)

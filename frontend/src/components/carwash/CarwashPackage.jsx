@@ -3,7 +3,6 @@ import { Button } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import "./carwash.css"
 const CarwashPackage = ({ carwash, loading }) => {
-    console.log(carwash)
     return (
         <div className="table rounded-lg mt-24 p-2 sm:px-10 py-8">
             <table className="max-w-7xl">
