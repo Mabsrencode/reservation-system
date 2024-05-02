@@ -6,6 +6,4 @@ video {
 }
 .video-banner-container {
   background-color: var(--accent-color-low-opacity);
-  inset-inline-start: 10%;
-  top: 30%;
 }
