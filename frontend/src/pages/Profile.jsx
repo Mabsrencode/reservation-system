@@ -77,7 +77,7 @@ const Profile = () => {
         <section className="px-1 my-12 md:px-20">
             <div className=" md:w-6/12 mx-auto">
                 <Tabs id="custom-animation" value="profile">
-                    <TabsHeader className="bg-orange-500">
+                    <TabsHeader className="bg-orange-500 flex flex-wrap md:flex-nowrap">
                         {data.map(({ label, value, icon }) => (
                             <Tab key={value} value={value}>
                                 <div className="flex items-center gap-2">
