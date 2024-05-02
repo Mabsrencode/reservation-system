@@ -98,7 +98,7 @@ const Home = () => {
                         <source src={VideoBanner1} type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
-                    <div className='video-banner-container top-20 md:left-24 rounded-lg absolute w-full md:w-1/2 lg:w-1/4 p-4 border-2 border-orange-500'>
+                    <div className='video-banner-container top-20 md:left-24 rounded-lg absolute w-full md:w-1/2 lg:w-1/3 p-4 border-2 border-orange-500'>
                         <h1 className='text-lg sm:text-2xl font-extrabold tracking-tight text-orange-500 uppercase'>Auto Detailing Services</h1>
                         <p className='mt-4 text-xs sm:text-base text-justify text-gray-500'>Q-Zone makes your car detailing experience better for your vehicle and the environment by championing the newest technology and services in the industry.</p>
                         {!user?.data?.isAdmin && <Link to={"/services"}>
