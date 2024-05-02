@@ -59,15 +59,18 @@ const Profile = () => {
                 return <MyProfile />;
             case "myBookings":
                 if (user?.data?.isAdmin) {
-                    return <div>Cannot book admin</div>
+                    return <div className="w-full bg-white p-6 rounded-lg">Cannot book admin</div>
                 } else {
                     return <MyBookingsTab />
                 }
-
+            case "history":
+                if (user?.data?.isAdmin) {
+                    return <div className="w-full bg-white p-6 rounded-lg">Cannot book admin</div>
+                } else {
+                    return <HistoryTab />
+                }
             case "settings":
                 return <SettingsTab />;
-            case "history":
-                return <HistoryTab />;
             default:
                 return null;
         }

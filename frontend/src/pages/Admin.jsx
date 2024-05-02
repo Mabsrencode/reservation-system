@@ -589,19 +589,19 @@ export const Services = () => {
                                 ) : (
                                     <>
                                         <th scope="row" className="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {service.title}
+                                            ₱{service.title}
                                         </th>
                                         <td className="px-2 py-4">
-                                            {service.small}
+                                            ₱{service.small}
                                         </td>
                                         <td className="px-2 py-4">
-                                            {service.medium}
+                                            ₱{service.medium}
                                         </td>
                                         <td className="px-2 py-4">
-                                            {service.large}
+                                            ₱{service.large}
                                         </td>
                                         <td className="px-2 py-4">
-                                            {service.x_large}
+                                            ₱{service.x_large}
                                         </td>
 
                                         <td className="px-2 py-4">
@@ -718,19 +718,19 @@ export const Services = () => {
                                     ) : (
                                         <>
                                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                {service.title}
+                                                ₱{service.title}
                                             </th>
                                             <td className="px-6 py-4">
-                                                {service.small}
+                                                ₱{service.small}
                                             </td>
                                             <td className="px-6 py-4">
-                                                {service.medium}
+                                                ₱{service.medium}
                                             </td>
                                             <td className="px-6 py-4">
-                                                {service.large}
+                                                ₱{service.large}
                                             </td>
                                             <td className="px-6 py-4">
-                                                {service.x_large}
+                                                ₱{service.x_large}
                                             </td>
                                             <td className="px-6 py-4">
                                                 <Button className="mr-2" onClick={() => setEditingServiceId(service._id)}>
