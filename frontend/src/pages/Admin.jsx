@@ -842,6 +842,9 @@ export const Users = () => {
 
 
 export const AuditTrails = () => {
+    usePageMetadata('Records', 'This is the description for the Admin page.');
+    const { user } = useUser();
+    const [print, setPrint] = useState(false);
     const [weeklyIncome, setWeeklyIncome] = useState([]);
     const [userBookings, setUserBookings] = useState([]);
     const printRef = useRef();
@@ -885,14 +888,18 @@ export const AuditTrails = () => {
         fetchWeeklyIncome();
     }, []);
     const generateReceipt = () => {
-        const printContent = document.getElementById("print-element").innerHTML;
-        const originalContent = document.body.innerHTML;
+        setTimeout(() => {
+            setPrint(true);
+        }, 2000)
+        setTimeout(() => {
+            const printContent = document.getElementById("print-element").innerHTML;
+            const originalContent = document.body.innerHTML;
 
-        document.body.innerHTML = printContent;
+            document.body.innerHTML = printContent;
 
-        window.print();
-
-        document.body.innerHTML = originalContent;
+            window.print();
+            document.body.innerHTML = originalContent;
+        }, 3000)
     }
     return (
         <section>
@@ -900,8 +907,11 @@ export const AuditTrails = () => {
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr className="border-t border-b">
-                            <th scope="col" colSpan={3} className="px-6 py-3">
+                            <th scope="col" colSpan={1} className="px-6 py-3">
                                 Total Weekly Income
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Records
                             </th>
                         </tr >
                         <tr className="border-t border-b">
@@ -932,10 +942,18 @@ export const AuditTrails = () => {
                                     Weekly start day: {weekStartDate}
                                 </td>
                                 <td className="px-6 py-4 font-bold text-gray-700">
-                                    Total Income: ₱{income.toFixed(2)}
+                                    Total Weekly Income: ₱{income.toFixed(2)}
                                 </td>
                             </tr>
                         ))}
+
+                        {print && (<tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <td colSpan={3} className="px-6 pt-12 pb-4 font-bold text-gray-700">
+                                <span className="block w-[300px] border-t border-gray-500"></span>
+                                <h1 className="mt-2">Signature Over Printed Name</h1>
+                                <h2 className="mt-2">{user?.data?.name}</h2>
+                            </td>
+                        </tr>)}
 
                     </tbody>
                 </table >
