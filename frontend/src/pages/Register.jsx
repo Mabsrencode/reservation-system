@@ -126,7 +126,8 @@ const Register = () => {
                 localStorage.setItem("user", JSON.stringify(data));
                 navigate('/sign-in');
             } catch (error) {
-                setErrorMessage("Something went wrong with the server. Please try again.");
+                console.log("error message: ", error);
+                setErrorMessage(error.response.data.message);
                 setError(true);
                 document.body.style.cursor = "default";
                 console.error(error);

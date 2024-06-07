@@ -106,6 +106,7 @@ const Booking = () => {
                     }, 1000);
                 });
             } catch (error) {
+                console.log("booking error", error);
                 setRedirect(false)
                 document.body.style.cursor = "default";
                 setLoading(false);
@@ -185,7 +186,7 @@ const Booking = () => {
                     <h1 className='text-lg font-bold text-orange-500'>Down Payment : <PesoSign />{vehiclePrice ? vehiclePrice * 0.20 : 0}.00</h1>
                     <span className='text-gray-700 text-sm'>The down payment is from the 20% of the service price.</span>
                 </div>
-                <Button className='mt-2' onClick={openPaymentModal}>Pay Now</Button>
+                <Button className='mt-2' disabled={meridiem > 16 || meridiem < 9} onClick={openPaymentModal}>Pay Now</Button>
                 {error ? <div className='mt-2 text-red-900'>{errorMessage}</div> : <></>}
                 {success ? <div className='mt-2 text-green-900'>Payment Success, and you are now booked.</div> : <></>}
             </div>

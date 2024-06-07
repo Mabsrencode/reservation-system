@@ -1,0 +1,6 @@
+#userBookings button {
+  display: none;
+}
+#userBookings:hover button {
+  display: unset;
+}
