@@ -590,7 +590,7 @@ export const Services = () => {
                                 ) : (
                                     <>
                                         <th scope="row" className="px-2 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            ₱{service.title}
+                                            {service.title}
                                         </th>
                                         <td className="px-2 py-4">
                                             ₱{service.small}
@@ -719,7 +719,7 @@ export const Services = () => {
                                     ) : (
                                         <>
                                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                ₱{service.title}
+                                                {service.title}
                                             </th>
                                             <td className="px-6 py-4">
                                                 ₱{service.small}
