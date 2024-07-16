@@ -4,11 +4,10 @@ const User = require("../models/user.model");
 
 router.post("/register", async (req, res) => {
   const newUser = new User(req.body);
-  console.log(newUser);
-  const existingUser = await User.findOne(User.email);
-  if (existingUser) {
-    return res.status(401).json({ message: "Email already exists" });
-  }
+  // const existingUser = await User.findOne(newUser.data.email);
+  // if (existingUser) {
+  //   return res.status(401).json({ message: "Email already exists" });
+  // }
   try {
     const user = await newUser.save();
     res.status(200).send("User Registered Successfully");
@@ -36,7 +35,9 @@ router.post("/sign-in", async (req, res) => {
       };
       res.send(userData);
     } else {
-      res.status(404).json({ message: "Sign In Failed" });
+      res.status(404).json({
+        message: "Sign In Failed Please check your password and email.",
+      });
     }
   } catch (error) {
     return res.status(404).json({ message: error });
