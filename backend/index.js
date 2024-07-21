@@ -22,7 +22,7 @@ app.use("/api/bookings", bookingRoute);
 app.use("/api/contact", contactRoute);
 const pingServer = () => {
   http
-    .get("https://segen-consulting.onrender.com", (res) => {
+    .get("https://q-zone-api.onrender.com", (res) => {
       console.log("Pinged server, status code:", res.statusCode);
     })
     .on("error", (err) => {
